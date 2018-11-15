@@ -39,19 +39,19 @@ definitions:
     properties:
       id:
         type: "integer"
-        format: "INTEGER"
+        format: "int32"
         description: "ID"
       username:
         type: "string"
-        format: "STRING(20)"
+        format: "string(20)"
         description: "用户名"
       phone:
         type: "string"
-        format: "STRING(11)"
+        format: "string(11)"
         description: "手机号码"
       userStatus:
         type: "integer"
-        format: "INTEGER"
+        format: "integer"
         description: "状态"
     example:
       id: 123
@@ -67,11 +67,11 @@ definitions:
     properties:
       id:
         type: "integer"
-        format: "INTEGER"
+        format: "int32"
         description: "ID"
       name:
         type: "string"
-        format: "STRING(64)"
+        format: "string(64)"
         description: "标签名"
     example:
       id: 123
