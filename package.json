@@ -1,0 +1,31 @@
+{
+  "name": "swagger-go",
+  "version": "1.0.0",
+  "description": "通过`swagger.yaml`生成REST API项目代码及简易后台管理系统代码",
+  "bin": {
+    "swagger-go": "antd.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "koa": "node ./bin/koa.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fishjar/swagger-go.git"
+  },
+  "keywords": [],
+  "author": "gabe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fishjar/swagger-go/issues"
+  },
+  "homepage": "https://github.com/fishjar/swagger-go#readme",
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "js-yaml": "^3.12.0",
+    "prettier": "^1.15.2"
+  }
+}
