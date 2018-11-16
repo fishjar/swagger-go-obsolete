@@ -60,9 +60,10 @@
 | dateTime    | `string`  | `date-time(6)` | DATETIME(6) | DATE(6)       | DateTime/DATETIME   |
 | dateTime    | `string`  | `time-stamp`   | TIMESTAMP   | -             | TIMESTAMP           |
 | enum        | `string`  | `enum`         | ENUM        | ENUM          | Enum                |
-| boolean     | `boolean` | `boolean`         | TINYINT     | BOOLEAN       | Boolean/BOOLEAN     |
+| boolean     | `boolean` | `boolean`      | TINYINT     | BOOLEAN       | Boolean/BOOLEAN     |
 | byte        | `string`  | `byte`         | BLOB        | BLOB          | BLOB                |
 | binary      | `string`  | `binary`       | -           | STRING.BINARY | BINARY              |
 | password    | `string`  | `password`     | -           | -             | -                   |
+| uuid        | `string`  | `uuid`         | CHAR(36)    | UUID/UUIDV1   | -                   |
 | object/dict | `object`  | `json`         | JSON        | JSON          | JSON                |
-| array       | `array`   | `array`        | JSON        | JSON          | JSON                |
+| array       | `array`   | `array`        | JSON        | ARRAY         | JSON                |

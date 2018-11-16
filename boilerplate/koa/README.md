@@ -53,9 +53,9 @@
 
 ```js
 "scripts": {
-  "dev": "cross-env NODE_ENV=development DEBUG=koa* nodemon src/server", // 开发启动
+  "dev": "cross-env NODE_ENV=development DEBUG=koa* nodemon ./src/server.js", // 开发启动
   "build": "rimraf dist && cross-env NODE_ENV=production babel src -d dist -s", // 清空文件夹+转码+压缩
-  "start": "cross-env NODE_ENV=production node dist/server", // 启动
+  "start": "cross-env NODE_ENV=production node ./dist/server.js", // 启动
   "test": "echo \"Error: no test specified\" && exit 1"
 },
 ```

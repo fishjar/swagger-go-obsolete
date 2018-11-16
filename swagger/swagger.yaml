@@ -51,7 +51,7 @@ definitions:
         description: "手机号码"
       userStatus:
         type: "integer"
-        format: "integer"
+        format: "int4"
         description: "状态"
     example:
       id: 123
