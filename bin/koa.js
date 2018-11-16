@@ -62,6 +62,7 @@ try {
         .join(',')}
         }, {
           tableName: '${name}',
+          paranoid: true,
         });
         return ${name};
       };
@@ -103,6 +104,20 @@ try {
       
       router.post('/', async (ctx, next) => {
         ctx.body = await models.${name}.create(ctx.request.body);
+        await next();
+      });
+
+      router.patch('/', async (ctx, next) => {
+        ctx.body = await models.User.update(ctx.request.body.data, {
+          where: ctx.request.body.where
+        });
+        await next();
+      });
+
+      router.delete('/', async (ctx, next) => {
+        ctx.body = await models.${name}.destroy({
+          where: ctx.request.body,
+        });
         await next();
       });
       

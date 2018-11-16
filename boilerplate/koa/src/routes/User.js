@@ -30,6 +30,20 @@ router.post('/', async (ctx, next) => {
 	await next();
 });
 
+router.patch('/', async (ctx, next) => {
+	ctx.body = await models.User.update(ctx.request.body.data, {
+		where: ctx.request.body.where
+	});
+	await next();
+});
+
+router.delete('/', async (ctx, next) => {
+	ctx.body = await models.User.destroy({
+		where: ctx.request.body,
+	});
+	await next();
+});
+
 router.patch('/:id', async (ctx, next) => {
 	const obj = await models.User.findById(ctx.params.id);
 	ctx.body = await obj.update(ctx.request.body);

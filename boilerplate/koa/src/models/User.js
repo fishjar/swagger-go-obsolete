@@ -19,7 +19,8 @@ export default (sequelize, DataTypes) => {
       }
     },
   }, {
-      underscored: true,
+      // underscored: true,
+      paranoid: true,
       tableName: 'User',
     });
   User.prototype.helloFun = () => `name: ${this.username}, age: ${this.age}`;
