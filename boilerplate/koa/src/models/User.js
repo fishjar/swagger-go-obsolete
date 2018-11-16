@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const User = sequelize.define('user', {
+  const User = sequelize.define('User', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -10,15 +10,18 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
-    age: {
+    userStatus: {
       type: DataTypes.TINYINT,
       allowNull: true,
       validate: {
         max: 100,
-        min: 1,
+        min: 0,
       }
     },
-  });
+  }, {
+      underscored: true,
+      tableName: 'User',
+    });
   User.prototype.helloFun = () => `name: ${this.username}, age: ${this.age}`;
   return User;
 };
