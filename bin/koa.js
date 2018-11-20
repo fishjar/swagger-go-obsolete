@@ -38,10 +38,11 @@ try {
   const doc = yaml.safeLoad(fs.readFileSync(YAML_FILE, 'utf8'));
 
   const moduleNames = Object.keys(doc.definitions)
-    .filter(item => doc.definitions[item].title); //过滤，必须包含title属性
+    .filter(item => doc.definitions[item]['x-isModel']); //过滤，必须包含`x-isModel`属性
   moduleNames.forEach(name => {
-    // const _name = name.toLowerCase();
     const item = doc.definitions[name];
+    // const _name = name.toLowerCase();
+    const pluralName = item['x-plural'].toLowerCase();
 
     const modelOutFile = path.join(modelsDir, `${name}.js`);
     console.log(`创建：<DIST_PATH>${modelOutFile.split(DIST_PATH)[1]}`);
@@ -72,7 +73,7 @@ try {
       parser: "babylon"
     }), 'utf8');
 
-    const routeOutFile = path.join(routesDir, `${name}.js`);
+    const routeOutFile = path.join(routesDir, `${pluralName}.js`);
     console.log(`创建：<DIST_PATH>${routeOutFile.split(DIST_PATH)[1]}`);
     const routeFileData = `
       import Router from 'koa-router';
@@ -81,17 +82,17 @@ try {
       const router = new Router();
       
       router.get('/', async (ctx, next) => {
-        const { offset = 0, limit = 10, orderby, ...where } = ctx.query
+        const { pageNum = 1, pageSize = 10, sorter, ...where } = ctx.query
         let order = [];
-        if (Array.isArray(orderby)) {
-          order = [...orderby.map(item => item.split('__'))];
-        } else if (orderby) {
-          order = [orderby.split('__')];
+        if (Array.isArray(sorter)) {
+          order = [...sorter.map(item => item.split('__'))];
+        } else if (sorter) {
+          order = [sorter.split('__')];
         }
         ctx.body = await models.${name}.findAndCountAll({
           where,
-          offset,
-          limit,
+          offset: (pageNum - 1) * pageSize,
+          limit: pageSize,
           order,
         });
         await next();
@@ -107,10 +108,21 @@ try {
         await next();
       });
 
+      router.post('/multiple', async (ctx, next) => {
+        ctx.body = await models.Foo.bulkCreate(ctx.request.body);
+        await next();
+      });
+
       router.patch('/', async (ctx, next) => {
-        ctx.body = await models.User.update(ctx.request.body.data, {
-          where: ctx.request.body.where
+        ctx.body = await models.User.update(ctx.request.body.fields, {
+          where: ctx.request.body.filter
         });
+        await next();
+      });
+
+      router.patch('/:id', async (ctx, next) => {
+        const obj = await models.${name}.findById(ctx.params.id);
+        ctx.body = await obj.update(ctx.request.body);
         await next();
       });
 
@@ -118,12 +130,6 @@ try {
         ctx.body = await models.${name}.destroy({
           where: ctx.request.body,
         });
-        await next();
-      });
-      
-      router.patch('/:id', async (ctx, next) => {
-        const obj = await models.${name}.findById(ctx.params.id);
-        ctx.body = await obj.update(ctx.request.body);
         await next();
       });
       

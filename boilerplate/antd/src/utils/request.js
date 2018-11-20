@@ -85,6 +85,7 @@ export default function request(url, option) {
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||
+    newOptions.method === 'PATCH' ||
     newOptions.method === 'DELETE'
   ) {
     if (!(newOptions.body instanceof FormData)) {
@@ -141,15 +142,15 @@ export default function request(url, option) {
       }
       // environment should not be used
       if (status === 403) {
-        router.push('/exception/403');
+        // router.push('/exception/403');
         return;
       }
       if (status <= 504 && status >= 500) {
-        router.push('/exception/500');
+        // router.push('/exception/500');
         return;
       }
       if (status >= 404 && status < 422) {
-        router.push('/exception/404');
+        // router.push('/exception/404');
       }
     });
 }

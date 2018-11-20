@@ -1,16 +1,16 @@
 export default (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const Foo = sequelize.define('Foo', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
       primaryKey: true
     },
-    username: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    userStatus: {
+    status: {
       type: DataTypes.TINYINT,
       allowNull: true,
       validate: {
@@ -20,9 +20,9 @@ export default (sequelize, DataTypes) => {
     },
   }, {
       // underscored: true,
-      paranoid: true,
-      tableName: 'User',
+      paranoid: true, // 软删除
+      tableName: 'Foo',
     });
-  User.prototype.helloFun = () => `name: ${this.username}, age: ${this.age}`;
-  return User;
+  Foo.prototype.helloFun = () => `name: ${this.name}, age: ${this.status}`;
+  return Foo;
 };
