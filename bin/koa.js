@@ -36,6 +36,7 @@ try {
 
   console.log('\n读取swagger文档...');
   const doc = yaml.safeLoad(fs.readFileSync(YAML_FILE, 'utf8'));
+  console.log(doc.definitions)
 
   const moduleNames = Object.keys(doc.definitions)
     .filter(item => doc.definitions[item]['x-isModel']); //过滤，必须包含`x-isModel`属性
@@ -58,7 +59,15 @@ try {
         .filter(([k]) => !['id'].includes(k)) // 排除id字段
         .map(([k, v]) => `${k}: {
               type: DataTypes.${getDataType(v.format)},
-              allowNull: ${item.required.includes(k) ? 'false' : 'true'}
+              allowNull: ${item.required.includes(k) ? 'false' : 'true'},
+              unique: ${v.uniqueItems?'true':'false'},
+              ${v.default===undefined?'':`defaultValue: ${v.default},`}validate: {
+                ${v.enum===undefined?'':`isIn: [${v.enum}],`}
+                ${v.minimum===undefined?'':`min: ${v.minimum},`}
+                ${v.maximum===undefined?'':`max: ${v.maximum},`}
+                ${v.format==='email'?`isEmail: true,`:''}
+                ${v.format==='uri'?`isUrl: true,`:''}
+              }
             }`)
         .join(',')}
         }, {
