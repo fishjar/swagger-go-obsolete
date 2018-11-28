@@ -13,20 +13,137 @@ consumes:
 produces:
 - "application/json"
 paths:
-  /foo:
+  /foos:
     post:
-      summary: "创建模型"
-      description: "创建模型"
-      operationId: "createFoo"
+      summary: "创建单个"
+      description: "创建单个..."
       parameters:
       - in: "body"
         name: "body"
-        description: ""
+        description: "模型参数"
         required: true
         schema:
+          $ref: "#/definitions/Foo"
+      responses:
+        "200":
+          description: "创建成功"
+    get:
+      summary: "查询集合"
+      description: "查询集合..."
+      parameters:
+      - in: "query"
+        name: "pageNum"
+        type: "integer"
+        description: "页码"
+        default: 1
+      - in: "query"
+        name: "pageSize"
+        type: "integer"
+        description: "分页大小"
+        default: 10
+      - in: "query"
+        name: "sorter"
+        type: "string"
+        description: "排序"
+      responses:
+        "200":
+          description: "查询成功"
+          schema:
+            type: "object"
+            properties:
+              count:
+                type: "integer"
+              rows:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Foo"
+    patch:
+      summary: "更新集合"
+      description: "更新集合..."
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "body参数"
+        schema:
+          type: "array"
+          items:
             $ref: "#/definitions/Foo"
       responses:
-        default:
+        "200":
+          description: "更新成功"
+    delete:
+      summary: "删除集合"
+      description: "删除集合..."
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "body参数"
+        schema:
+          type: "object"
+          example:
+            id: ["1","2"]
+      responses:
+        "200":
+          description: "更新成功"
+  /foos/{id}:
+    get:
+      summary: "查询单个"
+      description: "查询单个.."
+      parameters:
+      - in: "path"
+        name: "id"
+        type: "string"
+        required: true
+        description: "ID"
+      responses:
+        "200":
+          description: "查询成功"
+          schema:
+            $ref: "#/definitions/Foo"
+    patch:
+      summary: "修改单个"
+      description: "修改单个.."
+      parameters:
+      - in: "path"
+        name: "id"
+        type: "string"
+        required: true
+        description: "ID"
+      - in: "body"
+        name: "body"
+        description: "模型参数"
+        required: true
+        schema:
+          $ref: "#/definitions/Foo"
+      responses:
+        "200":
+          description: "修改成功"
+    delete:
+      summary: "删除单个"
+      description: "删除单个.."
+      parameters:
+      - in: "path"
+        name: "id"
+        type: "string"
+        required: true
+        description: "ID"
+      responses:
+        "200":
+          description: "删除成功"
+  /foos/multiple:
+    post:
+      summary: "创建集合"
+      description: "创建集合..."
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "body参数"
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/Foo"
+      responses:
+        "200":
           description: "创建成功"
 definitions:
   Foo:
@@ -37,26 +154,107 @@ definitions:
     required:
       - "id"
       - "name"
+      - "goodTime"
+      - "isGood"
+      - "status"
     properties:
       id:
-        type: "integer"
-        format: "int32"
+        type: "string"
+        format: "uuid"
         description: "ID"
+        uniqueItems: true
       name:
         type: "string"
         format: "string(20)"
         description: "名称"
+        uniqueItems: true
+      age:
+        type: "integer"
+        format: "int4"
+        description: "年龄"
+        minimum: 1
+        maximum: 100
+      weight:
+        type: "number"
+        format: "float"
+        description: "体重（单位:kg）"
+        minimum: 0.01
+        maximum: 200.0
+      birthDay:
+        type: "string"
+        format: "date"
+        description: "生日"
+      goodTime:
+        type: "string"
+        format: "date-time"
+        description: "快乐时光"
+      email:
+        type: "string"
+        format: "email"
+        description: "邮箱"
+        uniqueItems: true
+      homePage:
+        type: "string"
+        format: "uri"
+        description: "主页"
+      notice:
+        type: "string"
+        format: "text"
+        description: "备注"
+      isGood:
+        type: "boolean"
+        format: "boolean"
+        description: "是否安好"
+        default: true
+      myExtra:
+        type: "object"
+        format: "object"
+        description: "扩展字段1"
+        properties:
+            id:
+              type: "integer"
+              description: "ID"
+            username:
+              type: "string"
+              description: "用户名"
+      myExtraArray:
+        type: "array"
+        format: "array"
+        description: "扩展字段2"
+        items:
+          $ref: '#/definitions/userDemo'
       status:
         type: "integer"
         format: "int4"
-        description: "状态"
+        enum: [1,2,3]
+        default: 1
+        description: >
+          "状态"
+            * 1 - 正常
+            * 2 - 异常
+            * 3 - 禁用
     example:
-      id: 123
+      id: "123"
+      age: 12
       name: "foo"
+      birthDay: "2012-12-12"
+      goodTime: "2012-12-12 12:12:12"
+      email: "test@test.com"
+      notice: "备注"
+      isGood: true
       status: 1
-  ErrorResponse:
+  userDemo:
+    type: "object"
+    description: "用户模型"
     required:
-    - "message"
+      - "id"
+      - "username"
     properties:
-      message:
+      id:
+        type: "integer"
+        description: "ID"
+      username:
         type: "string"
+        description: "用户名"
+      
+      
