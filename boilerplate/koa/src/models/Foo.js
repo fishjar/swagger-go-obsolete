@@ -9,7 +9,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      // defaultValue: null,
+      validate: {
+        len: [3,20],
+      }
     },
     birthDay: {
       type: DataTypes.DATEONLY,
@@ -28,6 +30,15 @@ export default (sequelize, DataTypes) => {
         min: 0,
       }
     },
+    weight: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      unique: false,
+      validate: {
+        min: 0.01,
+        max: 200
+      }
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -43,6 +54,10 @@ export default (sequelize, DataTypes) => {
       },
     },
     notice: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    intro: {
       type: DataTypes.TEXT,
       allowNull: true,
     },

@@ -22,10 +22,12 @@ import {
   Radio,
   Popconfirm,
 } from 'antd';
+import ReactQuill from 'react-quill';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './Foos.less';
+import 'react-quill/dist/quill.snow.css';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -39,10 +41,9 @@ const getValue = obj =>
     .join(',');
 
 const statusMap = {
-  0: '关闭',
-  1: '运行中',
-  2: '已上线',
-  3: '异常',
+  1: '正常',
+  2: '异常',
+  3: '禁用',
 };
 const badgeMap = {
   0: 'default',
@@ -89,20 +90,26 @@ class EditModal extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log(values);
+        const fields = {
+          ...values,
+          birthDay: values.birthDay && values.birthDay.format('YYYY-MM-DD'),
+          goodTime: values.goodTime && values.goodTime.format('YYYY-MM-DD HH:mm:ss'),
+        };
+        console.log(fields)
         if (id) {
           dispatch({
             type: 'foos/editSingle',
-            payload: { id, ...values },
+            payload: { id, ...fields },
             callback: () => {
               message.success('更新成功');
               this.hideModelHandler();
-              handleRefresh();
+              // handleRefresh();
             },
           });
         } else {
           dispatch({
             type: 'foos/createSingle',
-            payload: values,
+            payload: fields,
             callback: () => {
               message.success('添加成功');
               this.hideModelHandler();
@@ -120,7 +127,20 @@ class EditModal extends PureComponent {
       modalTitle = '查看详情',
       modalWith = 520,
       form,
-      formData: { name, status },
+      formData: {
+        name,
+        age,
+        weight,
+        birthDay,
+        goodTime,
+        email,
+        homePage,
+        notice,
+        intro,
+        isGood,
+        myExtra,
+        status,
+      },
     } = this.props;
     const { visible } = this.state;
 
@@ -139,8 +159,73 @@ class EditModal extends PureComponent {
             <FormItem {...this.formLayout} label="名称">
               {form.getFieldDecorator('name', {
                 initialValue: name,
-                rules: [{ required: true, message: '请输入至少三个字符！', min: 3 }],
+                rules: [{ required: true, message: '请输入！', min: 3, max: 20 }],
               })(<Input placeholder="请输入" />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="年龄">
+              {form.getFieldDecorator('age', {
+                initialValue: age,
+                rules: [{ required: false, type: 'integer', message: '请输入整数！' }],
+              })(<InputNumber min={0} max={100} placeholder="请输入整数" style={{ width: '100%' }} />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="体重">
+              {form.getFieldDecorator('weight', {
+                initialValue: weight,
+                // rules: [{ required: true, message: '请输入！' }],
+              })(<InputNumber min={0.01} max={200} placeholder="请输入" style={{ width: '100%' }} />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="生日">
+              {form.getFieldDecorator('birthDay', {
+                initialValue: birthDay && moment(birthDay),
+                // rules: [{ required: true, message: '请选择!' }],
+              })(<DatePicker placeholder="请选择" style={{ width: '100%' }} />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="时光">
+              {form.getFieldDecorator('goodTime', {
+                initialValue: goodTime && moment(goodTime),
+                rules: [{ required: true, message: '请选择!' }],
+              })(<DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请选择" style={{ width: '100%' }} />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="邮箱">
+              {form.getFieldDecorator('email', {
+                initialValue: email,
+                rules: [{ required: false, type: 'email', message: '请输入！' }],
+              })(<Input placeholder="请输入" />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="主页">
+              {form.getFieldDecorator('homePage', {
+                initialValue: homePage,
+                rules: [{ required: false, type: 'url', message: '请输入！' }],
+              })(<Input placeholder="请输入" />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="备注">
+              {form.getFieldDecorator('notice', {
+                initialValue: notice,
+                // rules: [{ required: true, message: '请输入！' }],
+              })(<TextArea rows={3} placeholder="请输入" />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="介绍">
+              {form.getFieldDecorator('intro', {
+                initialValue: intro || '',
+                // rules: [{ required: true, message: '请输入！' }],
+              })(<ReactQuill placeholder="请输入" />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="扩展">
+              {form.getFieldDecorator('myExtra', {
+                initialValue: myExtra,
+                // rules: [{ required: true, message: '请输入！' }],
+              })(<TextArea rows={3} placeholder="请输入" />)}
+            </FormItem>
+            <FormItem {...this.formLayout} label="安好">
+              {form.getFieldDecorator('isGood', {
+                initialValue: isGood,
+                rules: [{ required: true, message: '请选择!' }],
+              })(
+                <RadioGroup placeholder="请选择">
+                  <Radio value={true}>是</Radio>
+                  <Radio value={false}>否</Radio>
+                </RadioGroup>
+              )}
             </FormItem>
             <FormItem {...this.formLayout} label="状态">
               {form.getFieldDecorator('status', {
@@ -196,7 +281,21 @@ class ViewModal extends PureComponent {
       children,
       modalTitle = '查看详情',
       modalWith = 520,
-      formData: { id, name, status },
+      formData: {
+        id,
+        name,
+        age,
+        weight,
+        birthDay,
+        goodTime,
+        email,
+        homePage,
+        notice,
+        intro,
+        isGood,
+        myExtra,
+        status,
+      },
     } = this.props;
     const { visible } = this.state;
 
@@ -212,15 +311,19 @@ class ViewModal extends PureComponent {
           onCancel={this.hideModelHandler}
           footer={null}
         >
-          <FormItem {...this.formLayout} label="ID">
-            {id}
-          </FormItem>
-          <FormItem {...this.formLayout} label="名称">
-            {name}
-          </FormItem>
-          <FormItem {...this.formLayout} label="状态">
-            {statusMap[status]}
-          </FormItem>
+          <FormItem {...this.formLayout} label="ID">{id}</FormItem>
+          <FormItem {...this.formLayout} label="名称">{name}</FormItem>
+          <FormItem {...this.formLayout} label="年龄">{age}</FormItem>
+          <FormItem {...this.formLayout} label="体重">{weight}</FormItem>
+          <FormItem {...this.formLayout} label="生日">{birthDay}</FormItem>
+          <FormItem {...this.formLayout} label="时光">{goodTime}</FormItem>
+          <FormItem {...this.formLayout} label="邮箱">{email}</FormItem>
+          <FormItem {...this.formLayout} label="主页">{homePage}</FormItem>
+          <FormItem {...this.formLayout} label="备注">{notice}</FormItem>
+          <FormItem {...this.formLayout} label="介绍">{intro}</FormItem>
+          <FormItem {...this.formLayout} label="安好">{isGood ? '是' : '否'}</FormItem>
+          <FormItem {...this.formLayout} label="扩展">{myExtra}</FormItem>
+          <FormItem {...this.formLayout} label="状态">{statusMap[status]}</FormItem>
         </Modal>
       </span>
     );
@@ -386,6 +489,16 @@ class TableList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
+            <FormItem label="安好">
+              {getFieldDecorator('isGood')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value={1}>是</Option>
+                  <Option value={0}>否</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
             <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -400,12 +513,8 @@ class TableList extends PureComponent {
           </Col>
           <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">
-                查询
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-                重置
-              </Button>
+              <Button type="primary" htmlType="submit">查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
             </span>
           </Col>
         </Row>
@@ -423,6 +532,54 @@ class TableList extends PureComponent {
         dataIndex: 'name',
       },
       {
+        title: '年龄',
+        dataIndex: 'age',
+      },
+      {
+        title: '体重',
+        dataIndex: 'weight',
+      },
+      {
+        title: '生日',
+        dataIndex: 'birthDay',
+      },
+      {
+        title: '时光',
+        dataIndex: 'goodTime',
+      },
+      {
+        title: '邮箱',
+        dataIndex: 'email',
+      },
+      {
+        title: '主页',
+        dataIndex: 'homePage',
+      },
+      {
+        title: '备注',
+        dataIndex: 'notice',
+      },
+      {
+        title: '安好',
+        dataIndex: 'isGood',
+        filters: [
+          {
+            text: '是',
+            value: 1,
+          },
+          {
+            text: '否',
+            value: 0,
+          },
+        ],
+        filterMultiple: false,
+        render: val => val ? '是' : '否',
+      },
+      {
+        title: '扩展',
+        dataIndex: 'myExtra',
+      },
+      {
         title: '状态',
         dataIndex: 'status',
         filters: Object.keys(statusMap).map(key => ({
@@ -432,8 +589,8 @@ class TableList extends PureComponent {
         render: val => <Badge status={badgeMap[val]} text={statusMap[val]} />,
       },
       {
-        title: '更新时间',
-        dataIndex: 'updatedAt',
+        title: '创建时间',
+        dataIndex: 'createdAt',
         sorter: true,
         render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
@@ -474,15 +631,11 @@ class TableList extends PureComponent {
                 dispatch={dispatch}
                 handleRefresh={this.handleRefresh}
               >
-                <Button icon="plus" type="primary">
-                  新建
-                </Button>
+                <Button icon="plus" type="primary">新建</Button>
               </EditModal>
               {selectedRows.length > 0 && (
                 <Popconfirm title="确定删除？" onConfirm={() => this.handleDeleteMultiple()}>
-                  <Button icon="delete" href="javascript:;">
-                    删除
-                  </Button>
+                  <Button icon="delete" href="javascript:;">删除</Button>
                 </Popconfirm>
               )}
             </div>

@@ -65,6 +65,7 @@ try {
               ${v.enum===undefined?'':`isIn: [[${v.enum}]],`}
               ${v.minimum===undefined?'':`min: ${v.minimum},`}
               ${v.maximum===undefined?'':`max: ${v.maximum},`}
+              ${(v.minLength!==undefined&&v.maxLength!==undefined)?`len: [${v.minLength},${v.maxLength}],`:''}
               ${v.format==='email'?`isEmail: true,`:''}
               ${v.format==='uri'?`isUrl: true,`:''}
               }

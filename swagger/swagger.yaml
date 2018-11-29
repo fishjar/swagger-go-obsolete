@@ -45,7 +45,7 @@ paths:
         name: "sorter"
         type: "string"
         description: "排序"
-        pattern: "^\w+__\w+$"
+        # pattern: "^\w+__\w+$"
       responses:
         "200":
           description: "查询成功"
@@ -169,22 +169,28 @@ definitions:
         format: "string(20)"
         description: "名称"
         uniqueItems: true
+        minLength: 3
+        maxLength: 20
+        x-message: "请输入"
       age:
         type: "integer"
         format: "int4"
         description: "年龄"
-        minimum: 1
+        minimum: 0
         maximum: 100
+        x-message: "请输入"
       weight:
         type: "number"
         format: "float"
         description: "体重（单位:kg）"
         minimum: 0.01
         maximum: 200.0
+        x-message: "请输入"
       birthDay:
         type: "string"
         format: "date"
         description: "生日"
+        x-message: "请选择"
       goodTime:
         type: "string"
         format: "date-time"
@@ -194,23 +200,33 @@ definitions:
         format: "email"
         description: "邮箱"
         uniqueItems: true
+        x-message: "请输入"
       homePage:
         type: "string"
         format: "uri"
         description: "主页"
+        x-message: "请输入"
       notice:
         type: "string"
         format: "text"
         description: "备注"
+        x-message: "请输入"
+      intro:
+        type: "string"
+        format: "text"
+        description: "介绍"
+        x-message: "请输入"
       isGood:
         type: "boolean"
         format: "boolean"
         description: "是否安好"
         default: true
+        x-message: "请选择"
       myExtra:
         type: "object"
         format: "object"
         description: "扩展字段1"
+        x-message: "请输入"
         properties:
           id:
             type: "integer"
@@ -229,6 +245,7 @@ definitions:
         format: "int4"
         enum: [1,2,3]
         default: 1
+        x-message: "请选择"
         description: >
           "状态"
             * 1 - 正常
