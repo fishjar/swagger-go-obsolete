@@ -45,6 +45,7 @@ paths:
         name: "sorter"
         type: "string"
         description: "排序"
+        pattern: "^\w+__\w+$"
       responses:
         "200":
           description: "查询成功"
@@ -211,12 +212,12 @@ definitions:
         format: "object"
         description: "扩展字段1"
         properties:
-            id:
-              type: "integer"
-              description: "ID"
-            username:
-              type: "string"
-              description: "用户名"
+          id:
+            type: "integer"
+            description: "ID"
+          username:
+            type: "string"
+            description: "用户名"
       myExtraArray:
         type: "array"
         format: "array"
