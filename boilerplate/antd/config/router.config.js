@@ -6,8 +6,6 @@ export default [
     routes: [
       { path: '/user', redirect: '/user/login' },
       { path: '/user/login', component: './User/Login' },
-      { path: '/user/register', component: './User/Register' },
-      { path: '/user/register-result', component: './User/RegisterResult' },
     ],
   },
   // app
@@ -33,6 +31,7 @@ export default [
             path: '/dashboard/foos',
             name: 'foos',
             component: './Dashboard/Foos',
+            authority: ['admin'],
           },
         ],
       },

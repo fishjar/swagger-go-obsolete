@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
+import { getAuthtoken } from '@/utils/authtoken';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -82,6 +83,7 @@ export default function request(url, option) {
     credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
+
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||
@@ -119,6 +121,14 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
+
+  // add token
+  const authtoken = getAuthtoken();
+  newOptions.headers = {
+    ...newOptions.headers,
+    authtoken: `Basic ${authtoken}`,
+  }
+
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))

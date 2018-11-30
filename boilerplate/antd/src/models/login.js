@@ -2,6 +2,7 @@ import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
+import { setAuthtoken } from '@/utils/authtoken';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
 
@@ -51,6 +52,7 @@ export default {
         payload: {
           status: false,
           currentAuthority: 'guest',
+          authtoken: '',
         },
       });
       reloadAuthorized();
@@ -68,6 +70,7 @@ export default {
   reducers: {
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
+      setAuthtoken(payload.authtoken);
       return {
         ...state,
         status: payload.status,
