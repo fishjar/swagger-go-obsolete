@@ -35,11 +35,6 @@ const { TextArea } = Input;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
 
-const getValue = obj =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
-
 const statusMap = {
   1: '正常',
   2: '异常',
@@ -156,83 +151,83 @@ class EditModal extends PureComponent {
           onCancel={this.hideModelHandler}
         >
           <Form onSubmit={this.okHandler}>
-            <FormItem {...this.formLayout} label="名称">
+            <FormItem {...this.formLayout} label='名称'>
               {form.getFieldDecorator('name', {
                 initialValue: name,
                 rules: [{ required: true, message: '请输入！', min: 3, max: 20 }],
-              })(<Input placeholder="请输入" />)}
+              })(<Input placeholder='请输入' />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="年龄">
+            <FormItem {...this.formLayout} label='年龄'>
               {form.getFieldDecorator('age', {
                 initialValue: age,
                 rules: [{ required: false, type: 'integer', message: '请输入整数！' }],
-              })(<InputNumber min={0} max={100} placeholder="请输入整数" style={{ width: '100%' }} />)}
+              })(<InputNumber min={0} max={100} placeholder='请输入整数' style={{ width: '100%' }} />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="体重">
+            <FormItem {...this.formLayout} label='体重'>
               {form.getFieldDecorator('weight', {
                 initialValue: weight,
                 // rules: [{ required: true, message: '请输入！' }],
-              })(<InputNumber min={0.01} max={200} placeholder="请输入" style={{ width: '100%' }} />)}
+              })(<InputNumber min={0.01} max={200} placeholder='请输入' style={{ width: '100%' }} />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="生日">
+            <FormItem {...this.formLayout} label='生日'>
               {form.getFieldDecorator('birthDay', {
                 initialValue: birthDay && moment(birthDay),
                 // rules: [{ required: true, message: '请选择!' }],
-              })(<DatePicker placeholder="请选择" style={{ width: '100%' }} />)}
+              })(<DatePicker placeholder='请选择' style={{ width: '100%' }} />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="时光">
+            <FormItem {...this.formLayout} label='时光'>
               {form.getFieldDecorator('goodTime', {
                 initialValue: goodTime && moment(goodTime),
                 rules: [{ required: true, message: '请选择!' }],
-              })(<DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="请选择" style={{ width: '100%' }} />)}
+              })(<DatePicker showTime format='YYYY-MM-DD HH:mm:ss' placeholder='请选择' style={{ width: '100%' }} />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="邮箱">
+            <FormItem {...this.formLayout} label='邮箱'>
               {form.getFieldDecorator('email', {
                 initialValue: email,
                 rules: [{ required: false, type: 'email', message: '请输入！' }],
-              })(<Input placeholder="请输入" />)}
+              })(<Input placeholder='请输入' />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="主页">
+            <FormItem {...this.formLayout} label='主页'>
               {form.getFieldDecorator('homePage', {
                 initialValue: homePage,
                 rules: [{ required: false, type: 'url', message: '请输入！' }],
-              })(<Input placeholder="请输入" />)}
+              })(<Input placeholder='请输入' />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="备注">
+            <FormItem {...this.formLayout} label='备注'>
               {form.getFieldDecorator('notice', {
                 initialValue: notice,
                 // rules: [{ required: true, message: '请输入！' }],
-              })(<TextArea rows={3} placeholder="请输入" />)}
+              })(<TextArea rows={3} placeholder='请输入' />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="介绍">
+            <FormItem {...this.formLayout} label='介绍'>
               {form.getFieldDecorator('intro', {
                 initialValue: intro || '',
                 // rules: [{ required: true, message: '请输入！' }],
-              })(<ReactQuill placeholder="请输入" />)}
+              })(<ReactQuill placeholder='请输入' />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="扩展">
+            <FormItem {...this.formLayout} label='扩展'>
               {form.getFieldDecorator('myExtra', {
                 initialValue: myExtra,
                 // rules: [{ required: true, message: '请输入！' }],
-              })(<TextArea rows={3} placeholder="请输入" />)}
+              })(<TextArea rows={3} placeholder='请输入' />)}
             </FormItem>
-            <FormItem {...this.formLayout} label="安好">
+            <FormItem {...this.formLayout} label='安好'>
               {form.getFieldDecorator('isGood', {
                 initialValue: isGood,
                 rules: [{ required: true, message: '请选择!' }],
               })(
-                <RadioGroup placeholder="请选择">
+                <RadioGroup placeholder='请选择'>
                   <Radio value={true}>是</Radio>
                   <Radio value={false}>否</Radio>
                 </RadioGroup>
               )}
             </FormItem>
-            <FormItem {...this.formLayout} label="状态">
+            <FormItem {...this.formLayout} label='状态'>
               {form.getFieldDecorator('status', {
                 initialValue: status,
                 rules: [{ required: true, message: '请选择!' }],
               })(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Select placeholder='请选择' style={{ width: '100%' }}>
                   {Object.keys(statusMap).map(key => (
                     <Option key={key} value={key - 0}>
                       {statusMap[key]}
@@ -311,19 +306,19 @@ class ViewModal extends PureComponent {
           onCancel={this.hideModelHandler}
           footer={null}
         >
-          <FormItem {...this.formLayout} label="ID">{id}</FormItem>
-          <FormItem {...this.formLayout} label="名称">{name}</FormItem>
-          <FormItem {...this.formLayout} label="年龄">{age}</FormItem>
-          <FormItem {...this.formLayout} label="体重">{weight}</FormItem>
-          <FormItem {...this.formLayout} label="生日">{birthDay}</FormItem>
-          <FormItem {...this.formLayout} label="时光">{goodTime}</FormItem>
-          <FormItem {...this.formLayout} label="邮箱">{email}</FormItem>
-          <FormItem {...this.formLayout} label="主页">{homePage}</FormItem>
-          <FormItem {...this.formLayout} label="备注">{notice}</FormItem>
-          <FormItem {...this.formLayout} label="介绍">{intro}</FormItem>
-          <FormItem {...this.formLayout} label="安好">{isGood ? '是' : '否'}</FormItem>
-          <FormItem {...this.formLayout} label="扩展">{myExtra}</FormItem>
-          <FormItem {...this.formLayout} label="状态">{statusMap[status]}</FormItem>
+          <FormItem {...this.formLayout} label='ID'>{id}</FormItem>
+          <FormItem {...this.formLayout} label='名称'>{name}</FormItem>
+          <FormItem {...this.formLayout} label='年龄'>{age}</FormItem>
+          <FormItem {...this.formLayout} label='体重'>{weight}</FormItem>
+          <FormItem {...this.formLayout} label='生日'>{birthDay}</FormItem>
+          <FormItem {...this.formLayout} label='时光'>{goodTime}</FormItem>
+          <FormItem {...this.formLayout} label='邮箱'>{email}</FormItem>
+          <FormItem {...this.formLayout} label='主页'>{homePage}</FormItem>
+          <FormItem {...this.formLayout} label='备注'>{notice}</FormItem>
+          <FormItem {...this.formLayout} label='介绍'>{intro}</FormItem>
+          <FormItem {...this.formLayout} label='安好'>{isGood ? '是' : '否'}</FormItem>
+          <FormItem {...this.formLayout} label='扩展'>{myExtra}</FormItem>
+          <FormItem {...this.formLayout} label='状态'>{statusMap[status]}</FormItem>
         </Modal>
       </span>
     );
@@ -355,14 +350,6 @@ class TableList extends PureComponent {
 
     console.log(filtersArg);
 
-    // const filters = Object.keys(filtersArg).reduce((obj, key) => {
-    //   const newObj = { ...obj };
-    //   newObj[key] = getValue(filtersArg[key]);
-    //   return newObj;
-    // }, {});
-
-    // console.log(filters)
-
     const params = {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
@@ -370,7 +357,7 @@ class TableList extends PureComponent {
       ...filtersArg,
     };
     if (sorter.field) {
-      params.sorter = `${sorter.field}__${sorter.order.slice(0, -3)}`;
+      params.sorter = sorter.field + '__' + sorter.order.slice(0, -3);
     }
 
     dispatch({
@@ -449,7 +436,7 @@ class TableList extends PureComponent {
   handleDelete = id => {
     const { dispatch } = this.props;
     dispatch({
-      type: `foos/deleteSingle`,
+      type: 'foos/deleteSingle',
       payload: {
         id,
       },
@@ -465,7 +452,7 @@ class TableList extends PureComponent {
     const { selectedRows } = this.state;
     if (!selectedRows.length) return;
     dispatch({
-      type: `foos/deleteMultiple`,
+      type: 'foos/deleteMultiple',
       payload: {
         ids: selectedRows.map(item => item.id),
       },
@@ -481,17 +468,17 @@ class TableList extends PureComponent {
       form: { getFieldDecorator },
     } = this.props;
     return (
-      <Form onSubmit={this.handleSearch} layout="inline">
+      <Form onSubmit={this.handleSearch} layout='inline'>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
-            <FormItem label="名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+            <FormItem label='名称'>
+              {getFieldDecorator('name')(<Input placeholder='请输入' />)}
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label="安好">
+            <FormItem label='安好'>
               {getFieldDecorator('isGood')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Select placeholder='请选择' style={{ width: '100%' }}>
                   <Option value={1}>是</Option>
                   <Option value={0}>否</Option>
                 </Select>
@@ -499,9 +486,9 @@ class TableList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label="状态">
+            <FormItem label='状态'>
               {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Select placeholder='请选择' style={{ width: '100%' }}>
                   {Object.keys(statusMap).map(key => (
                     <Option key={key} value={key - 0}>
                       {statusMap[key]}
@@ -513,7 +500,7 @@ class TableList extends PureComponent {
           </Col>
           <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">查询</Button>
+              <Button type='primary' htmlType='submit'>查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
             </span>
           </Col>
@@ -598,21 +585,21 @@ class TableList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            <ViewModal modalTitle="查看" formData={record}>
-              <a href="javascript:;">查看</a>
+            <ViewModal modalTitle='查看' formData={record}>
+              <a href='javascript:;'>查看</a>
             </ViewModal>
-            <Divider type="vertical" />
+            <Divider type='vertical' />
             <EditModal
-              modalTitle={`新建示例`}
+              modalTitle={'新建示例'}
               formData={record}
               dispatch={this.props.dispatch}
               handleRefresh={this.handleRefresh}
             >
-              <a href="javascript:;">编辑</a>
+              <a href='javascript:;'>编辑</a>
             </EditModal>
-            <Divider type="vertical" />
-            <Popconfirm title="确定删除？" onConfirm={() => this.handleDelete(record.id)}>
-              <a href="javascript:;">删除</a>
+            <Divider type='vertical' />
+            <Popconfirm title='确定删除？' onConfirm={() => this.handleDelete(record.id)}>
+              <a href='javascript:;'>删除</a>
             </Popconfirm>
           </Fragment>
         ),
@@ -620,22 +607,22 @@ class TableList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="示例页面">
+      <PageHeaderWrapper title='示例页面'>
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.filterForm()}</div>
             <div className={styles.tableListOperator}>
               <EditModal
-                modalTitle={`新建示例`}
+                modalTitle={'新建示例'}
                 formData={{}}
                 dispatch={dispatch}
                 handleRefresh={this.handleRefresh}
               >
-                <Button icon="plus" type="primary">新建</Button>
+                <Button icon='plus' type='primary'>新建</Button>
               </EditModal>
               {selectedRows.length > 0 && (
-                <Popconfirm title="确定删除？" onConfirm={() => this.handleDeleteMultiple()}>
-                  <Button icon="delete" href="javascript:;">删除</Button>
+                <Popconfirm title='确定删除？' onConfirm={() => this.handleDeleteMultiple()}>
+                  <Button icon='delete' href='javascript:;'>删除</Button>
                 </Popconfirm>
               )}
             </div>

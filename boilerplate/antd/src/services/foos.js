@@ -10,7 +10,7 @@ export async function querySingle({ id }) {
 }
 
 export async function removeMultiple({ ids }) {
-  return request(`/api/foos`, {
+  return request('/api/foos', {
     method: 'DELETE',
     body: {
       id: ids,
@@ -39,7 +39,7 @@ export async function addSingle(params) {
 }
 
 export async function updateMultiple({ fields, ids }) {
-  return request(`/api/foos`, {
+  return request('/api/foos', {
     method: 'PATCH',
     body: {
       fields,
