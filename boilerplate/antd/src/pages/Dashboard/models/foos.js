@@ -21,7 +21,6 @@ export default {
     *fetchMultiple({ payload = {}, callback }, { call, put }) {
       const { pageNum = 1, pageSize = 10 } = payload;
       const response = yield call(queryMultiple, payload);
-      console.log(response);
       if (response) {
         const { count, rows } = response;
         yield put({

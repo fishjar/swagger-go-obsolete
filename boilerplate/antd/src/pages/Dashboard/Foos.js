@@ -8,17 +8,13 @@ import {
   Form,
   Input,
   Select,
-  Icon,
   Button,
-  Dropdown,
-  Menu,
   InputNumber,
   DatePicker,
   Modal,
   message,
   Badge,
   Divider,
-  Steps,
   Radio,
   Popconfirm,
 } from 'antd';
@@ -265,7 +261,6 @@ class ViewModal extends PureComponent {
   };
 
   hideModelHandler = () => {
-    // this.props.form.resetFields();
     this.setState({
       visible: false,
     });
@@ -330,7 +325,7 @@ class ViewModal extends PureComponent {
   loading: loading.models.foos,
 }))
 @Form.create()
-class TableList extends PureComponent {
+class Foos extends PureComponent {
   state = {
     selectedRows: [],
     formValues: {},
@@ -642,4 +637,4 @@ class TableList extends PureComponent {
   }
 }
 
-export default TableList;
+export default Foos;

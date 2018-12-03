@@ -24,6 +24,7 @@
 │   ├── pages
 │   │   ├── Dashboard
 │   │   │   ├── Foos.js
+│   │   │   ├── Foos.less
 │   │   │   └── models
 │   │   │       └── foos.js
 │   ├── services

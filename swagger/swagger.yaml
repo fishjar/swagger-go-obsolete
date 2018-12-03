@@ -172,6 +172,8 @@ definitions:
         minLength: 3
         maxLength: 20
         x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
       age:
         type: "integer"
         format: "int4"
@@ -179,6 +181,9 @@ definitions:
         minimum: 0
         maximum: 100
         x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
       weight:
         type: "number"
         format: "float"
@@ -186,21 +191,30 @@ definitions:
         minimum: 0.01
         maximum: 200.0
         x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
       birthDay:
         type: "string"
         format: "date"
         description: "生日"
         x-message: "请选择"
+        x-showTable: true
+        x-showSorter: true
       goodTime:
         type: "string"
         format: "date-time"
         description: "快乐时光"
+        x-showTable: true
+        x-showSorter: true
       email:
         type: "string"
         format: "email"
         description: "邮箱"
         uniqueItems: true
         x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
       homePage:
         type: "string"
         format: "uri"
@@ -216,12 +230,15 @@ definitions:
         format: "text"
         description: "介绍"
         x-message: "请输入"
+        x-isRichText: true
       isGood:
         type: "boolean"
         format: "boolean"
         description: "是否安好"
         default: true
         x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
       myExtra:
         type: "object"
         format: "object"
@@ -246,6 +263,14 @@ definitions:
         enum: [1,2,3]
         default: 1
         x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          1: "正常",
+          2: "异常",
+          3: "禁用",
+        }
+        x-description: "状态"
         description: >
           "状态"
             * 1 - 正常
