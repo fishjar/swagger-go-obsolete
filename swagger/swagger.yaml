@@ -151,7 +151,7 @@ definitions:
     type: "object"
     x-isModel: true
     x-plural: "Foos"
-    description: "默认模型"
+    description: "测试模型"
     required:
       - "id"
       - "name"

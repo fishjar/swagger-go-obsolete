@@ -11,6 +11,7 @@
   "scripts": {
     "koa": "node ./bin/koa.js",
     "antd": "node ./bin/antd.js",
+    "swagger": "node ./bin/swagger.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
