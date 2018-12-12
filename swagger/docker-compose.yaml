@@ -1,0 +1,21 @@
+version: '2'
+services:
+  # swagger-node:
+  #   build: ./swagger-node
+  #   volumes:
+  #     - ./swagger-node:/swagger-node
+  #   ports:
+  #     - "10010:10010"
+  swagger-editor:
+    image: swaggerapi/swagger-editor
+    ports:
+      - "10011:8080"
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - ./swagger.yaml:/docs/swagger.yaml
+    environment:
+      - SWAGGER_JSON=/docs/swagger.yaml
+    ports:
+      - "10012:8080"
+      

@@ -205,7 +205,9 @@ try {
     });
 
   // 创建文件夹
-  fs.ensureDirSync(path.join(DIST_PATH, 'swagger'));
+  // fs.ensureDirSync(path.join(DIST_PATH, 'swagger'));
+  // 拷贝文件夹
+  fs.copySync(path.resolve(__dirname, `../swagger`), path.join(DIST_PATH, 'swagger'));
   const outFile = path.join(DIST_PATH, 'swagger', 'swagger.yaml');
   const outData = yaml.dump({ ...doc, paths, });
   // 保存文件

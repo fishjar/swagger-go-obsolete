@@ -54,6 +54,7 @@ try {
 
   const moduleNames = Object.keys(doc.definitions)
     .filter(item => doc.definitions[item]['x-isModel']); //过滤，必须包含`x-isModel`属性
+    
   moduleNames.forEach(name => {
     const item = doc.definitions[name];
     const _name = name.toLowerCase();
@@ -251,6 +252,99 @@ try {
       semi: false,
       parser: "babylon"
     }), 'utf8');
+
+    const filterStr = ()=>{
+      const filterItems = Object.entries(item.properties)
+        .filter(([_,prop])=>prop['x-showFilter']);
+      const colCout = filterItems.length+2;
+      const rowCout = colCout%4===0?colCout/4:~~(colCout/4)+1;
+      let str = '';
+      for(let i=1;i<=rowCout;i++){
+        str += `<Row gutter={{ md: 8, lg: 24, xl: 48 }}>`;
+        for(let j=1;j<=4;j++){
+          const idx = (i-1)*4+j;
+          if(idx>colCout-1) {
+            break;
+          }
+          if(idx===colCout-1) {
+            str += `<Col md={6} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type='primary' htmlType='submit'>查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+            </span>
+          </Col>`;
+            continue;
+          }
+          const filterItem = filterItems[idx-1];
+          const k = filterItem[0];
+          const v = filterItem[1];
+          let input = '';
+          if(v.format.startsWith('string')) {
+
+            input = `<Input placeholder='${v['x-message']}' />`;
+          }
+          if(v.format.startsWith('int')) {
+            if(v.enum && v['x-enumMap']) {
+              input = `<Select placeholder='${v['x-message']}' style={{ width: '100%' }}>
+                  {Object.keys(${k}Map).map(key => (
+                    <Option key={key} value={key - 0}>
+                      {${k}Map[key]}
+                    </Option>
+                  ))}
+                </Select>`;
+            } else {
+              if(v.minimum!==undefined && v.maximum!==undefined) {
+                input = `<InputNumber min={${v.minimum}} max={${v.maximum}} placeholder='${v['x-message']}' style={{ width: '100%' }} />`;
+              } else {
+                input = `<InputNumber placeholder='${v['x-message']}' style={{ width: '100%' }} />`;
+              }
+            }
+          }
+          if(v.format.startsWith('float')) {
+            if(v.minimum!==undefined && v.maximum!==undefined) {
+              input = `<InputNumber min={${v.minimum}} max={${v.maximum}} placeholder='${v['x-message']}' style={{ width: '100%' }} />`;
+            } else {
+              input = `<InputNumber placeholder='${v['x-message']}' style={{ width: '100%' }} />`;
+            }
+          }
+          if(v.format.startsWith('date')) {
+            input = `<DatePicker placeholder='${v['x-message']}' style={{ width: '100%' }} />`;
+          }
+          if(v.format.startsWith('date-time')) {
+            input = `<DatePicker showTime format='YYYY-MM-DD HH:mm:ss' placeholder='${v['x-message']}' style={{ width: '100%' }} />`;
+          }
+          if(v.format.startsWith('email')) {
+            input = `<Input placeholder='${v['x-message']}' />`;
+          }
+          if(v.format.startsWith('uri')) {
+            input = `<Input placeholder='${v['x-message']}' />`;
+          }
+          if(v.format.startsWith('text')) {
+            if (v['x-isRichText']) {
+              input = `<ReactQuill placeholder='${v['x-message']}' />`;
+            } else {
+              input = `<TextArea rows={3} placeholder='${v['x-message']}' />`;
+            }
+          }
+          if(v.format.startsWith('object')||v.format.startsWith('array')) {
+            input = `<TextArea rows={3} placeholder='${v['x-message']}' />`;
+          }
+          if(v.format.startsWith('boolean')) {
+            input = `<RadioGroup placeholder='${v['x-message']}'>
+                <Radio value={true}>是</Radio>
+                <Radio value={false}>否</Radio>
+              </RadioGroup>`;
+          }
+          str += `<Col md={6} sm={24}>
+            <FormItem label='${v['x-description']||v.description}'>
+              {getFieldDecorator('${filterItem[0]}')(${input})}
+            </FormItem>
+          </Col>`;
+        }
+        str += `</Row>`;
+      }
+      return str;
+    };
 
     const pagesOutFile = path.join(pagesDir, `${pluralName}.js`);
     const pagesFileData = `
@@ -456,15 +550,22 @@ try {
                       }
                       if(v.format.startsWith('boolean')) {
                         input = `<RadioGroup placeholder='${v['x-message']}'>
-                            <Radio value={true}>是</Radio>
-                            <Radio value={false}>否</Radio>
+                            <Radio value={1}>是</Radio>
+                            <Radio value={0}>否</Radio>
                           </RadioGroup>`;
+                      }
+                      let initialValue = k;
+                      if(v.format.startsWith('date') || v.format.startsWith('date-time')) {
+                        initialValue = `${k} && moment(${k})`;
+                      }
+                      if(v.format.startsWith('text') && v['x-isRichText']) {
+                        initialValue = `${k} || ''`;
                       }
 
                       return `<FormItem {...this.formLayout} label='${v['x-description']||v.description}'>
                         {form.getFieldDecorator('${k}', {
-                          initialValue: ${(v.format.startsWith('date') || v.format.startsWith('date-time'))?`${k} && moment(${k})`:k},
-                          rules: [{ required: ${item.required.includes(k) ? 'false' : 'true'}, message: '${v['x-message']}！', ${rules} }],
+                          initialValue: ${initialValue},
+                          rules: [{ required: ${item.required.includes(k) ? 'true' : 'false'}, message: '${v['x-message']}！', ${rules} }],
                         })(${input})}
                       </FormItem>
                       `;
@@ -692,42 +793,7 @@ try {
           } = this.props;
           return (
             <Form onSubmit={this.handleSearch} layout='inline'>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={6} sm={24}>
-                  <FormItem label='名称'>
-                    {getFieldDecorator('name')(<Input placeholder='请输入' />)}
-                  </FormItem>
-                </Col>
-                <Col md={6} sm={24}>
-                  <FormItem label='安好'>
-                    {getFieldDecorator('isGood')(
-                      <Select placeholder='请选择' style={{ width: '100%' }}>
-                        <Option value={1}>是</Option>
-                        <Option value={0}>否</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={6} sm={24}>
-                  <FormItem label='状态'>
-                    {getFieldDecorator('status')(
-                      <Select placeholder='请选择' style={{ width: '100%' }}>
-                        {Object.keys(statusMap).map(key => (
-                          <Option key={key} value={key - 0}>
-                            {statusMap[key]}
-                          </Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={6} sm={24}>
-                  <span className={styles.submitButtons}>
-                    <Button type='primary' htmlType='submit'>查询</Button>
-                    <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-                  </span>
-                </Col>
-              </Row>
+              ${filterStr()}
             </Form>
           );
         }

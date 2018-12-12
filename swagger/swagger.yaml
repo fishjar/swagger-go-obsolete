@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   version: "0.0.1"
   title: "Hello World App"
-host: "localhost:10010"
+host: "localhost:3000"
 basePath: "/"
 schemes:
 - "http"
@@ -12,6 +12,19 @@ consumes:
 - "application/json"
 produces:
 - "application/json"
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  JWT:
+    description: "Authorization: Bearer <token>"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - APIKeyHeader: []
+    JWT: []
 paths:
   /foos:
     post:
@@ -58,6 +71,8 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/Foo"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
     patch:
       summary: "更新集合"
       description: "更新集合..."
@@ -299,5 +314,11 @@ definitions:
       username:
         type: "string"
         description: "用户名"
+responses:
+  UnauthorizedError:
+    description: API key is missing or invalid
+    headers:
+      WWW_Authenticate:
+        type: string
       
       
