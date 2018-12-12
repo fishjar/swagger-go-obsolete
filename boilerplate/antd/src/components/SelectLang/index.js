@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { formatMessage, setLocale, getLocale } from 'umi/locale';
-import { Menu, Icon, Dropdown } from 'antd';
+import { Menu, Icon } from 'antd';
 import classNames from 'classnames';
+import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
 export default class SelectLang extends PureComponent {
@@ -20,34 +21,32 @@ export default class SelectLang extends PureComponent {
           </span>{' '}
           简体中文
         </Menu.Item>
-        <Menu.Item key="zh-TW">
+        {/* <Menu.Item key="zh-TW">
           <span role="img" aria-label="繁体中文">
             🇭🇰
           </span>{' '}
           繁体中文
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="en-US">
           <span role="img" aria-label="English">
             🇬🇧
           </span>{' '}
           English
         </Menu.Item>
-        <Menu.Item key="pt-BR">
+        {/* <Menu.Item key="pt-BR">
           <span role="img" aria-label="Português">
             🇵🇹
           </span>{' '}
           Português
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
     );
     return (
-      <Dropdown overlay={langMenu} placement="bottomRight">
-        <Icon
-          type="global"
-          className={classNames(styles.dropDown, className)}
-          title={formatMessage({ id: 'navBar.lang' })}
-        />
-      </Dropdown>
+      <HeaderDropdown overlay={langMenu} placement="bottomRight">
+        <span className={classNames(styles.dropDown, className)}>
+          <Icon type="global" title={formatMessage({ id: 'navBar.lang' })} />
+        </span>
+      </HeaderDropdown>
     );
   }
 }

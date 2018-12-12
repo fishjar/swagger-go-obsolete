@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider } from 'antd';
+import { Card } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 @connect(({}) => ({}))

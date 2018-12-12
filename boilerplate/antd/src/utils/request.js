@@ -83,7 +83,6 @@ export default function request(url, option) {
     credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
-
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||

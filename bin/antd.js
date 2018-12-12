@@ -282,7 +282,6 @@ try {
       import 'react-quill/dist/quill.snow.css';
       
       const FormItem = Form.Item;
-      const { Step } = Steps;
       const { TextArea } = Input;
       const { Option } = Select;
       const RadioGroup = Radio.Group;
