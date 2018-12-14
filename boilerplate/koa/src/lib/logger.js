@@ -3,7 +3,10 @@ import 'winston-daily-rotate-file';
 import path from 'path';
 
 import config from '../config';
-const { LOG_LEVEL, LOG_PATH } = config;
+const {
+  LOG_LEVEL,
+  LOG_PATH,
+} = config;
 
 const errorLogPath = path.join(LOG_PATH, `%DATE%.error.log`);
 const infoLogPath = path.join(LOG_PATH, `%DATE%.info.log`);

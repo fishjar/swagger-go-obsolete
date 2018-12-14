@@ -1,4 +1,4 @@
-import logger from './logger';
+import logger from '../lib/logger';
 
 export default () => async function errorHandler (ctx, next) {
   try {

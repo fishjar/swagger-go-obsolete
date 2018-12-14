@@ -1,6 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
+import { userLogin } from '@/services/account';
 import { setAuthority } from '@/utils/authority';
 import { setAuthtoken } from '@/utils/authtoken';
 import { getPageQuery } from '@/utils/utils';
@@ -15,7 +16,8 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      // const response = yield call(fakeAccountLogin, payload);
+      const response = yield call(userLogin, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,

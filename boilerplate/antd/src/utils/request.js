@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
-import { getAuthtoken } from '@/utils/authtoken';
+import { getAuthtoken, setAuthtoken } from '@/utils/authtoken';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -123,12 +123,22 @@ export default function request(url, option) {
 
   // add token
   const authtoken = getAuthtoken();
-  newOptions.headers = {
-    ...newOptions.headers,
-    authtoken: `Basic ${authtoken}`,
+  if (authtoken) {
+    newOptions.headers = {
+      ...newOptions.headers,
+      Authorization: `Bearer ${authtoken}`,
+    }
   }
 
   return fetch(url, newOptions)
+    .then(response => {
+      // update token
+      const authtoken = response.headers.get("authtoken");
+      if (authtoken) {
+        setAuthtoken(authtoken);
+      }
+      return response;
+    })
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))
     .then(response => {

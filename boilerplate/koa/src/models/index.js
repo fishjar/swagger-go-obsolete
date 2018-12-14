@@ -3,9 +3,13 @@ import path from 'path';
 import Sequelize from 'sequelize';
 
 import config from '../config';
+const {
+  DATABASE_URL,
+  DATABASE_OPT,
+} = config;
 
 const basename = path.basename(__filename);
-const sequelize = new Sequelize(config.DATABASE_URL, config.DATABASE_OPT);
+const sequelize = new Sequelize(DATABASE_URL, DATABASE_OPT);
 const db = {};
 
 fs
