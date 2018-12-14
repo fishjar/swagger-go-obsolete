@@ -8,5 +8,5 @@ export async function userLogin(params) {
 }
 
 export async function queryCurrentUser() {
-  return request('/api/account/currentUser');
+  return request('/api/account/user');
 }

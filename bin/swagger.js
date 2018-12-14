@@ -10,6 +10,47 @@ try {
 
   const paths = {};
 
+  paths['/account/login'] = {
+    "post": {
+      "summary": "登录",
+      "description": "登录...",
+      "security": [],
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "description": "登录参数",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/loginBody"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "登录成功",
+          "schema": {
+            "$ref": "#/definitions/loginResponse"
+          }
+        }
+      }
+    }
+  };
+  paths['/account/user'] = {
+    "get": {
+      "summary": "查询当前用户",
+      "description": "查询当前用户..",
+      "responses": {
+        "200": {
+          "description": "查询成功",
+          "schema": {
+            "$ref": "#/definitions/userDemo"
+          }
+        }
+      }
+    }
+  };
+
   Object.entries(doc.definitions)
     .filter(([_, model]) => model['x-isModel'])
     .forEach(([modelKey, model], index) => {

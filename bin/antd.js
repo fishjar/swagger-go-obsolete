@@ -46,7 +46,7 @@ try {
 
   console.log('\n读取swagger文档...');
   const doc = yaml.safeLoad(fs.readFileSync(YAML_FILE, 'utf8'));
-  console.log(doc.definitions)
+  // console.log(doc.definitions)
 
   let routerPaths = '';
   let localesMenu_US = '';
@@ -331,8 +331,8 @@ try {
           }
           if(v.format.startsWith('boolean')) {
             input = `<RadioGroup placeholder='${v['x-message']}'>
-                <Radio value={true}>是</Radio>
-                <Radio value={false}>否</Radio>
+                <Radio value={1}>是</Radio>
+                <Radio value={0}>否</Radio>
               </RadioGroup>`;
           }
           str += `<Col md={6} sm={24}>
@@ -550,8 +550,8 @@ try {
                       }
                       if(v.format.startsWith('boolean')) {
                         input = `<RadioGroup placeholder='${v['x-message']}'>
-                            <Radio value={1}>是</Radio>
-                            <Radio value={0}>否</Radio>
+                            <Radio value={true}>是</Radio>
+                            <Radio value={false}>否</Radio>
                           </RadioGroup>`;
                       }
                       let initialValue = k;

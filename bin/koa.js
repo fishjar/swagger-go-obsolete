@@ -36,7 +36,7 @@ try {
 
   console.log('\n读取swagger文档...');
   const doc = yaml.safeLoad(fs.readFileSync(YAML_FILE, 'utf8'));
-  console.log(doc.definitions)
+  // console.log(doc.definitions)
 
   const moduleNames = Object.keys(doc.definitions)
     .filter(item => doc.definitions[item]['x-isModel']); //过滤，必须包含`x-isModel`属性

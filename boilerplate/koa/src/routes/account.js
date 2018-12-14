@@ -51,7 +51,7 @@ router.post('/login', async (ctx, next) => {
 	await next();
 });
 
-router.get('/currentUser', async (ctx, next) => {
+router.get('/user', async (ctx, next) => {
 	ctx.body = {
 		name: 'Admin',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
