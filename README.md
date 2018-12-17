@@ -32,7 +32,7 @@ cd dist/koa
 npm install
 npm run dev #开发
 npm run build #打包
-npm run start #启动
+npm run start #启动，需要配置数据库链接
 
 #生成Ant Design Pro后台系统前端代码
 npm run antd
@@ -44,7 +44,7 @@ npm run build #打包
 
 #补全swagger文档
 npm run swagger
-#运行swagger ui
+#运行swagger ui及swagger edit
 cd dist/swagger
 docker-compose up
 ```
@@ -57,7 +57,8 @@ docker-compose up
 │   ├── egg.js
 │   ├── flask.js
 │   ├── koa.js
-│   └── spring.js
+│   ├── spring.js
+│   └── swagger.js
 ├── boilerplate #项目模板
 │   ├── antd
 │   ├── egg
