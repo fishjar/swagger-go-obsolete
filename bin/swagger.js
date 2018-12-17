@@ -10,46 +10,46 @@ try {
 
   const paths = {};
 
-  paths['/account/login'] = {
-    "post": {
-      "summary": "登录",
-      "description": "登录...",
-      "security": [],
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "description": "登录参数",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/loginBody"
-          }
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "登录成功",
-          "schema": {
-            "$ref": "#/definitions/loginResponse"
-          }
-        }
-      }
-    }
-  };
-  paths['/account/user'] = {
-    "get": {
-      "summary": "查询当前用户",
-      "description": "查询当前用户..",
-      "responses": {
-        "200": {
-          "description": "查询成功",
-          "schema": {
-            "$ref": "#/definitions/userDemo"
-          }
-        }
-      }
-    }
-  };
+  // paths['/account/login'] = {
+  //   "post": {
+  //     "summary": "登录",
+  //     "description": "登录...",
+  //     "security": [],
+  //     "parameters": [
+  //       {
+  //         "in": "body",
+  //         "name": "body",
+  //         "description": "登录参数",
+  //         "required": true,
+  //         "schema": {
+  //           "$ref": "#/definitions/loginBody"
+  //         }
+  //       }
+  //     ],
+  //     "responses": {
+  //       "200": {
+  //         "description": "登录成功",
+  //         "schema": {
+  //           "$ref": "#/definitions/loginResponse"
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
+  // paths['/account/user'] = {
+  //   "get": {
+  //     "summary": "查询当前用户",
+  //     "description": "查询当前用户..",
+  //     "responses": {
+  //       "200": {
+  //         "description": "查询成功",
+  //         "schema": {
+  //           "$ref": "#/definitions/userDemo"
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
 
   Object.entries(doc.definitions)
     .filter(([_, model]) => model['x-isModel'])
@@ -250,7 +250,9 @@ try {
   // 拷贝文件夹
   fs.copySync(path.resolve(__dirname, `../swagger`), path.join(DIST_PATH, 'swagger'));
   const outFile = path.join(DIST_PATH, 'swagger', 'swagger.yaml');
-  const outData = yaml.dump({ ...doc, paths, });
+  // const outData = yaml.dump({ ...doc, paths, });
+  Object.assign(doc.paths, paths);
+  const outData = yaml.dump(doc);
   // 保存文件
   console.log(`\n创建: ${outFile}`);
   fs.writeFileSync(outFile, outData, 'utf8');

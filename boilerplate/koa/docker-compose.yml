@@ -2,8 +2,8 @@ version: "3"
 
 services:
   koa:
-    build: ./koa
+    build: .
     ports:
       - 3000:3000
     volumes:
-      - "./log/koa:/app/dist/log"
+      - "./log:/app/dist/log"

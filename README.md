@@ -1,18 +1,53 @@
 # swagger-go
 
-通过`swagger.yaml`文档生成REST API项目代码及简易后台管理系统代码
+基于`swagger.yaml`文档的快速开始项目
 
 ## 主要功能
 
-- 通过`swagger.yaml`生成`REST API`项目代码
-  - 可生成`koajs`、`eggjs`、`spring boot`、`flask`等
-- 通过`swagger.yaml`生成简易后台管理系统代码
-  - 后台系统基于`Ant Design Pro`
-- 包含多语言的`REST API`项目模板（`boilerplate`）
-  - 力求开箱即用，但主要考虑微服务需求，功能精简，认证、缓存均不考虑
-  - `nodejs`：`koajs`、`eggjs`
-  - `java`：`spring boot`
-  - `python`： `flask`
+- 通过`swagger.yaml`生成`REST API`后端代码
+  - `nodejs`：
+    - `koajs`
+      - 包含ORM（sequelize）
+      - 简易JWT验证
+    - `eggjs`
+  - `java`
+    - `spring boot`
+  - `python`
+    - `flask`
+- 通过`swagger.yaml`生成后台管理系统前端代码
+  - `Ant Design Pro`
+
+## 使用指引
+
+```sh
+# 拉取代码
+git clone git@github.com:fishjar/swagger-go.git
+# 根据需求编辑swagger文件
+vi swagger/swagger.yaml
+
+# 生成koa后端代码
+npm run koa
+# 运行koa后端服务
+cd dist/koa
+npm install
+npm run dev #开发
+npm run build #打包
+npm run start #启动
+
+#生成Ant Design Pro后台系统前端代码
+npm run antd
+#运行Ant Design Pro
+cd dist/antd
+cnpm install
+npm run start #开发
+npm run build #打包
+
+#补全swagger文档
+npm run swagger
+#运行swagger ui
+cd dist/swagger
+docker-compose up
+```
 
 ## 目录结构
 
@@ -39,6 +74,29 @@
 └── swagger #文档文件
     └── swagger.yaml
 ```
+
+## swagger 编辑说明
+
+版本基于2.0
+
+运行`npm run swagger`会自动补全`definitions`中的`model`到`paths`，
+因此`paths`部分仅需编辑额外的接口，
+
+数据类型参考下面的`数据类型映射关系`表格
+
+### 扩展字段
+
+| 字段名           | 字段类型    | 说明              |
+|---------------|---------|-----------------|
+| x-isModel     | boolean | 是否当做model处理     |
+| x-plural      | string  | model的复数形式      |
+| x-message     | string  | andt中的提示信息      |
+| x-showTable   | boolean | antd中是否显示在列表中   |
+| x-showFilter  | boolean | antd中是否搜索字段     |
+| x-showSorter  | boolean | antd列表中是否需要排序   |
+| x-isRichText  | boolean | antd中是否使用富文本编辑器 |
+| x-enumMap     | object  | 枚举类型的说明字典       |
+| x-description | string  | 枚举类型的说明文字       |
 
 ## 数据类型映射关系
 
@@ -70,8 +128,7 @@
 | object/dict | `object`  | `json`         | JSON        | JSON          | JSON                |
 | array       | `array`   | `array`        | -           | JSON          | JSON                |
 
-
-## 验证参数
+## 验证参数参考
 
 ```js
 const ValidateMe = sequelize.define('foo', {

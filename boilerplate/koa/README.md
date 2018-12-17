@@ -13,6 +13,7 @@
     ├── db #临时数据目录
     ├── lib #中间件及其他工具包目录
     ├── log #日志目录
+    ├── middleware #中间件
     ├── models #数据模型目录
     ├── routes #路由配置目录
     └── server.js #启动文件
@@ -28,6 +29,7 @@
   "koa": "^2.6.1", // 核心包
   "koa-bodyparser": "^4.2.1", // body解析
   "koa-compress": "^3.0.0", // gzip压缩
+  "koa-jwt": "^3.5.1", // JWT 验证
   "koa-logger": "^3.2.0", // 日志中间件
   "koa-qs": "^2.0.0", // querystring处理
   "koa-router": "^7.4.0", // 路由插件
