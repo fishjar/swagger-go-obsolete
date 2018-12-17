@@ -82,8 +82,6 @@ docker-compose up
 运行`npm run swagger`会自动补全`definitions`中的`model`到`paths`，
 因此`paths`部分仅需编辑额外的接口，
 
-数据类型参考下面的`数据类型映射关系`表格
-
 ### 扩展字段
 
 | 字段名           | 字段类型    | 说明              |
@@ -97,6 +95,8 @@ docker-compose up
 | x-isRichText  | boolean | antd中是否使用富文本编辑器 |
 | x-enumMap     | object  | 枚举类型的说明字典       |
 | x-description | string  | 枚举类型的说明文字       |
+
+数据类型参考下面的`数据类型映射关系`表格
 
 ## 数据类型映射关系
 
