@@ -1,5 +1,6 @@
 const path = require('path');
-const YAML_FILE = path.resolve(__dirname, '../swagger/swagger.yaml');
+const swagger = process.env.swagger || 'swagger.yaml';
+const YAML_FILE = path.resolve(__dirname, `../swagger/${swagger}`);
 const ROOT_PATH = path.resolve(__dirname, '../');
 const DIST_PATH = path.resolve(__dirname, '../dist');
 

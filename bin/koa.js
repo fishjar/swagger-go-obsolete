@@ -9,6 +9,9 @@ const { getDataType } = require('../lib');
 
 try {
   console.log('---开始执行脚本---\n');
+  if(!fs.existsSync(YAML_FILE)) {
+    throw new Error("swagger文件不存在!");
+  }
   // 定义目录结构
   const rootDir = path.join(DIST_PATH, 'koa');
   const configDir = path.join(rootDir, 'src', 'config');

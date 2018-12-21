@@ -1,0 +1,238 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Hello World App"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  JWT:
+    description: "Authorization: Bearer {token}"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - APIKeyHeader: []
+    JWT: []
+paths:
+  /account/login:
+    post:
+      summary: "登录"
+      description: "登录..."
+      security: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "登录参数"
+        required: true
+        schema:
+          $ref: "#/definitions/loginBody"
+      responses:
+        "200":
+          description: "登录成功"
+          schema:
+            $ref: "#/definitions/loginResponse"
+  /account/user:
+    get:
+      summary: "查询当前用户"
+      description: "查询当前用户.."
+      responses:
+        "200":
+          description: "查询成功"
+          schema:
+            $ref: "#/definitions/userDemo"
+definitions:
+  Media:
+    type: "object"
+    x-isModel: true
+    x-plural: "Medias"
+    description: "文件"
+    required:
+      - "id"
+      - "mime"
+      - "filename"
+      - "path"
+      - "size"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      mime:
+        type: "string"
+        format: "string(64)"
+        description: "文件类型"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+      filename:
+        type: "string"
+        format: "string(128)"
+        description: "文件名"
+        x-message: "请输入"
+        x-showTable: true
+      title:
+        type: "string"
+        format: "string(128)"
+        description: "文件标题"
+        x-message: "请输入"
+        x-showTable: true
+      hashname:
+        type: "string"
+        format: "string(64)"
+        description: "哈西值"
+        x-message: "请输入"
+        x-showTable: true
+      ext:
+        type: "string"
+        format: "string(4)"
+        description: "扩展名"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+      path:
+        type: "string"
+        format: "string(128)"
+        description: "保存路径"
+        x-message: "请输入"
+        x-showTable: true
+      url:
+        type: "string"
+        format: "string(255)"
+        description: "访问地址"
+        x-message: "请输入"
+        x-showTable: true
+      description:
+        type: "string"
+        format: "string(255)"
+        description: "描述"
+        x-message: "请输入"
+      size:
+        type: "integer"
+        format: "int32"
+        description: "文件大小"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      width:
+        type: "integer"
+        format: "int32"
+        description: "图片宽"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      height:
+        type: "integer"
+        format: "int32"
+        description: "图片高"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "5c984620-04f6-11e9-85d0-950f3b428717"
+      "mime": "image/png"
+      "filename": "2016-09-14 11-30-09屏幕截图.png"
+      "title": "test_title"
+      "hashname": "7b745b688b3d677a0a41c2c85cc56156"
+      "ext": ".png"
+      "path": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156.png"
+      "url": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156.png"
+      "description": null
+      "size": 148584
+      "width": 600
+      "height": 779
+      "created_at": "2018-12-21T07:59:37.347Z"
+      "updated_at": "2018-12-21T07:59:37.347Z"
+      "deleted_at": null
+      "resize": 100
+      "resize_path": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156_100.png"
+      "resize_url": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156_100.png"
+      "thumb": 64
+      "thumb_path": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156_s64.png"
+      "thumb_url": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156_s64.png"
+  userDemo:
+    type: "object"
+    description: "用户模型"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "用户名"
+      avatar:
+        type: "string"
+        description: "头像"
+      email:
+        type: "string"
+        description: "邮箱"
+    example:
+      name: 'Admin'
+      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      id: '00000001'
+      email: 'test@test.com'
+  loginBody:
+    type: "object"
+    description: "登录参数模型"
+    required:
+      - "userName"
+      - "password"
+      - "type"
+    properties:
+      userName:
+        type: "string"
+        description: "用户名"
+      password:
+        type: "string"
+        description: "密码"
+      type:
+        type: "string"
+        description: "账户类型"
+    example:
+      userName: 'admin'
+      password: '123456'
+      type: 'username'
+  loginResponse:
+    type: "object"
+    description: "登录返回数据模型"
+    required:
+      - "status"
+      - "type"
+      - "currentAuthority"
+      - "authtoken"
+    properties:
+      status:
+        type: "string"
+        description: "登录状态"
+      type:
+        type: "string"
+        description: "账号类型"
+      currentAuthority:
+        type: "string"
+        description: "当前角色"
+      authtoken:
+        type: "string"
+        description: "秘钥"
+responses:
+  UnauthorizedError:
+    description: API key is missing or invalid
+    headers:
+      WWW_Authenticate:
+        type: string
+      
+      

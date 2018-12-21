@@ -11,6 +11,9 @@ const PRJ_KEY = 'antd';
 
 try {
   console.log('---开始执行脚本---\n');
+  if(!fs.existsSync(YAML_FILE)) {
+    throw new Error("swagger文件不存在!");
+  }
   // 定义目录结构
   const rootDir = path.join(DIST_PATH, PRJ_KEY);
 
@@ -821,6 +824,7 @@ try {
                           value: 0,
                         },
                       ],
+                      sorter: ${v['x-showSorter']?'true':'false'},
                       filterMultiple: false,
                       render: val => val ? '是' : '否',
                     },`;
@@ -833,12 +837,14 @@ try {
                         text: ${k}Map[key],
                         value: key,
                       })),
+                      sorter: ${v['x-showSorter']?'true':'false'},
                       render: val => ${k}Map[val],
                     },`;
                   }
                   return `{
                     title: '${v.description}',
                     dataIndex: '${k}',
+                    sorter: ${v['x-showSorter']?'true':'false'},
                   },`;
                 })
                 .join("")
@@ -917,6 +923,11 @@ try {
       semi: false,
       parser: "babylon"
     }), 'utf8');
+
+    const lessOutFile = path.join(pagesDir, `${pluralName}.less`);
+    const lessFileData = `@import '~antd/lib/style/themes/default.less';\n@import '~@/utils/utils.less';\n`;
+    console.log(`创建：<DIST_PATH>${lessOutFile.split(DIST_PATH)[1]}`);
+    fs.writeFileSync(lessOutFile, lessFileData, 'utf8');
 
   });
 
