@@ -37,12 +37,12 @@ paths:
         description: "登录参数"
         required: true
         schema:
-          $ref: "#/definitions/loginBody"
+          $ref: "#/definitions/LoginBody"
       responses:
         "200":
           description: "登录成功"
           schema:
-            $ref: "#/definitions/loginResponse"
+            $ref: "#/definitions/LoginResponse"
   /account/user:
     get:
       summary: "查询当前用户"
@@ -50,8 +50,16 @@ paths:
       responses:
         "200":
           description: "查询成功"
+          headers:
+            authtoken:
+              type: string
+              description: 新token续期
           schema:
-            $ref: "#/definitions/userDemo"
+            $ref: "#/definitions/UserDemo"
+        "401":
+          $ref: "#/responses/Unauthorized"
+        "404":
+          $ref: "#/responses/NotFound"
   /foos:
     post:
       summary: "创建单个"
@@ -97,8 +105,6 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/Foo"
-        "401":
-          $ref: "#/responses/UnauthorizedError"
     patch:
       summary: "更新集合"
       description: "更新集合..."
@@ -297,7 +303,7 @@ definitions:
         format: "array"
         description: "扩展字段2"
         items:
-          $ref: '#/definitions/userDemo'
+          $ref: '#/definitions/UserDemo'
       status:
         type: "integer"
         format: "int4"
@@ -327,7 +333,7 @@ definitions:
       notice: "备注"
       isGood: true
       status: 1
-  userDemo:
+  UserDemo:
     type: "object"
     description: "用户模型"
     required:
@@ -351,7 +357,7 @@ definitions:
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
       id: '00000001'
       email: 'test@test.com'
-  loginBody:
+  LoginBody:
     type: "object"
     description: "登录参数模型"
     required:
@@ -372,7 +378,7 @@ definitions:
       userName: 'admin'
       password: '123456'
       type: 'username'
-  loginResponse:
+  LoginResponse:
     type: "object"
     description: "登录返回数据模型"
     required:
@@ -393,11 +399,32 @@ definitions:
       authtoken:
         type: "string"
         description: "秘钥"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      errors:
+        type: "array"
+        items:
+          $ref: '#/definitions/ErrorItem'
+    required:
+      - "message"
+  ErrorItem:
+    type: "object"
+    properties:
+      errorCode:
+        type: "integer"
+      errorMessage:
+        type: "string"
 responses:
-  UnauthorizedError:
-    description: API key is missing or invalid
-    headers:
-      WWW_Authenticate:
-        type: string
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
       
       
