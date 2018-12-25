@@ -62,7 +62,7 @@ try {
             .filter(([k]) => !['id'].includes(k)) // 排除id字段
             .map(([k, v]) => `${k}: {
               type: DataTypes.${getDataType(v.format)},
-              allowNull: ${item.required.includes(k) ? 'false' : 'true'},
+              allowNull: ${item.required.includes(k) ? 'true' : 'false'},
               unique: ${v.uniqueItems?'true':'false'},
               ${v.default===undefined?'':`defaultValue: ${v.default},`}validate: {
               ${v.enum===undefined?'':`isIn: [[${v.enum}]],`}
@@ -75,6 +75,7 @@ try {
             }`)
           .join(',')}
         }, {
+          underscored: false,
           tableName: '${name}',
           paranoid: true,
         });
