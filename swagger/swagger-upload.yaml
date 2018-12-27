@@ -13,18 +13,13 @@ consumes:
 produces:
 - "application/json"
 securityDefinitions:
-  APIKeyHeader:
-    type: apiKey
-    in: header
-    name: X-API-Key
   JWT:
     description: "Authorization: Bearer {token}"
     type: "apiKey"
     name: "Authorization"
     in: "header"
 security:
-  - APIKeyHeader: []
-    JWT: []
+  - JWT: []
 paths:
   /account/login:
     post:
@@ -60,6 +55,60 @@ paths:
           $ref: "#/responses/Unauthorized"
         "404":
           $ref: "#/responses/NotFound"
+  /upload:
+    post:
+      summary: "上传文件"
+      description: "上传单个或多个文件.."
+      consumes:
+         - multipart/form-data
+      parameters:
+        - in: formData
+          name: upfile1
+          type: file
+          required: true
+          description: "文件1"
+        - in: formData
+          name: upfile2
+          type: file
+          required: false
+          description: "文件2"
+        - in: formData
+          name: resize
+          type: integer
+          required: false
+          description: "缩放的长边大小"
+        - in: formData
+          name: thumb
+          type: integer
+          required: false
+          description: "正方形剪裁的边长"
+        - in: formData
+          name: title
+          type: string
+          required: false
+          description: "标题"
+        - in: formData
+          name: description
+          type: string
+          required: false
+          description: "描述"
+      responses:
+        "200":
+          description: "上传成功"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Media'
+  /download:
+    get:
+      summary: "下载文件"
+      description: "下载文件.."
+      responses:
+        "200":
+          description: "下载成功"
+          schema:
+            type: string
+            format: binary
 definitions:
   Media:
     type: "object"

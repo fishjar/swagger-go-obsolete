@@ -249,7 +249,7 @@ try {
   // fs.ensureDirSync(path.join(DIST_PATH, 'swagger'));
   // 拷贝文件夹
   fs.copySync(path.resolve(__dirname, `../swagger`), path.join(DIST_PATH, 'swagger'));
-  const outFile = path.join(DIST_PATH, 'swagger', 'swagger.yaml');
+  const outFile = path.join(DIST_PATH, 'swagger', process.env.swagger || 'swagger.yaml');
   // const outData = yaml.dump({ ...doc, paths, });
   Object.assign(doc.paths, paths);
   const outData = yaml.dump(doc);
