@@ -26,14 +26,17 @@
   "@koa/cors": "^2.2.2", // 跨域请求配置及处理
   "cross-env": "^5.2.0", // 跨系统的环境设置
   "fs-extra": "^7.0.1", // 更好用的文件模块
+  "jsonwebtoken": "^8.4.0", // JWT 认证插件
   "koa": "^2.6.1", // 核心包
-  "koa-bodyparser": "^4.2.1", // body解析
+  "koa-body": "^4.2.1", // body解析
   "koa-compress": "^3.0.0", // gzip压缩
   "koa-jwt": "^3.5.1", // JWT 验证
   "koa-logger": "^3.2.0", // 日志中间件
   "koa-qs": "^2.0.0", // querystring处理
   "koa-router": "^7.4.0", // 路由插件
   "mysql2": "^1.6.4", // mysql支持
+  "request": "^2.88.0", // http请求插件
+  "request-promise": "^4.2.2",
   "sequelize": "^4.41.1", // ORM插件
   "strip-ansi": "^5.0.0", // 输出纯净日志文本
   "winston": "^3.1.0", // 日志框架
