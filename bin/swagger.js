@@ -2,7 +2,9 @@ const path = require('path');
 const fs = require('fs-extra')
 const yaml = require('js-yaml');
 
-const { YAML_FILE, ROOT_PATH, DIST_PATH } = require('../config');
+const { PROJ_NAME, YAML_FILE, ROOT_PATH, DIST_PATH } = require('../config');
+
+const PROJ_FULL_NAME = PROJ_NAME ? 'swagger-' + PROJ_NAME : 'swagger';
 
 try {
   const doc = yaml.safeLoad(fs.readFileSync(YAML_FILE, 'utf8'));
@@ -248,8 +250,8 @@ try {
   // 创建文件夹
   // fs.ensureDirSync(path.join(DIST_PATH, 'swagger'));
   // 拷贝文件夹
-  fs.copySync(path.resolve(__dirname, `../swagger`), path.join(DIST_PATH, 'swagger'));
-  const outFile = path.join(DIST_PATH, 'swagger', process.env.swagger || 'swagger.yaml');
+  fs.copySync(path.resolve(__dirname, `../swagger`), path.join(DIST_PATH, PROJ_FULL_NAME));
+  const outFile = path.join(DIST_PATH, PROJ_FULL_NAME, PROJ_FULL_NAME + '.yaml');
   // const outData = yaml.dump({ ...doc, paths, });
   Object.assign(doc.paths, paths);
   const outData = yaml.dump(doc);

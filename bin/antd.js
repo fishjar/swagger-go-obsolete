@@ -4,10 +4,11 @@ const fs = require('fs-extra')
 const yaml = require('js-yaml');
 const prettier = require("prettier");
 
-const { YAML_FILE, ROOT_PATH, DIST_PATH } = require('../config');
+const { PROJ_NAME, YAML_FILE, ROOT_PATH, DIST_PATH } = require('../config');
 const { getDataType } = require('../lib');
 
 const PRJ_KEY = 'antd';
+const PROJ_FULL_NAME = PROJ_NAME ? `${PRJ_KEY}-${PROJ_NAME}` : PRJ_KEY;
 
 try {
   console.log('---开始执行脚本---\n');
@@ -15,7 +16,7 @@ try {
     throw new Error("swagger文件不存在!");
   }
   // 定义目录结构
-  const rootDir = path.join(DIST_PATH, PRJ_KEY);
+  const rootDir = path.join(DIST_PATH, PROJ_FULL_NAME);
 
   const configDir = path.join(rootDir, 'config');
   const localesDir = path.join(rootDir, 'src', 'locales');
