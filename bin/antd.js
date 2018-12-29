@@ -615,6 +615,8 @@ try {
             modalTitle = '查看详情',
             modalWith = 520,
             formData: {
+              updatedAt,
+              deletedAt,
               ${Object.entries(item.properties)
                 .map(([k, _]) => `${k},`)
                 .join('')}
@@ -641,12 +643,24 @@ try {
                         return `<FormItem {...this.formLayout} label='${v.description}'>{${k} ? '是' : '否'}</FormItem>`;
                       }
                       if(v.format.startsWith('int') && v.enum && v['x-enumMap']) {
-                        return `<FormItem {...this.formLayout} label='${v['x-description']}}'>{${k}Map[${k}]}</FormItem>`;
+                        return `<FormItem {...this.formLayout} label='${v['x-description']}'>{${k}Map[${k}]}</FormItem>`;
+                      }
+                      if(v.format.startsWith('date')) {
+                        return `<FormItem {...this.formLayout} label='${v.description}'>{${k} && moment(${k}).format("YYYY-MM-DD")}</FormItem>`;
+                      }
+                      if(v.format.startsWith('date-time')) {
+                        return `<FormItem {...this.formLayout} label='${v.description}'>{${k} && moment(${k}).format("YYYY-MM-DD HH:mm:ss")}</FormItem>`;
                       }
                       return `<FormItem {...this.formLayout} label='${v.description}'>{${k}}</FormItem>`;
                     })
                     .join("")
                 }
+                <FormItem {...this.formLayout} label="创建时间">
+                  {createdAt && moment(createdAt).format("YYYY-MM-DD HH:mm:ss")}
+                </FormItem>
+                <FormItem {...this.formLayout} label="更新时间">
+                  {updatedAt && moment(updatedAt).format("YYYY-MM-DD HH:mm:ss")}
+                </FormItem>
               </Modal>
             </span>
           );

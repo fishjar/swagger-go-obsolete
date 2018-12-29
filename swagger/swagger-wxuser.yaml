@@ -55,170 +55,94 @@ paths:
           $ref: "#/responses/Unauthorized"
         "404":
           $ref: "#/responses/NotFound"
-  /upload:
-    post:
-      summary: "上传文件"
-      description: "上传单个或多个文件.."
-      consumes:
-         - multipart/form-data
-      parameters:
-        - in: formData
-          name: upfile1
-          type: file
-          required: true
-          description: "文件1"
-        - in: formData
-          name: upfile2
-          type: file
-          required: false
-          description: "文件2"
-        - in: formData
-          name: resize
-          type: integer
-          required: false
-          description: "缩放的长边大小"
-        - in: formData
-          name: thumb
-          type: integer
-          required: false
-          description: "正方形剪裁的边长"
-        - in: formData
-          name: title
-          type: string
-          required: false
-          description: "标题"
-        - in: formData
-          name: description
-          type: string
-          required: false
-          description: "描述"
-      responses:
-        "200":
-          description: "上传成功"
-          schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Media'
-  /download:
-    get:
-      summary: "下载文件"
-      description: "下载文件.."
-      responses:
-        "200":
-          description: "下载成功"
-          schema:
-            type: string
-            format: binary
 definitions:
-  Media:
+  Wxuser:
     type: "object"
     x-isModel: true
-    x-plural: "Medias"
-    description: "文件"
+    x-plural: "Wxusers"
+    description: "微信用户"
     required:
       - "id"
-      - "mime"
-      - "filename"
-      - "path"
-      - "size"
+      - "appid"
+      - "openid"
     properties:
       id:
         type: "string"
         format: "uuid"
         description: "ID"
         uniqueItems: true
-      mime:
+      appid:
+        type: "string"
+        format: "string(32)"
+        description: "APPID"
+        x-message: "请输入"
+        x-showTable: true
+      unionid:
+        type: "string"
+        format: "string(32)"
+        description: "UNIONID"
+        x-message: "请输入"
+      openid:
+        type: "string"
+        format: "string(32)"
+        description: "OPENID"
+        x-message: "请输入"
+        x-showTable: true
+      sessionKey:
         type: "string"
         format: "string(64)"
-        description: "文件类型"
+        description: "SESSIONKEY"
         x-message: "请输入"
-        x-showTable: true
-        x-showFilter: true
-      filename:
-        type: "string"
-        format: "string(128)"
-        description: "文件名"
-        x-message: "请输入"
-        x-showTable: true
-      title:
-        type: "string"
-        format: "string(128)"
-        description: "文件标题"
-        x-message: "请输入"
-        x-showTable: true
-      hashname:
+      nickname:
         type: "string"
         format: "string(64)"
-        description: "哈西值"
+        description: "昵称"
         x-message: "请输入"
         x-showTable: true
-      ext:
+      avatar:
         type: "string"
-        format: "string(4)"
-        description: "扩展名"
+        format: "string(255)"
+        description: "头像"
         x-message: "请输入"
+      gender:
+        type: "integer"
+        format: "int4"
+        enum: [1,2,3]
+        default: 1
+        x-message: "请选择"
         x-showTable: true
         x-showFilter: true
-      path:
+        x-enumMap: {
+          0: "未知",
+          1: "男",
+          2: "女",
+        }
+        x-description: "性别"
+        description: >
+          "性别"
+            * 0 - 未知
+            * 1 - 男
+            * 2 - 女
+      city:
         type: "string"
-        format: "string(128)"
-        description: "保存路径"
+        format: "string(32)"
+        description: "城市"
         x-message: "请输入"
         x-showTable: true
-      url:
+      province:
         type: "string"
-        format: "string(255)"
-        description: "访问地址"
+        format: "string(32)"
+        description: "省份"
         x-message: "请输入"
-        x-showTable: true
-      description:
+      country:
         type: "string"
-        format: "string(255)"
-        description: "描述"
+        format: "string(32)"
+        description: "国家"
         x-message: "请输入"
-      size:
-        type: "integer"
-        format: "int32"
-        description: "文件大小"
-        x-message: "请输入"
-        x-showTable: true
-        x-showSorter: true
-      width:
-        type: "integer"
-        format: "int32"
-        description: "图片宽"
-        x-message: "请输入"
-        x-showTable: true
-        x-showSorter: true
-      height:
-        type: "integer"
-        format: "int32"
-        description: "图片高"
-        x-message: "请输入"
-        x-showTable: true
-        x-showSorter: true
     example:
       "id": "5c984620-04f6-11e9-85d0-950f3b428717"
-      "mime": "image/png"
-      "filename": "2016-09-14 11-30-09屏幕截图.png"
-      "title": "test_title"
-      "hashname": "7b745b688b3d677a0a41c2c85cc56156"
-      "ext": ".png"
-      "path": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156.png"
-      "url": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156.png"
-      "description": null
-      "size": 148584
-      "width": 600
-      "height": 779
-      "createdAt": "2018-12-21T07:59:37.347Z"
-      "updatedAt": "2018-12-21T07:59:37.347Z"
-      "deletedAt": null
-      "resize": 100
-      "resizePath": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156_100.png"
-      "resizeUrl": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156_100.png"
-      "thumb": 64
-      "thumbPath": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156_s64.png"
-      "thumbUrl": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156_s64.png"
+      "appid": "wx123456"
+      "openid": "wx123456"
   UserDemo:
     type: "object"
     description: "用户模型"

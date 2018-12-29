@@ -284,6 +284,8 @@ class ViewModal extends PureComponent {
         isGood,
         myExtra,
         status,
+        createdAt,
+        updatedAt,
       },
     } = this.props;
     const { visible } = this.state;
@@ -304,8 +306,12 @@ class ViewModal extends PureComponent {
           <FormItem {...this.formLayout} label='名称'>{name}</FormItem>
           <FormItem {...this.formLayout} label='年龄'>{age}</FormItem>
           <FormItem {...this.formLayout} label='体重'>{weight}</FormItem>
-          <FormItem {...this.formLayout} label='生日'>{birthDay}</FormItem>
-          <FormItem {...this.formLayout} label='时光'>{goodTime}</FormItem>
+          <FormItem {...this.formLayout} label='生日'>
+            {birthDay && moment(birthDay).format("YYYY-MM-DD")}
+          </FormItem>
+          <FormItem {...this.formLayout} label='时光'>
+            {goodTime && moment(goodTime).format("YYYY-MM-DD HH:mm:ss")}
+          </FormItem>
           <FormItem {...this.formLayout} label='邮箱'>{email}</FormItem>
           <FormItem {...this.formLayout} label='主页'>{homePage}</FormItem>
           <FormItem {...this.formLayout} label='备注'>{notice}</FormItem>
@@ -313,6 +319,12 @@ class ViewModal extends PureComponent {
           <FormItem {...this.formLayout} label='安好'>{isGood ? '是' : '否'}</FormItem>
           <FormItem {...this.formLayout} label='扩展'>{myExtra}</FormItem>
           <FormItem {...this.formLayout} label='状态'>{statusMap[status]}</FormItem>
+          <FormItem {...this.formLayout} label="创建时间">
+            {createdAt && moment(createdAt).format("YYYY-MM-DD HH:mm:ss")}
+          </FormItem>
+          <FormItem {...this.formLayout} label="更新时间">
+            {updatedAt && moment(updatedAt).format("YYYY-MM-DD HH:mm:ss")}
+          </FormItem>
         </Modal>
       </span>
     );

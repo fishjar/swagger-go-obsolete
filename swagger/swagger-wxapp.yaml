@@ -55,170 +55,82 @@ paths:
           $ref: "#/responses/Unauthorized"
         "404":
           $ref: "#/responses/NotFound"
-  /upload:
-    post:
-      summary: "上传文件"
-      description: "上传单个或多个文件.."
-      consumes:
-         - multipart/form-data
-      parameters:
-        - in: formData
-          name: upfile1
-          type: file
-          required: true
-          description: "文件1"
-        - in: formData
-          name: upfile2
-          type: file
-          required: false
-          description: "文件2"
-        - in: formData
-          name: resize
-          type: integer
-          required: false
-          description: "缩放的长边大小"
-        - in: formData
-          name: thumb
-          type: integer
-          required: false
-          description: "正方形剪裁的边长"
-        - in: formData
-          name: title
-          type: string
-          required: false
-          description: "标题"
-        - in: formData
-          name: description
-          type: string
-          required: false
-          description: "描述"
-      responses:
-        "200":
-          description: "上传成功"
-          schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Media'
-  /download:
-    get:
-      summary: "下载文件"
-      description: "下载文件.."
-      responses:
-        "200":
-          description: "下载成功"
-          schema:
-            type: string
-            format: binary
 definitions:
-  Media:
+  Wxapp:
     type: "object"
     x-isModel: true
-    x-plural: "Medias"
-    description: "文件"
+    x-plural: "Wxapps"
+    description: "微信号"
     required:
       - "id"
-      - "mime"
-      - "filename"
-      - "path"
-      - "size"
+      - "appType"
+      - "name"
+      - "appid"
+      - "secret"
     properties:
       id:
         type: "string"
         format: "uuid"
         description: "ID"
         uniqueItems: true
-      mime:
-        type: "string"
-        format: "string(64)"
-        description: "文件类型"
-        x-message: "请输入"
+      appType:
+        type: "integer"
+        format: "int4"
+        enum: [1,2,3]
+        default: 1
+        x-message: "请选择"
         x-showTable: true
         x-showFilter: true
-      filename:
+        x-enumMap: {
+          1: "公众号",
+          2: "企业号",
+          3: "小程序",
+        }
+        x-description: "APP类型"
+        description: >
+          "APP类型"
+            * 1 - 公众号
+            * 2 - 企业号
+            * 3 - 小程序
+      mchid:
         type: "string"
-        format: "string(128)"
-        description: "文件名"
+        format: "string(32)"
+        description: "商户号"
         x-message: "请输入"
         x-showTable: true
-      title:
+      name:
         type: "string"
-        format: "string(128)"
-        description: "文件标题"
+        format: "string(32)"
+        description: "APP名"
         x-message: "请输入"
         x-showTable: true
-      hashname:
+      appid:
+        type: "string"
+        format: "string(32)"
+        description: "APPID"
+        x-message: "请输入"
+        x-showTable: true
+      secret:
         type: "string"
         format: "string(64)"
-        description: "哈西值"
+        description: "APP秘钥"
         x-message: "请输入"
-        x-showTable: true
-      ext:
+      accessToken:
         type: "string"
-        format: "string(4)"
-        description: "扩展名"
+        format: "string(512)"
+        description: "APP令牌"
         x-message: "请输入"
-        x-showTable: true
-        x-showFilter: true
-      path:
+      expiresIn:
         type: "string"
-        format: "string(128)"
-        description: "保存路径"
-        x-message: "请输入"
-        x-showTable: true
-      url:
-        type: "string"
-        format: "string(255)"
-        description: "访问地址"
-        x-message: "请输入"
-        x-showTable: true
-      description:
-        type: "string"
-        format: "string(255)"
-        description: "描述"
-        x-message: "请输入"
-      size:
-        type: "integer"
-        format: "int32"
-        description: "文件大小"
-        x-message: "请输入"
-        x-showTable: true
-        x-showSorter: true
-      width:
-        type: "integer"
-        format: "int32"
-        description: "图片宽"
-        x-message: "请输入"
-        x-showTable: true
-        x-showSorter: true
-      height:
-        type: "integer"
-        format: "int32"
-        description: "图片高"
-        x-message: "请输入"
-        x-showTable: true
-        x-showSorter: true
+        format: "date-time"
+        description: "令牌过期时间"
+        x-message: "请选择"
     example:
       "id": "5c984620-04f6-11e9-85d0-950f3b428717"
-      "mime": "image/png"
-      "filename": "2016-09-14 11-30-09屏幕截图.png"
-      "title": "test_title"
-      "hashname": "7b745b688b3d677a0a41c2c85cc56156"
-      "ext": ".png"
-      "path": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156.png"
-      "url": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156.png"
-      "description": null
-      "size": 148584
-      "width": 600
-      "height": 779
-      "createdAt": "2018-12-21T07:59:37.347Z"
-      "updatedAt": "2018-12-21T07:59:37.347Z"
-      "deletedAt": null
-      "resize": 100
-      "resizePath": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156_100.png"
-      "resizeUrl": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156_100.png"
-      "thumb": 64
-      "thumbPath": "png/7b/74/7b745b688b3d677a0a41c2c85cc56156_s64.png"
-      "thumbUrl": "http://dev.media.test.com/png/7b/74/7b745b688b3d677a0a41c2c85cc56156_s64.png"
+      "app_type": 3
+      "name": "test_app"
+      "appid": "wx123456"
+      "secret": "******"
   UserDemo:
     type: "object"
     description: "用户模型"
