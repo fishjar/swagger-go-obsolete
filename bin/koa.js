@@ -47,7 +47,7 @@ try {
     .filter(item => doc.definitions[item]['x-isModel']); //过滤，必须包含`x-isModel`属性
   moduleNames.forEach(name => {
     const item = doc.definitions[name];
-    // const _name = name.toLowerCase();
+    const _name = name.toLowerCase();
     const pluralName = item['x-plural'].toLowerCase();
 
     const modelOutFile = path.join(modelsDir, `${name}.js`);
@@ -158,6 +158,31 @@ try {
       export default router;    
     `;
     fs.writeFileSync(routeOutFile, prettier.format(routeFileData, {
+      semi: false,
+      parser: "babylon"
+    }), 'utf8');
+
+    const routeSingleFile = path.join(routesDir, `${_name}.js`);
+    console.log(`创建：<DIST_PATH>${routeSingleFile.split(DIST_PATH)[1]}`);
+    const routeSingleData = `
+      import Router from 'koa-router';
+      import models from '../models';
+      
+      const router = new Router();
+      
+      router.get("/", async (ctx, next) => {
+        ctx.body = await models.${name}.findOne({ where: ctx.query })
+        await next()
+      })
+      
+      router.post("/", async (ctx, next) => {
+        ctx.body = await models.${name}.findOrCreate({ where: ctx.request.body })
+        await next()
+      })
+      
+      export default router;
+    `;
+    fs.writeFileSync(routeSingleFile, prettier.format(routeSingleData, {
       semi: false,
       parser: "babylon"
     }), 'utf8');

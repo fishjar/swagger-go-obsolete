@@ -56,6 +56,7 @@ try {
   Object.entries(doc.definitions)
     .filter(([_, model]) => model['x-isModel'])
     .forEach(([modelKey, model], index) => {
+      const _name = modelKey.toLowerCase();
       const _plural = model['x-plural'].toLowerCase();
       const modelName = model['description'];
       console.log(`模型${index + 1}: ${modelName}`);
@@ -243,6 +244,39 @@ try {
             }
           }
         }
+      };
+      paths[`/${_name}`] = {
+        post: {
+          summary: `查找或创建单个${modelName}`,
+          description: `查找或创建单个${modelName}...`,
+          parameters: [{
+            in: "body",
+            name: "body",
+            description: "模型参数",
+            required: true,
+            schema: {
+              "$ref": `#/definitions/${modelKey}`,
+            }
+          }],
+          responses: {
+            "200": {
+              description: "创建成功",
+            }
+          }
+        },
+        get: {
+          summary: `查询单个${modelName}`,
+          description: `查询单个${modelName}...`,
+          parameters: [],
+          responses: {
+            "200": {
+              description: "查询成功",
+              schema: {
+                "$ref": `#/definitions/${modelKey}`
+              }
+            }
+          }
+        },
       };
 
     });

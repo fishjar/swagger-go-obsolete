@@ -55,6 +55,21 @@ paths:
           $ref: "#/responses/Unauthorized"
         "404":
           $ref: "#/responses/NotFound"
+  /token:
+    get:
+      summary: 获取令牌
+      description: 获取令牌..
+      parameters:
+        - in: query
+          name: appid
+          type: string
+          required: true
+          description: 应用ID
+      responses:
+        '200':
+          description: 查询成功
+          schema:
+            $ref: '#/definitions/Token'
 definitions:
   Wxapp:
     type: "object"
@@ -215,6 +230,24 @@ definitions:
         type: "integer"
       errorMessage:
         type: "string"
+  Token:
+    type: object
+    properties:
+      appid:
+        type: string
+        description: 应用ID
+      accessToken:
+        type: string
+        description: 令牌
+      expiresIn:
+        type: string
+        description: 过期时间
+    required:
+      - message
+    example:
+      appid: 'wx********'
+      accessToken: '************'
+      expiresIn: '2018-12-26T08:19:41.252Z'
 responses:
   NotFound:
     description: The specified resource was not found

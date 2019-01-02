@@ -93,6 +93,11 @@ definitions:
         format: "string(64)"
         description: "SESSIONKEY"
         x-message: "请输入"
+      expiresIn:
+        type: "string"
+        format: "date-time"
+        description: "令牌过期时间"
+        x-message: "请选择"
       nickname:
         type: "string"
         format: "string(64)"
