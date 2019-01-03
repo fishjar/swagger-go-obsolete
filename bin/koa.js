@@ -85,7 +85,7 @@ try {
       };
     `;
     fs.writeFileSync(modelOutFile, prettier.format(modelFileData, {
-      semi: false,
+      semi: true,
       parser: "babylon"
     }), 'utf8');
 
@@ -158,7 +158,7 @@ try {
       export default router;    
     `;
     fs.writeFileSync(routeOutFile, prettier.format(routeFileData, {
-      semi: false,
+      semi: true,
       parser: "babylon"
     }), 'utf8');
 
@@ -188,7 +188,7 @@ try {
       export default router;
     `;
     fs.writeFileSync(routeSingleFile, prettier.format(routeSingleData, {
-      semi: false,
+      semi: true,
       parser: "babylon"
     }), 'utf8');
 
