@@ -252,7 +252,8 @@ try {
           parameters: [{
             in: "query",
             name: "id",
-            description: "不限与id，可以是任意参数",
+            type: "string",
+            description: "不限于id，可以是任意参数",
             required: true,
           }],
           responses: {
