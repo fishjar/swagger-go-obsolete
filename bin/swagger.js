@@ -246,6 +246,24 @@ try {
         }
       };
       paths[`/${_name}`] = {
+        get: {
+          summary: `查询单个${modelName}`,
+          description: `查询单个${modelName}...`,
+          parameters: [{
+            in: "query",
+            name: "id",
+            description: "不限与id，可以是任意参数",
+            required: true,
+          }],
+          responses: {
+            "200": {
+              description: "查询成功",
+              schema: {
+                "$ref": `#/definitions/${modelKey}`
+              }
+            }
+          }
+        },
         post: {
           summary: `查找或创建单个${modelName}`,
           description: `查找或创建单个${modelName}...`,
@@ -261,22 +279,12 @@ try {
           responses: {
             "200": {
               description: "创建成功",
-            }
-          }
-        },
-        get: {
-          summary: `查询单个${modelName}`,
-          description: `查询单个${modelName}...`,
-          parameters: [],
-          responses: {
-            "200": {
-              description: "查询成功",
               schema: {
-                "$ref": `#/definitions/${modelKey}`
+                "$ref": `#/definitions/${modelKey}`,
               }
             }
           }
-        },
+        }
       };
 
     });

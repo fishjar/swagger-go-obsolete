@@ -20,3 +20,7 @@ export async function fetchFeeds(qs) {
     qs,
   });
 }
+
+export default {
+  fetchFeeds,
+}

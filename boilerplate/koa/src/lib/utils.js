@@ -1,4 +1,4 @@
-const foo = function() {
+export const foo = function() {
   return 'bar'
 };
 

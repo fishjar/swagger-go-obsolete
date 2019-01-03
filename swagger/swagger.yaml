@@ -193,6 +193,36 @@ paths:
       responses:
         "200":
           description: "创建成功"
+  /foo:
+    get:
+      summary: "查询单个"
+      description: "查询单个.."
+      parameters:
+      - in: "query"
+        name: "id"
+        type: "string"
+        required: true
+        description: "可以是任意参数"
+      responses:
+        "200":
+          description: "查询成功"
+          schema:
+            $ref: "#/definitions/Foo"
+    post:
+      summary: "查找或创建单个"
+      description: "查找或创建单个..."
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "模型参数"
+        required: true
+        schema:
+          $ref: "#/definitions/Foo"
+      responses:
+        "200":
+          description: "创建成功"
+          schema:
+            $ref: "#/definitions/Foo"
 definitions:
   Foo:
     type: "object"
