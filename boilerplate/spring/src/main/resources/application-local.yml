@@ -1,0 +1,60 @@
+logging:
+  config: classpath:logback-spring.xml
+
+server:
+  port: 8300
+  compression:
+    mime-types: application/json
+  tomcat:
+    uri-encoding: utf-8
+    max-connections: 1000 #最大连接数
+    max-threads: 500 #最大并发数，默认设置 200，一般建议在 500 ~ 800，根据硬件设施和业务来判断
+    min-spare-threads: 30 #Tomcat初始化时创建的线程数，默认设置 25
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xy_web?characterEncoding=UTF8&useSSL=false
+    username: root
+    password: qwe123!@#
+    druid:
+      initial-size: 10 #初始化连接池数量
+      min-idle: 5 #最小连接池数量
+      max-active: 50 #最大连接池数量
+      max-wait: 60000 #获取连接时最大等待时间，单位毫秒
+      time-between-eviction-runs-millis: 60000 #间隔多久进行一次检测，检测需要关闭的空闲连接，单位毫秒
+      min-evictable-idle-time-millis: 300000 #连接保持空闲而不被驱逐的最小时间
+      validation-query: SELECT 'x' #用来检测连接是否有效的sql，要求是一个查询语句
+      test-while-idle: true #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      test-on-borrow: false #申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+      test-on-return: false #归还连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+      async-init: true #如果initialSize数量较多时，打开会加快应用启动时间
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+#        login-username: admin
+#        login-password: admin
+        resetEnable: false
+      filter:
+        wall:
+          enabled: true
+          db-type: mysql
+          log-violation: true #对被认为是攻击的SQL进行LOG.error输出
+          throw-exception: true #对被认为是攻击的SQL抛出SQLExcepton
+        stat:
+          enabled: true
+          db-type: mysql
+          slow-sql-millis: 3000 #执行时间超过3秒的sql为慢sql
+          log-slow-sql: true #记录执行慢的sql
+          merge-sql: true #合并没有参数化的sql
+        slf4j:
+          enabled: true
+          statement-executable-sql-log-enable: true #输出可执行的SQL
+          connection-log-error-enabled: true #所有连接上发生异常的日志
+          statement-log-error-enabled: true #所有Statement发生异常的日志
+      aop-patterns: cn.xy.demo.*.service.*

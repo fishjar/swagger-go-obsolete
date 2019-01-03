@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xy.demo.foo.mapper.FooMapper">
+    <resultMap id="BaseResultMap" type="cn.xy.demo.foo.entity.Foo">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="birth_date" property="birthDate" jdbcType="DATE"/>
+        <result column="good_time" property="goodTime"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="home_page" property="homePage" jdbcType="VARCHAR"/>
+        <result column="notice" property="notice" jdbcType="VARCHAR"/>
+        <result column="is_good" property="isGood" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="my_extra_json" property="myExtraJson"/>
+        <result column="my_extra_array_json" property="myExtraArrayJson"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, age, weight, birth_date, good_time, email, home_page, notice, is_good, status, my_extra_json, my_extra_array_json
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from foo
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findListByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from foo
+        where id in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findListByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from foo
+        <where>
+            <if test="paramsMap.id !=null"> and id = #{paramsMap.id}</if>
+            <if test="paramsMap.name !=null"> and name = #{paramsMap.name}</if>
+            <if test="paramsMap.age !=null"> and age = #{paramsMap.age}</if>
+            <if test="paramsMap.weight !=null"> and weight = #{paramsMap.weight}</if>
+            <if test="paramsMap.birthDate !=null"> and birth_date = #{paramsMap.birthDate}</if>
+            <if test="paramsMap.goodTime !=null"> and good_time = #{paramsMap.goodTime}</if>
+            <if test="paramsMap.email !=null"> and email = #{paramsMap.email}</if>
+            <if test="paramsMap.homePage !=null"> and home_page = #{paramsMap.homePage}</if>
+            <if test="paramsMap.notice !=null"> and notice = #{paramsMap.notice}</if>
+            <if test="paramsMap.isGood !=null"> and is_good = #{paramsMap.isGood}</if>
+            <if test="paramsMap.status !=null"> and status = #{paramsMap.status}</if>
+            <if test="paramsMap.myExtraJson !=null"> and my_extra_json = #{paramsMap.myExtraJson}</if>
+            <if test="paramsMap.myExtraArrayJson !=null"> and my_extra_array_json = #{paramsMap.myExtraArrayJson}</if>
+        </where>
+        <if test="sortOrder == null"></if>
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from foo
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) from foo
+    </select>
+
+    <insert id="insert" parameterType="cn.xy.demo.foo.entity.Foo" useGeneratedKeys="true" keyColumn="id">
+        insert into foo
+        <set>
+            <if test="id != null and id != ''">id = #{id,jdbcType=VARCHAR},</if>
+            <if test="name != null and name != ''">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="age != null">age = #{age,jdbcType=INTEGER},</if>
+            <if test="weight != null">weight = #{weight,jdbcType=DECIMAL},</if>
+            <if test="birthDate != null">birth_date = #{birthDate,jdbcType=DATE},</if>
+            <if test="goodTime != null">good_time = #{goodTime},</if>
+            <if test="email != null and email != ''">email = #{email,jdbcType=VARCHAR},</if>
+            <if test="homePage != null and homePage != ''">home_page = #{homePage,jdbcType=VARCHAR},</if>
+            <if test="notice != null and notice != ''">notice = #{notice,jdbcType=VARCHAR},</if>
+            <if test="isGood != null">is_good = #{isGood,jdbcType=INTEGER},</if>
+            <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+            <if test="myExtraJson != null and myExtraJson != ''">my_extra_json = #{myExtraJson},</if>
+            <if test="myExtraArrayJson != null and myExtraArrayJson != ''">my_extra_array_json = #{myExtraArrayJson},</if>
+        </set>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from foo
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from foo
+        where id in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">#{id}</foreach>
+    </delete>
+
+    <update id="update" parameterType="cn.xy.demo.foo.entity.Foo">
+        update foo
+        <set>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="age != null">age = #{age,jdbcType=INTEGER},</if>
+            <if test="weight != null">weight = #{weight,jdbcType=DECIMAL},</if>
+            <if test="birthDate != null">birth_date = #{birthDate,jdbcType=DATE},</if>
+            <if test="goodTime != null">good_time = #{goodTime},</if>
+            <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
+            <if test="homePage != null">home_page = #{homePage,jdbcType=VARCHAR},</if>
+            <if test="notice != null">notice = #{notice,jdbcType=VARCHAR},</if>
+            <if test="isGood != null">is_good = #{isGood,jdbcType=INTEGER},</if>
+            <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+            <if test="myExtraJson != null">my_extra_json = #{myExtraJson},</if>
+            <if test="myExtraArrayJson != null">my_extra_array_json = #{myExtraArrayJson},</if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByIds" parameterType="java.util.Map">
+        update foo
+        <set>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="age != null">age = #{age,jdbcType=INTEGER},</if>
+            <if test="weight != null">weight = #{weight,jdbcType=DECIMAL},</if>
+            <if test="birthDate != null">birth_date = #{birthDate,jdbcType=DATE},</if>
+            <if test="goodTime != null">good_time = #{goodTime},</if>
+            <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
+            <if test="homePage != null">home_page = #{homePage,jdbcType=VARCHAR},</if>
+            <if test="notice != null">notice = #{notice,jdbcType=VARCHAR},</if>
+            <if test="isGood != null">is_good = #{isGood,jdbcType=INTEGER},</if>
+            <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+            <if test="myExtraJson != null">my_extra_json = #{myExtraJson},</if>
+            <if test="myExtraArrayJson != null">my_extra_array_json = #{myExtraArrayJson},</if>
+        </set>
+        where id in
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">#{id}</foreach>
+    </update>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into foo (`id`, `name`, `age`, `weight`, `birth_date`, `good_time`, `email`, `home_page`, `notice`, `is_good`, `status`, `my_extra_json`, `my_extra_array_json`)
+        values
+        <foreach collection="list" item="entity" separator=",">
+            (#{entity.id,jdbcType=VARCHAR}, #{entity.name,jdbcType=VARCHAR}, #{entity.age,jdbcType=INTEGER}, #{entity.weight,jdbcType=DECIMAL}, #{entity.birthDate ,jdbcType=DATE}, #{entity.goodTime}, #{entity.email,jdbcType=VARCHAR}, #{entity.homePage,jdbcType=VARCHAR}, #{entity.notice,jdbcType=VARCHAR}, #{entity.isGood,jdbcType=INTEGER}, #{entity.status,jdbcType=INTEGER}, #{entity.myExtraJson,jdbcType=VARCHAR}, #{entity.myExtraArrayJson,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+</mapper>
