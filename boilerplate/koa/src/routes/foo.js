@@ -9,7 +9,7 @@ router.get("/", async (ctx, next) => {
 })
 
 router.post("/", async (ctx, next) => {
-  const [data, isNewRecord] = await models.Foo.findOrCreate({ where: ctx.request.body, raw: true })
+  const [data, isNewRecord] = await models.Foo.findOrCreate({ where: ctx.request.body })
   ctx.body = {
     // ...data.toJSON(),
     ...data.get({ plain: true }),

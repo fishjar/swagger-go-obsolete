@@ -86,6 +86,7 @@ try {
     `;
     fs.writeFileSync(modelOutFile, prettier.format(modelFileData, {
       semi: true,
+      trailingComma: "es5",
       parser: "babylon"
     }), 'utf8');
 
@@ -125,12 +126,12 @@ try {
       });
 
       router.post('/multiple', async (ctx, next) => {
-        ctx.body = await models.Foo.bulkCreate(ctx.request.body);
+        ctx.body = await models.${name}.bulkCreate(ctx.request.body);
         await next();
       });
 
       router.patch('/', async (ctx, next) => {
-        ctx.body = await models.User.update(ctx.request.body.fields, {
+        ctx.body = await models.${name}.update(ctx.request.body.fields, {
           where: ctx.request.body.filter
         });
         await next();
@@ -159,6 +160,7 @@ try {
     `;
     fs.writeFileSync(routeOutFile, prettier.format(routeFileData, {
       semi: true,
+      trailingComma: "es5",
       parser: "babylon"
     }), 'utf8');
 
@@ -176,7 +178,7 @@ try {
       })
 
       router.post("/", async (ctx, next) => {
-        const [data, isNewRecord] = await models.${name}.findOrCreate({ where: ctx.request.body, raw: true })
+        const [data, isNewRecord] = await models.${name}.findOrCreate({ where: ctx.request.body })
         ctx.body = {
           // ...data.toJSON(),
           ...data.get({ plain: true }),
@@ -189,6 +191,7 @@ try {
     `;
     fs.writeFileSync(routeSingleFile, prettier.format(routeSingleData, {
       semi: true,
+      trailingComma: "es5",
       parser: "babylon"
     }), 'utf8');
 

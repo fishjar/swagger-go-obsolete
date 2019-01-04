@@ -1,0 +1,586 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Hello World App"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  JWT:
+    description: "Authorization: Bearer {token}"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - JWT: []
+paths:
+  /account/login:
+    post:
+      summary: "登录"
+      description: "登录..."
+      security: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "登录参数"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginBody"
+      responses:
+        "200":
+          description: "登录成功"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+  /account/user:
+    get:
+      summary: "查询当前用户"
+      description: "查询当前用户.."
+      responses:
+        "200":
+          description: "查询成功"
+          headers:
+            authtoken:
+              type: string
+              description: 新token续期
+          schema:
+            $ref: "#/definitions/UserDemo"
+        "401":
+          $ref: "#/responses/Unauthorized"
+        "404":
+          $ref: "#/responses/NotFound"
+definitions:
+  Wxmch:
+    type: "object"
+    x-isModel: true
+    x-plural: "Wxmchs"
+    description: "微信商户号"
+    required:
+      - "id"
+      - "name"
+      - "mchid"
+      - "secret"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      name:
+        type: "string"
+        format: "string(32)"
+        description: "APP名"
+        x-message: "请输入"
+        x-showTable: true
+      mchid:
+        type: "string"
+        format: "string(32)"
+        description: "商户号"
+        x-message: "请输入"
+        x-showTable: true
+      secret:
+        type: "string"
+        format: "string(64)"
+        description: "APP秘钥"
+        x-message: "请输入"
+    example:
+      "id": "5c984620-04f6-11e9-85d0-950f3b428717"
+      "name": "test_app"
+      "mchid": "wx123456"
+      "secret": "******"
+  Wxpay:
+    type: "object"
+    x-isModel: true
+    x-plural: "Wxpays"
+    description: "微信支付"
+    required:
+      - "id"
+      - "appid"
+      - "mch_id"
+      - "body"
+      - "out_trade_no"
+      - "total_fee"
+      - "spbill_create_ip"
+      - "trade_type"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      appid:
+        type: "string"
+        format: "string(32)"
+        description: "小程序ID"
+        x-message: "请输入"
+        x-showTable: true
+      mch_id:
+        type: "string"
+        format: "string(32)"
+        description: "商户号"
+        x-message: "请输入"
+        x-showTable: true
+      device_info:
+        type: "string"
+        format: "string(32)"
+        description: "设备号"
+        x-message: "请输入"
+      body:
+        type: "string"
+        format: "string(128)"
+        description: "商品描述"
+        x-message: "请输入"
+        x-showTable: true
+      detail:
+        type: "string"
+        format: "text"
+        description: "商品详情"
+        x-message: "请输入"
+      attach:
+        type: "string"
+        format: "string(127)"
+        description: "附加数据"
+        x-message: "请输入"
+      out_trade_no:
+        type: "string"
+        format: "string(32)"
+        description: "商户订单号"
+        x-message: "请输入"
+        x-showTable: true
+      fee_type:
+        type: "string"
+        format: "string(16)"
+        description: "标价币种"
+        x-message: "请输入"
+      total_fee:
+        type: "integer"
+        format: "int32"
+        description: "标价金额"
+        x-message: "请输入"
+        x-showTable: true
+      spbill_create_ip:
+        type: "string"
+        format: "string(16)"
+        description: "终端IP"
+        x-message: "请输入"
+      time_start:
+        type: "string"
+        format: "string(14)"
+        description: "交易起始时间"
+        x-message: "请输入"
+      time_expire:
+        type: "string"
+        format: "string(14)"
+        description: "交易结束时间"
+        x-message: "请输入"
+      goods_tag:
+        type: "string"
+        format: "string(32)"
+        description: "交易结束时间"
+        x-message: "请输入"
+      trade_type:
+        type: "string"
+        format: "string(16)"
+        description: "交易类型"
+        x-message: "请输入"
+        x-showTable: true
+      product_id:
+        type: "string"
+        format: "string(32)"
+        description: "商品ID"
+        x-message: "请输入"
+      limit_pay:
+        type: "string"
+        format: "string(32)"
+        description: "指定支付方式"
+        x-message: "请输入"
+      openid:
+        type: "string"
+        format: "string(128)"
+        description: "用户标识"
+        x-message: "请输入"
+      receipt:
+        type: "string"
+        format: "string(8)"
+        description: "电子发票入口开放标识"
+        x-message: "请输入"
+      scene_info:
+        type: "string"
+        format: "string(256)"
+        description: "场景信息"
+        x-message: "请输入"
+      return_code:
+        type: "string"
+        format: "string(16)"
+        description: "返回状态码"
+        x-message: "请输入"
+        x-showTable: true
+      return_msg:
+        type: "string"
+        format: "string(128)"
+        description: "返回信息"
+        x-message: "请输入"
+      result_code:
+        type: "string"
+        format: "string(16)"
+        description: "业务结果"
+        x-message: "请输入"
+        x-showTable: true
+      err_code:
+        type: "string"
+        format: "string(32)"
+        description: "错误代码"
+        x-message: "请输入"
+      err_code_des:
+        type: "string"
+        format: "string(128)"
+        description: "错误代码描述"
+        x-message: "请输入"
+      prepay_id:
+        type: "string"
+        format: "string(64)"
+        description: "预支付交易会话标识"
+        x-message: "请输入"
+      code_url:
+        type: "string"
+        format: "string(64)"
+        description: "二维码链接"
+        x-message: "请输入"
+      is_subscribe:
+        type: "string"
+        format: "string(1)"
+        description: "是否关注公众账号"
+        x-message: "请输入"
+      trade_state:
+        type: "string"
+        format: "string(32)"
+        description: "交易状态"
+        x-message: "请输入"
+      bank_type:
+        type: "string"
+        format: "string(16)"
+        description: "付款银行"
+        x-message: "请输入"
+      settlement_total_fee:
+        type: "integer"
+        format: "int32"
+        description: "应结订单金额"
+        x-message: "请输入"
+      cash_fee:
+        type: "integer"
+        format: "int32"
+        description: "现金支付金额"
+        x-message: "请输入"
+      cash_fee_type:
+        type: "string"
+        format: "string(16)"
+        description: "现金支付币种"
+        x-message: "请输入"
+      coupon_fee:
+        type: "integer"
+        format: "int32"
+        description: "代金券金额"
+        x-message: "请输入"
+      coupon_count:
+        type: "integer"
+        format: "int32"
+        description: "代金券使用数量"
+        x-message: "请输入"
+      transaction_id:
+        type: "string"
+        format: "string(32)"
+        description: "微信支付订单号"
+        x-message: "请输入"
+      time_end:
+        type: "string"
+        format: "string(14)"
+        description: "支付完成时间"
+        x-message: "请输入"
+      trade_state_desc:
+        type: "string"
+        format: "string(256)"
+        description: "交易状态描述"
+        x-message: "请输入"
+    example:
+      "id": "5c984620-04f6-11e9-85d0-950f3b428717"
+      "appid": "wx********"
+      "mch_id": "wx******"
+      "body": "某某商品"
+      "out_trade_no": "2012121212"
+      "total_fee": 1
+      "spbill_create_ip": "10.10.10.10"
+      "trade_type": "JSAPI"
+  Wxrefund:
+    type: "object"
+    x-isModel: true
+    x-plural: "Wxrefunds"
+    description: "微信退款"
+    required:
+      - "id"
+      - "appid"
+      - "mch_id"
+      - "out_refund_no"
+      - "total_fee"
+      - "refund_fee"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      appid:
+        type: "string"
+        format: "string(32)"
+        description: "小程序ID"
+        x-message: "请输入"
+        x-showTable: true
+      mch_id:
+        type: "string"
+        format: "string(32)"
+        description: "商户号"
+        x-message: "请输入"
+        x-showTable: true
+      transaction_id:
+        type: "string"
+        format: "string(32)"
+        description: "微信订单号"
+        x-message: "请输入"
+      out_trade_no:
+        type: "string"
+        format: "string(32)"
+        description: "商户订单号"
+        x-message: "请输入"
+      out_refund_no:
+        type: "string"
+        format: "string(32)"
+        description: "商户退款单号"
+        x-message: "请输入"
+        x-showTable: true
+      total_fee:
+        type: "integer"
+        format: "int32"
+        description: "订单金额"
+        x-message: "请输入"
+        x-showTable: true
+      refund_fee:
+        type: "integer"
+        format: "int32"
+        description: "退款金额"
+        x-message: "请输入"
+        x-showTable: true
+      refund_fee_type:
+        type: "string"
+        format: "string(8)"
+        description: "货币种类"
+        x-message: "请输入"
+        x-showTable: true
+      refund_desc:
+        type: "string"
+        format: "string(80)"
+        description: "退款原因"
+        x-message: "请输入"
+      refund_account:
+        type: "string"
+        format: "string(30)"
+        description: "退款资金来源"
+        x-message: "请输入"
+      return_code:
+        type: "string"
+        format: "string(16)"
+        description: "返回状态码"
+        x-message: "请输入"
+        x-showTable: true
+      return_msg:
+        type: "string"
+        format: "string(128)"
+        description: "返回信息"
+        x-message: "请输入"
+      result_code:
+        type: "string"
+        format: "string(16)"
+        description: "业务结果"
+        x-message: "请输入"
+        x-showTable: true
+      err_code:
+        type: "string"
+        format: "string(32)"
+        description: "错误代码"
+        x-message: "请输入"
+      err_code_des:
+        type: "string"
+        format: "string(128)"
+        description: "错误代码描述"
+        x-message: "请输入"
+      refund_id:
+        type: "string"
+        format: "string(32)"
+        description: "微信退款单号"
+        x-message: "请输入"
+      settlement_total_fee:
+        type: "integer"
+        format: "int32"
+        description: "应结订单金额"
+        x-message: "请输入"
+      fee_type:
+        type: "string"
+        format: "string(8)"
+        description: "标价币种"
+        x-message: "请输入"
+      cash_fee:
+        type: "integer"
+        format: "int32"
+        description: "现金支付金额"
+        x-message: "请输入"
+      cash_fee_type:
+        type: "string"
+        format: "string(16)"
+        description: "现金支付币种"
+        x-message: "请输入"
+      cash_refund_fee:
+        type: "integer"
+        format: "int32"
+        description: "现金退款金额"
+        x-message: "请输入"
+      coupon_refund_fee:
+        type: "integer"
+        format: "int32"
+        description: "代金券退款总金额"
+        x-message: "请输入"
+      coupon_refund_count:
+        type: "integer"
+        format: "int32"
+        description: "退款代金券使用数量"
+        x-message: "请输入"
+      total_refund_count:
+        type: "integer"
+        format: "int32"
+        description: "订单总退款次数"
+        x-message: "请输入"
+      refund_status:
+        type: "string"
+        format: "string(16)"
+        description: "退款状态"
+        x-message: "请输入"
+      success_time:
+        type: "string"
+        format: "string(20)"
+        description: "退款成功时间"
+        x-message: "请输入"
+      refund_recv_accout:
+        type: "string"
+        format: "string(64)"
+        description: "退款入账账户"
+        x-message: "请输入"
+      refund_request_source:
+        type: "string"
+        format: "string(30)"
+        description: "退款发起来源"
+        x-message: "请输入"
+    example:
+      "id": "5c984620-04f6-11e9-85d0-950f3b428717"
+      "appid": "wx******88"
+      "mch_id": "wx*********"
+      "out_refund_no": "2012121212"
+      "total_fee": 1
+      "refund_fee": 1
+  UserDemo:
+    type: "object"
+    description: "用户模型"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "用户名"
+      avatar:
+        type: "string"
+        description: "头像"
+      email:
+        type: "string"
+        description: "邮箱"
+    example:
+      name: 'Admin'
+      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      id: '00000001'
+      email: 'test@test.com'
+  LoginBody:
+    type: "object"
+    description: "登录参数模型"
+    required:
+      - "userName"
+      - "password"
+      - "type"
+    properties:
+      userName:
+        type: "string"
+        description: "用户名"
+      password:
+        type: "string"
+        description: "密码"
+      type:
+        type: "string"
+        description: "账户类型"
+    example:
+      userName: 'admin'
+      password: '123456'
+      type: 'username'
+  LoginResponse:
+    type: "object"
+    description: "登录返回数据模型"
+    required:
+      - "status"
+      - "type"
+      - "currentAuthority"
+      - "authtoken"
+    properties:
+      status:
+        type: "string"
+        description: "登录状态"
+      type:
+        type: "string"
+        description: "账号类型"
+      currentAuthority:
+        type: "string"
+        description: "当前角色"
+      authtoken:
+        type: "string"
+        description: "秘钥"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      errors:
+        type: "array"
+        items:
+          $ref: '#/definitions/ErrorItem'
+    required:
+      - "message"
+  ErrorItem:
+    type: "object"
+    properties:
+      errorCode:
+        type: "integer"
+      errorMessage:
+        type: "string"
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+      
+      

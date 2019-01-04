@@ -140,6 +140,7 @@ try {
     console.log(`创建：<DIST_PATH>${servicesOutFile.split(DIST_PATH)[1]}`);
     fs.writeFileSync(servicesOutFile, prettier.format(servicesFileData, {
       semi: true,
+      trailingComma: "es5",
       parser: "babylon"
     }), 'utf8');
 
@@ -254,6 +255,7 @@ try {
     console.log(`创建：<DIST_PATH>${modelsOutFile.split(DIST_PATH)[1]}`);
     fs.writeFileSync(modelsOutFile, prettier.format(modelsFileData, {
       semi: true,
+      trailingComma: "es5",
       parser: "babylon"
     }), 'utf8');
 
@@ -936,6 +938,7 @@ try {
     console.log(`创建：<DIST_PATH>${pagesOutFile.split(DIST_PATH)[1]}`);
     fs.writeFileSync(pagesOutFile, prettier.format(pagesFileData, {
       semi: true,
+      trailingComma: "es5",
       parser: "babylon"
     }), 'utf8');
 
@@ -1014,18 +1017,21 @@ try {
   console.log(`创建：<DIST_PATH>${routerFile.split(DIST_PATH)[1]}`);
   fs.writeFileSync(routerFile, prettier.format(routerData, {
     semi: true,
+    trailingComma: "es5",
     parser: "babylon"
   }), 'utf8');
 
   console.log(`创建：<DIST_PATH>${localesFile_US.split(DIST_PATH)[1]}`);
   fs.writeFileSync(localesFile_US, prettier.format(localesData_US, {
     semi: true,
+    trailingComma: "es5",
     parser: "babylon"
   }), 'utf8');
 
   console.log(`创建：<DIST_PATH>${localesFile_CN.split(DIST_PATH)[1]}`);
   fs.writeFileSync(localesFile_CN, prettier.format(localesData_CN, {
     semi: true,
+    trailingComma: "es5",
     parser: "babylon"
   }), 'utf8');
 
