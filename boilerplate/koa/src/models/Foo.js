@@ -13,11 +13,11 @@ export default (sequelize, DataTypes) => {
         len: [3,20],
       }
     },
-    birthDay: {
+    birthday: {
       type: DataTypes.DATEONLY,
       allowNull: true,
     },
-    goodTime: {
+    good_time: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
@@ -46,7 +46,7 @@ export default (sequelize, DataTypes) => {
         isEmail: true,
       },
     },
-    homePage: {
+    homepage: {
       type: DataTypes.STRING,
       allowNull: true,
       validate: {
@@ -61,12 +61,12 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    isGood: {
+    is_good: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
     },
-    myExtra: {
+    my_extra: {
       type: DataTypes.JSON,
       allowNull: true,
     },
@@ -78,10 +78,11 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
   }, {
-      // underscored: true, // 下划线字段
+      underscored: true, // 下划线字段
       paranoid: true, // 软删除
-      tableName: 'Foo',
+      freezeTableName: true, // 禁用修改表名
+      tableName: 'foo', // 定义表的名称
     });
-  Foo.prototype.helloFun = () => `name: ${this.name}, age: ${this.status}`;
+  Foo.prototype.helloFun = () => `name: ${this.name}, age: ${this.status}`; // 自定义方法
   return Foo;
 };

@@ -121,14 +121,14 @@ class EditModal extends PureComponent {
         name,
         age,
         weight,
-        birthDay,
-        goodTime,
+        birthday,
+        good_time,
         email,
-        homePage,
+        homepage,
         notice,
         intro,
-        isGood,
-        myExtra,
+        is_good,
+        my_extra,
         status,
       },
     } = this.props;
@@ -165,14 +165,14 @@ class EditModal extends PureComponent {
               })(<InputNumber min={0.01} max={200} placeholder='请输入' style={{ width: '100%' }} />)}
             </FormItem>
             <FormItem {...this.formLayout} label='生日'>
-              {form.getFieldDecorator('birthDay', {
-                initialValue: birthDay && moment(birthDay),
+              {form.getFieldDecorator('birthday', {
+                initialValue: birthday && moment(birthday),
                 // rules: [{ required: true, message: '请选择!' }],
               })(<DatePicker placeholder='请选择' style={{ width: '100%' }} />)}
             </FormItem>
             <FormItem {...this.formLayout} label='时光'>
-              {form.getFieldDecorator('goodTime', {
-                initialValue: goodTime && moment(goodTime),
+              {form.getFieldDecorator('good_time', {
+                initialValue: good_time && moment(good_time),
                 rules: [{ required: true, message: '请选择!' }],
               })(<DatePicker showTime format='YYYY-MM-DD HH:mm:ss' placeholder='请选择' style={{ width: '100%' }} />)}
             </FormItem>
@@ -183,8 +183,8 @@ class EditModal extends PureComponent {
               })(<Input placeholder='请输入' />)}
             </FormItem>
             <FormItem {...this.formLayout} label='主页'>
-              {form.getFieldDecorator('homePage', {
-                initialValue: homePage,
+              {form.getFieldDecorator('homepage', {
+                initialValue: homepage,
                 rules: [{ required: false, type: 'url', message: '请输入！' }],
               })(<Input placeholder='请输入' />)}
             </FormItem>
@@ -201,14 +201,14 @@ class EditModal extends PureComponent {
               })(<ReactQuill placeholder='请输入' />)}
             </FormItem>
             <FormItem {...this.formLayout} label='扩展'>
-              {form.getFieldDecorator('myExtra', {
-                initialValue: myExtra,
+              {form.getFieldDecorator('my_extra', {
+                initialValue: my_extra,
                 // rules: [{ required: true, message: '请输入！' }],
               })(<TextArea rows={3} placeholder='请输入' />)}
             </FormItem>
             <FormItem {...this.formLayout} label='安好'>
-              {form.getFieldDecorator('isGood', {
-                initialValue: isGood,
+              {form.getFieldDecorator('is_good', {
+                initialValue: is_good,
                 rules: [{ required: true, message: '请选择!' }],
               })(
                 <RadioGroup placeholder='请选择'>
@@ -275,17 +275,17 @@ class ViewModal extends PureComponent {
         name,
         age,
         weight,
-        birthDay,
-        goodTime,
+        birthday,
+        good_time,
         email,
-        homePage,
+        homepage,
         notice,
         intro,
-        isGood,
-        myExtra,
+        is_good,
+        my_extra,
         status,
-        createdAt,
-        updatedAt,
+        created_at,
+        updated_at,
       },
     } = this.props;
     const { visible } = this.state;
@@ -307,23 +307,23 @@ class ViewModal extends PureComponent {
           <FormItem {...this.formLayout} label='年龄'>{age}</FormItem>
           <FormItem {...this.formLayout} label='体重'>{weight}</FormItem>
           <FormItem {...this.formLayout} label='生日'>
-            {birthDay && moment(birthDay).format("YYYY-MM-DD")}
+            {birthday && moment(birthday).format("YYYY-MM-DD")}
           </FormItem>
           <FormItem {...this.formLayout} label='时光'>
-            {goodTime && moment(goodTime).format("YYYY-MM-DD HH:mm:ss")}
+            {good_time && moment(good_time).format("YYYY-MM-DD HH:mm:ss")}
           </FormItem>
           <FormItem {...this.formLayout} label='邮箱'>{email}</FormItem>
-          <FormItem {...this.formLayout} label='主页'>{homePage}</FormItem>
+          <FormItem {...this.formLayout} label='主页'>{homepage}</FormItem>
           <FormItem {...this.formLayout} label='备注'>{notice}</FormItem>
           <FormItem {...this.formLayout} label='介绍'>{intro}</FormItem>
-          <FormItem {...this.formLayout} label='安好'>{isGood ? '是' : '否'}</FormItem>
-          <FormItem {...this.formLayout} label='扩展'>{myExtra}</FormItem>
+          <FormItem {...this.formLayout} label='安好'>{is_good ? '是' : '否'}</FormItem>
+          <FormItem {...this.formLayout} label='扩展'>{my_extra}</FormItem>
           <FormItem {...this.formLayout} label='状态'>{statusMap[status]}</FormItem>
           <FormItem {...this.formLayout} label="创建时间">
-            {createdAt && moment(createdAt).format("YYYY-MM-DD HH:mm:ss")}
+            {created_at && moment(created_at).format("YYYY-MM-DD HH:mm:ss")}
           </FormItem>
           <FormItem {...this.formLayout} label="更新时间">
-            {updatedAt && moment(updatedAt).format("YYYY-MM-DD HH:mm:ss")}
+            {updated_at && moment(updated_at).format("YYYY-MM-DD HH:mm:ss")}
           </FormItem>
         </Modal>
       </span>
@@ -357,8 +357,8 @@ class Foos extends PureComponent {
     console.log(filtersArg);
 
     const params = {
-      pageNum: pagination.current,
-      pageSize: pagination.pageSize,
+      page_num: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
       ...filtersArg,
     };
@@ -372,8 +372,8 @@ class Foos extends PureComponent {
       callback: () => {
         this.setState({
           pagination: {
-            pageNum: pagination.current,
-            pageSize: pagination.pageSize,
+            page_num: pagination.current,
+            page_size: pagination.pageSize,
           },
         });
       },
@@ -408,7 +408,7 @@ class Foos extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        // updated_at: fieldsValue.updated_at && fieldsValue.updated_at.valueOf(),
       };
 
       this.setState({
@@ -483,7 +483,7 @@ class Foos extends PureComponent {
           </Col>
           <Col md={6} sm={24}>
             <FormItem label='安好'>
-              {getFieldDecorator('isGood')(
+              {getFieldDecorator('is_good')(
                 <Select placeholder='请选择' style={{ width: '100%' }}>
                   <Option value={1}>是</Option>
                   <Option value={0}>否</Option>
@@ -534,11 +534,11 @@ class Foos extends PureComponent {
       },
       {
         title: '生日',
-        dataIndex: 'birthDay',
+        dataIndex: 'birthday',
       },
       {
         title: '时光',
-        dataIndex: 'goodTime',
+        dataIndex: 'good_time',
       },
       {
         title: '邮箱',
@@ -546,7 +546,7 @@ class Foos extends PureComponent {
       },
       {
         title: '主页',
-        dataIndex: 'homePage',
+        dataIndex: 'homepage',
       },
       {
         title: '备注',
@@ -554,7 +554,7 @@ class Foos extends PureComponent {
       },
       {
         title: '安好',
-        dataIndex: 'isGood',
+        dataIndex: 'is_good',
         filters: [
           {
             text: '是',
@@ -570,7 +570,7 @@ class Foos extends PureComponent {
       },
       {
         title: '扩展',
-        dataIndex: 'myExtra',
+        dataIndex: 'my_extra',
       },
       {
         title: '状态',
@@ -583,7 +583,7 @@ class Foos extends PureComponent {
       },
       {
         title: '创建时间',
-        dataIndex: 'createdAt',
+        dataIndex: 'created_at',
         sorter: true,
         render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },

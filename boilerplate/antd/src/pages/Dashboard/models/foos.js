@@ -19,7 +19,7 @@ export default {
 
   effects: {
     *fetchMultiple({ payload = {}, callback }, { call, put }) {
-      const { pageNum = 1, pageSize = 10 } = payload;
+      const { page_num = 1, page_size = 10 } = payload;
       const response = yield call(queryMultiple, payload);
       if (response) {
         const { count, rows } = response;
@@ -29,8 +29,8 @@ export default {
             list: rows,
             pagination: {
               total: count,
-              pageSize,
-              current: pageNum,
+              pageSize: page_size,
+              current: page_num,
             },
           },
         });

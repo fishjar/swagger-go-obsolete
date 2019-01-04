@@ -60,6 +60,7 @@ definitions:
     type: "object"
     x-isModel: true
     x-plural: "Wxusers"
+    x-tableName: "wxuser"
     description: "微信用户"
     required:
       - "id"
@@ -88,12 +89,12 @@ definitions:
         description: "OPENID"
         x-message: "请输入"
         x-showTable: true
-      sessionKey:
+      session_key:
         type: "string"
         format: "string(64)"
         description: "SESSIONKEY"
         x-message: "请输入"
-      expiresIn:
+      expires_time:
         type: "string"
         format: "date-time"
         description: "令牌过期时间"
@@ -228,9 +229,9 @@ definitions:
   ErrorItem:
     type: "object"
     properties:
-      errorCode:
+      errcode:
         type: "integer"
-      errorMessage:
+      errmsg:
         type: "string"
 responses:
   NotFound:

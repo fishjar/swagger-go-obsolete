@@ -4,7 +4,7 @@ import models from '../models';
 const router = new Router();
 
 router.get('/', async (ctx, next) => {
-	const { pageNum = 1, pageSize = 10, sorter, ...where } = ctx.query
+	const { page_num = 1, page_size = 10, sorter, ...where } = ctx.query
 	let order = [];
 	if (Array.isArray(sorter)) {
 		order = [...sorter.map(item => item.split('__'))];
@@ -13,8 +13,8 @@ router.get('/', async (ctx, next) => {
 	}
 	ctx.body = await models.Foo.findAndCountAll({
 		where,
-		offset: (pageNum - 1) * pageSize,
-		limit: pageSize,
+		offset: (page_num - 1) * page_size,
+		limit: page_size,
 		order,
 	});
 	await next();

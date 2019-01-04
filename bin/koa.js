@@ -49,6 +49,7 @@ try {
     const item = doc.definitions[name];
     const _name = name.toLowerCase();
     const pluralName = item['x-plural'].toLowerCase();
+    const tableName = item['x-tableName'] || _name;
 
     const modelOutFile = path.join(modelsDir, `${name}.js`);
     console.log(`创建：<DIST_PATH>${modelOutFile.split(DIST_PATH)[1]}`);
@@ -77,9 +78,10 @@ try {
             }`)
           .join(',')}
         }, {
-          underscored: false,
-          tableName: '${name}',
-          paranoid: true,
+          underscored: true, // 下划线字段
+          paranoid: true, // 软删除
+          freezeTableName: true, // 禁用修改表名
+          tableName: '${tableName}', // 定义表的名称
         });
         return ${name};
       };
@@ -99,7 +101,7 @@ try {
       const router = new Router();
       
       router.get('/', async (ctx, next) => {
-        const { pageNum = 1, pageSize = 10, sorter, ...where } = ctx.query
+        const { page_num = 1, page_size = 10, sorter, ...where } = ctx.query
         let order = [];
         if (Array.isArray(sorter)) {
           order = [...sorter.map(item => item.split('__'))];
@@ -108,8 +110,8 @@ try {
         }
         ctx.body = await models.${name}.findAndCountAll({
           where,
-          offset: (pageNum - 1) * pageSize,
-          limit: pageSize,
+          offset: (page_num - 1) * page_size,
+          limit: page_size,
           order,
         });
         await next();
@@ -178,11 +180,11 @@ try {
       })
 
       router.post("/", async (ctx, next) => {
-        const [data, isNewRecord] = await models.${name}.findOrCreate({ where: ctx.request.body })
+        const [${_name}, is_new_record] = await models.${name}.findOrCreate({ where: ctx.request.body })
         ctx.body = {
-          // ...data.toJSON(),
-          ...data.get({ plain: true }),
-          isNewRecord,
+          // ...${_name}.toJSON(),
+          ...${_name}.get({ plain: true }),
+          is_new_record,
         };
         await next()
       })

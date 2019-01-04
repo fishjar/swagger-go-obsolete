@@ -167,7 +167,7 @@ try {
       
         effects: {
           *fetchMultiple({ payload = {}, callback }, { call, put }) {
-            const { pageNum = 1, pageSize = 10 } = payload;
+            const { page_num = 1, page_size = 10 } = payload;
             const response = yield call(queryMultiple, payload);
             if (response) {
               const { count, rows } = response;
@@ -177,8 +177,8 @@ try {
                   list: rows,
                   pagination: {
                     total: count,
-                    pageSize,
-                    current: pageNum,
+                    pageSize: page_size,
+                    current: page_num,
                   },
                 },
               });
@@ -617,7 +617,7 @@ try {
             modalTitle = '查看详情',
             modalWith = 520,
             formData: {
-              updatedAt,
+              updated_at,
               deletedAt,
               ${Object.entries(item.properties)
                 .map(([k, _]) => `${k},`)
@@ -658,10 +658,10 @@ try {
                     .join("")
                 }
                 <FormItem {...this.formLayout} label="创建时间">
-                  {createdAt && moment(createdAt).format("YYYY-MM-DD HH:mm:ss")}
+                  {created_at && moment(created_at).format("YYYY-MM-DD HH:mm:ss")}
                 </FormItem>
                 <FormItem {...this.formLayout} label="更新时间">
-                  {updatedAt && moment(updatedAt).format("YYYY-MM-DD HH:mm:ss")}
+                  {updated_at && moment(updated_at).format("YYYY-MM-DD HH:mm:ss")}
                 </FormItem>
               </Modal>
             </span>
@@ -695,8 +695,8 @@ try {
           console.log(filtersArg);
       
           const params = {
-            pageNum: pagination.current,
-            pageSize: pagination.pageSize,
+            page_num: pagination.current,
+            page_size: pagination.pageSize,
             ...formValues,
             ...filtersArg,
           };
@@ -710,8 +710,8 @@ try {
             callback: () => {
               this.setState({
                 pagination: {
-                  pageNum: pagination.current,
-                  pageSize: pagination.pageSize,
+                  page_num: pagination.current,
+                  page_size: pagination.pageSize,
                 },
               });
             },
@@ -746,7 +746,7 @@ try {
       
             const values = {
               ...fieldsValue,
-              updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+              // updated_at: fieldsValue.updated_at && fieldsValue.updated_at.valueOf(),
             };
       
             this.setState({
@@ -868,7 +868,7 @@ try {
             }
             {
               title: '创建时间',
-              dataIndex: 'createdAt',
+              dataIndex: 'created_at',
               sorter: true,
               render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
             },

@@ -60,6 +60,7 @@ definitions:
     type: "object"
     x-isModel: true
     x-plural: "Wxmchs"
+    x-tableName: "wxmch"
     description: "微信商户号"
     required:
       - "id"
@@ -98,6 +99,7 @@ definitions:
     type: "object"
     x-isModel: true
     x-plural: "Wxpays"
+    x-tableName: "wxpay"
     description: "微信支付"
     required:
       - "id"
@@ -320,6 +322,7 @@ definitions:
     type: "object"
     x-isModel: true
     x-plural: "Wxrefunds"
+    x-tableName: "wxrefund"
     description: "微信退款"
     required:
       - "id"
@@ -569,9 +572,9 @@ definitions:
   ErrorItem:
     type: "object"
     properties:
-      errorCode:
+      errcode:
         type: "integer"
-      errorMessage:
+      errmsg:
         type: "string"
 responses:
   NotFound:

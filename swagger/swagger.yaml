@@ -79,19 +79,19 @@ paths:
       description: "查询集合..."
       parameters:
       - in: "query"
-        name: "pageNum"
+        name: "page_num"
         type: "integer"
         description: "页码"
         default: 1
       - in: "query"
-        name: "pageSize"
+        name: "page_size"
         type: "integer"
         description: "分页大小"
         default: 10
       - in: "query"
         name: "sorter"
         type: "string"
-        description: "排序"
+        description: "排序(created_at__desc)"
         # pattern: "^\w+__\w+$"
       responses:
         "200":
@@ -228,12 +228,13 @@ definitions:
     type: "object"
     x-isModel: true
     x-plural: "Foos"
+    x-tableName: "foo"
     description: "测试模型"
     required:
       - "id"
       - "name"
-      - "goodTime"
-      - "isGood"
+      - "good_time"
+      - "is_good"
       - "status"
     properties:
       id:
@@ -271,14 +272,14 @@ definitions:
         x-showTable: true
         x-showFilter: true
         x-showSorter: true
-      birthDay:
+      birthday:
         type: "string"
         format: "date"
         description: "生日"
         x-message: "请选择"
         x-showTable: true
         x-showSorter: true
-      goodTime:
+      good_time:
         type: "string"
         format: "date-time"
         description: "快乐时光"
@@ -292,7 +293,7 @@ definitions:
         x-message: "请输入"
         x-showTable: true
         x-showFilter: true
-      homePage:
+      homepage:
         type: "string"
         format: "uri"
         description: "主页"
@@ -308,7 +309,7 @@ definitions:
         description: "介绍"
         x-message: "请输入"
         x-isRichText: true
-      isGood:
+      is_good:
         type: "boolean"
         format: "boolean"
         description: "是否安好"
@@ -316,7 +317,7 @@ definitions:
         x-message: "请选择"
         x-showTable: true
         x-showFilter: true
-      myExtra:
+      my_extra:
         type: "object"
         format: "object"
         description: "扩展字段1"
@@ -328,7 +329,7 @@ definitions:
           username:
             type: "string"
             description: "用户名"
-      myExtraArray:
+      my_extra_array:
         type: "array"
         format: "array"
         description: "扩展字段2"
@@ -357,11 +358,11 @@ definitions:
       id: "123"
       age: 12
       name: "foo"
-      birthDay: "2012-12-12"
-      goodTime: "2012-12-12 12:12:12"
+      birthday: "2012-12-12"
+      good_time: "2012-12-12 12:12:12"
       email: "test@test.com"
       notice: "备注"
-      isGood: true
+      is_good: true
       status: 1
   UserDemo:
     type: "object"
@@ -443,9 +444,9 @@ definitions:
   ErrorItem:
     type: "object"
     properties:
-      errorCode:
+      errcode:
         type: "integer"
-      errorMessage:
+      errmsg:
         type: "string"
 responses:
   NotFound:
