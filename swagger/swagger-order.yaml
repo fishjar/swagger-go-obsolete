@@ -1,0 +1,562 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Hello World App"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  JWT:
+    description: "Authorization: Bearer {token}"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - JWT: []
+paths:
+  /account/login:
+    post:
+      summary: "登录"
+      description: "登录..."
+      security: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "登录参数"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginBody"
+      responses:
+        "200":
+          description: "登录成功"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+  /account/user:
+    get:
+      summary: "查询当前用户"
+      description: "查询当前用户.."
+      responses:
+        "200":
+          description: "查询成功"
+          headers:
+            authtoken:
+              type: string
+              description: 新token续期
+          schema:
+            $ref: "#/definitions/UserDemo"
+        "401":
+          $ref: "#/responses/Unauthorized"
+        "404":
+          $ref: "#/responses/NotFound"
+definitions:
+  Order:
+    type: "object"
+    x-isModel: true
+    x-plural: "Orders"
+    x-tableName: "order"
+    description: "订单"
+    required:
+      - "id"
+      - "order_no"
+      - "order_type"
+      - "order_status"
+      - "all_fee"
+      - "need_fee"
+      - "real_fee"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      order_no:
+        type: "string"
+        format: "string(64)"
+        description: "订单号"
+        x-message: "请输入"
+        x-showTable: true
+        uniqueItems: true
+      order_type:
+        type: "integer"
+        format: "int4"
+        enum: [0,1]
+        default: 0
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "默认",
+          1: "其他",
+        }
+        x-description: "订单类型"
+        description: >
+          "订单类型"
+            * 0 - 默认
+            * 1 - 其他
+      deliver_type:
+        type: "integer"
+        format: "int4"
+        enum: [1,2,3]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          1: "默认",
+          2: "快递",
+          3: "自提",
+        }
+        x-description: "送货类型"
+        description: >
+          "送货类型"
+            * 1 - 默认
+            * 2 - 快递
+            * 3 - 自提
+      user_id:
+        type: "string"
+        format: "uuid"
+        description: "用户ID"
+        x-message: "请输入"
+        x-showTable: true
+      crop_id:
+        type: "string"
+        format: "uuid"
+        description: "商家ID"
+        x-message: "请输入"
+        x-showTable: true
+      order_status:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3,4,5,6,7]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "已关闭",
+          1: "已创建",
+          2: "已支付",
+          3: "已确认",
+          4: "已发货",
+          5: "已完成",
+          6: "已评价",
+          7: "已取消",
+        }
+        x-description: "订单状态"
+        description: >
+          "订单状态"
+            * 0 - 已关闭
+            * 1 - 已创建
+            * 2 - 已支付
+            * 3 - 已确认
+            * 4 - 已发货
+            * 5 - 已完成
+            * 6 - 已评价
+            * 7 - 已取消
+      pay_status:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3,4,5,6,7]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "已关闭",
+          1: "已下单，待支付",
+          2: "已支付定金",
+          3: "已支付全款",
+          4: "申请退款，待确认",
+          5: "已确认，待退款",
+          6: "已退款，待收款",
+          7: "已收款，退款完成",
+        }
+        x-description: "支付状态"
+        description: >
+          "支付状态"
+            * 0 - 已关闭
+            * 1 - 已下单，待支付
+            * 2 - 已支付定金
+            * 3 - 已支付全款
+            * 4 - 申请退款，待确认
+            * 5 - 已确认，待退款
+            * 6 - 已退款，待收款
+            * 7 - 已收款，退款完成
+      bag_status:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3,4,5,6,7,8]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "已关闭",
+          1: "已确认，待出库",
+          2: "已出库，待发货",
+          3: "已发货，待收货",
+          4: "已收货，完成",
+          5: "申请退货，待确认",
+          6: "已确认，待发货",
+          7: "已发货，待验货",
+          8: "已验货，退货完成",
+        }
+        x-description: "货物状态"
+        description: >
+          "货物状态"
+            * 0 - 已关闭
+            * 1 - 已确认，待出库
+            * 2 - 已出库，待发货
+            * 3 - 已发货，待收货
+            * 4 - 已收货，完成
+            * 5 - 申请退货，待确认
+            * 6 - 已确认，待发货
+            * 7 - 已发货，待验货
+            * 8 - 已验货，退货完成
+      all_fee:
+        type: "integer"
+        format: "int32"
+        description: "总金额"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      dis_fee:
+        type: "integer"
+        format: "int32"
+        description: "折扣金额"
+        default: 0
+        x-message: "请输入"
+      exp_fee:
+        type: "integer"
+        format: "int32"
+        description: "运费金额"
+        x-message: "请输入"
+      need_fee:
+        type: "integer"
+        format: "int32"
+        description: "实际需付金额"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      real_fee:
+        type: "integer"
+        format: "int32"
+        description: "已付金额"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      pay_time:
+        type: "string"
+        format: "date-time"
+        description: "付清全款时间"
+        x-message: "请输入"
+      remark:
+        type: "string"
+        format: "text"
+        description: "备注"
+        x-message: "请输入"
+    example:
+      "id": "123456"
+      "order_no": "20121212121212"
+      "order_type": 0
+      "order_status": 1
+      "all_fee": 1
+      "need_fee": 1
+      "real_fee": 0
+  OrderSku:
+    type: "object"
+    x-isModel: true
+    x-plural: "OrderSkus"
+    x-tableName: "ordersku"
+    description: "订单"
+    required:
+      - "id"
+      - "order_no"
+      - "sku_id"
+      - "quantity"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      order_no:
+        type: "string"
+        format: "string(64)"
+        description: "订单号"
+        x-message: "请输入"
+        x-showTable: true
+      sku_id:
+        type: "string"
+        format: "uuid"
+        description: "SKU ID"
+        x-message: "请输入"
+        x-showTable: true
+      quantity:
+        type: "integer"
+        format: "int32"
+        description: "数量"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      sku_name:
+        type: "string"
+        format: "string(64)"
+        description: "单品名称"
+        x-message: "请输入"
+        x-showTable: true
+      sku_price:
+        type: "integer"
+        format: "int32"
+        description: "单价"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      sku_unit:
+        type: "string"
+        format: "string(16)"
+        description: "单位"
+        x-message: "请输入"
+        x-showTable: true
+      extra_info:
+        type: "object"
+        format: "object"
+        description: "额外信息"
+        x-message: "请输入"
+      remark:
+        type: "string"
+        format: "text"
+        description: "备注"
+        x-message: "请输入"
+    example:
+      "id": "123456"
+      "order_no": "20121212121212"
+      "sku_id": "123456"
+      "quantity": 1
+  Pay:
+    type: "object"
+    x-isModel: true
+    x-plural: "Pays"
+    x-tableName: "pays"
+    description: "支付单"
+    required:
+      - "id"
+      - "pay_no"
+      - "order_no"
+      - "pay_type"
+      - "pay_fee"
+      - "pay_result"
+      - "is_locked"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      pay_no:
+        type: "string"
+        format: "string(64)"
+        description: "支付单号"
+        x-message: "请输入"
+        x-showTable: true
+      order_no:
+        type: "string"
+        format: "string(64)"
+        description: "订单号"
+        x-message: "请输入"
+        x-showTable: true
+      pay_type:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3]
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "余额",
+          1: "卡券",
+          2: "微信支付",
+          3: "支付宝",
+        }
+        x-description: "支付方式"
+        description: >
+          "支付方式"
+            * 0 - 余额
+            * 1 - 卡券
+            * 2 - 微信支付
+            * 3 - 支付宝
+      pay_fee:
+        type: "integer"
+        format: "int32"
+        description: "支付金额"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      pay_result:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "已关闭",
+          1: "待支付",
+          2: "支付成功",
+          3: "支付失败",
+        }
+        x-description: "支付结果"
+        description: >
+          "支付结果"
+            * 0 - 已关闭
+            * 1 - 待支付
+            * 2 - 支付成功
+            * 3 - 支付失败
+      pay_time:
+        type: "string"
+        format: "date-time"
+        description: "支付时间"
+        x-message: "请选择"
+        x-showTable: true
+        x-showSorter: true
+      is_locked:
+        type: "boolean"
+        format: "boolean"
+        description: "是否锁定"
+        default: false
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+      remark:
+        type: "string"
+        format: "text"
+        description: "备注"
+        x-message: "请输入"
+    example:
+      "id": "123456"
+      "pay_no": "20121212121212"
+      "order_no": "20121212121212"
+      "pay_type": 1
+      "pay_fee": 1
+      "pay_result": 1
+      "is_locked": false
+  UserDemo:
+    type: "object"
+    description: "用户模型"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "用户名"
+      avatar:
+        type: "string"
+        description: "头像"
+      email:
+        type: "string"
+        description: "邮箱"
+    example:
+      name: 'Admin'
+      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      id: '00000001'
+      email: 'test@test.com'
+  LoginBody:
+    type: "object"
+    description: "登录参数模型"
+    required:
+      - "userName"
+      - "password"
+      - "type"
+    properties:
+      userName:
+        type: "string"
+        description: "用户名"
+      password:
+        type: "string"
+        description: "密码"
+      type:
+        type: "string"
+        description: "账户类型"
+    example:
+      userName: 'admin'
+      password: '123456'
+      type: 'username'
+  LoginResponse:
+    type: "object"
+    description: "登录返回数据模型"
+    required:
+      - "status"
+      - "type"
+      - "currentAuthority"
+      - "authtoken"
+    properties:
+      status:
+        type: "string"
+        description: "登录状态"
+      type:
+        type: "string"
+        description: "账号类型"
+      currentAuthority:
+        type: "string"
+        description: "当前角色"
+      authtoken:
+        type: "string"
+        description: "秘钥"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      errors:
+        type: "array"
+        items:
+          $ref: '#/definitions/ErrorItem'
+    required:
+      - "message"
+  ErrorItem:
+    type: "object"
+    properties:
+      errcode:
+        type: "integer"
+      errmsg:
+        type: "string"
+  SkuDemo:
+    type: "object"
+    description: "单品"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "单品名"
+    example:
+      id: '123'
+      name: '测试商品'
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+      
+      

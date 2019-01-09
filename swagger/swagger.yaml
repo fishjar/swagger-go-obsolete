@@ -283,6 +283,7 @@ definitions:
         type: "string"
         format: "date-time"
         description: "快乐时光"
+        x-message: "请选择"
         x-showTable: true
         x-showSorter: true
       email:
