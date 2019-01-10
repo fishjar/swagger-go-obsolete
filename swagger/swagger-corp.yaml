@@ -1,0 +1,359 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Hello World App"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  JWT:
+    description: "Authorization: Bearer {token}"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - JWT: []
+paths:
+  /account/login:
+    post:
+      summary: "登录"
+      description: "登录..."
+      security: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "登录参数"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginBody"
+      responses:
+        "200":
+          description: "登录成功"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+  /account/user:
+    get:
+      summary: "查询当前用户"
+      description: "查询当前用户.."
+      responses:
+        "200":
+          description: "查询成功"
+          headers:
+            authtoken:
+              type: string
+              description: 新token续期
+          schema:
+            $ref: "#/definitions/UserDemo"
+        "401":
+          $ref: "#/responses/Unauthorized"
+        "404":
+          $ref: "#/responses/NotFound"
+definitions:
+  Corp:
+    type: "object"
+    x-isModel: true
+    x-plural: "Corps"
+    x-tableName: "corp"
+    description: "企业"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      pid:
+        type: "string"
+        format: "uuid"
+        description: "父ID"
+        x-message: "请输入"
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "企业名称"
+        x-message: "请输入"
+        x-showTable: true
+      corp_code:
+        type: "string"
+        format: "string(64)"
+        description: "企业代码"
+        x-message: "请输入"
+        x-showTable: true
+        uniqueItems: true
+      phone:
+        type: "string"
+        format: "string(64)"
+        description: "电话"
+        x-message: "请输入"
+        x-showTable: true
+      email:
+        type: "string"
+        format: "email"
+        description: "邮箱"
+        x-message: "请输入"
+        x-showTable: true
+      fox:
+        type: "string"
+        format: "string(64)"
+        description: "传真"
+        x-message: "请输入"
+        x-showTable: true
+      country:
+        type: "string"
+        format: "string(64)"
+        description: "国家"
+        x-message: "请输入"
+        x-showTable: true
+      province:
+        type: "string"
+        format: "string(64)"
+        description: "省份"
+        x-message: "请输入"
+        x-showTable: true
+      city:
+        type: "string"
+        format: "string(64)"
+        description: "城市"
+        x-message: "请输入"
+        x-showTable: true
+      region:
+        type: "string"
+        format: "string(64)"
+        description: "区（县）"
+        x-message: "请输入"
+      address:
+        type: "string"
+        format: "string(255)"
+        description: "详细地址"
+        x-message: "请输入"
+      region_code:
+        type: "string"
+        format: "string(8)"
+        description: "地区编码"
+        x-message: "请输入"
+      longitude:
+        type: "number"
+        format: "float"
+        description: "经度"
+        x-message: "请输入"
+      latitude:
+        type: "number"
+        format: "float"
+        description: "维度"
+        x-message: "请输入"
+      intro:
+        type: "string"
+        format: "text"
+        description: "介绍"
+        x-message: "请输入"
+        x-isRichText: true
+    example:
+      id: "123"
+      name: "foo"
+  Contact:
+    type: "object"
+    x-isModel: true
+    x-plural: "Contacts"
+    x-tableName: "contact"
+    description: "联系人"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      user_id:
+        type: "string"
+        format: "uuid"
+        description: "用户ID"
+        x-message: "请输入"
+        x-showTable: true
+      corp_code:
+        type: "string"
+        format: "string(64)"
+        description: "企业代码"
+        x-message: "请输入"
+        x-showTable: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "姓名"
+        x-message: "请输入"
+        x-showTable: true
+      gender:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2]
+        default: 0
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "未知",
+          1: "男",
+          2: "女",
+        }
+        x-description: "性别"
+        description: >
+          "性别"
+            * 0 - 未知
+            * 1 - 男
+            * 2 - 女
+      phone:
+        type: "string"
+        format: "string(64)"
+        description: "电话"
+        x-message: "请输入"
+        x-showTable: true
+      email:
+        type: "string"
+        format: "email"
+        description: "邮箱"
+        x-message: "请输入"
+        x-showTable: true
+      country:
+        type: "string"
+        format: "string(64)"
+        description: "国家"
+        x-message: "请输入"
+        x-showTable: true
+      province:
+        type: "string"
+        format: "string(64)"
+        description: "省份"
+        x-message: "请输入"
+        x-showTable: true
+      city:
+        type: "string"
+        format: "string(64)"
+        description: "城市"
+        x-message: "请输入"
+        x-showTable: true
+      region:
+        type: "string"
+        format: "string(64)"
+        description: "区（县）"
+        x-message: "请输入"
+        x-showTable: true
+      address:
+        type: "string"
+        format: "string(255)"
+        description: "详细地址"
+        x-message: "请输入"
+        x-showTable: true
+      region_code:
+        type: "string"
+        format: "string(8)"
+        description: "地区编码"
+        x-message: "请输入"
+        x-showTable: true
+    example:
+      "id": "123"
+      "name": "testname"
+  UserDemo:
+    type: "object"
+    description: "用户模型"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "用户名"
+      avatar:
+        type: "string"
+        description: "头像"
+      email:
+        type: "string"
+        description: "邮箱"
+    example:
+      name: 'Admin'
+      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      id: '00000001'
+      email: 'test@test.com'
+  LoginBody:
+    type: "object"
+    description: "登录参数模型"
+    required:
+      - "userName"
+      - "password"
+      - "type"
+    properties:
+      userName:
+        type: "string"
+        description: "用户名"
+      password:
+        type: "string"
+        description: "密码"
+      type:
+        type: "string"
+        description: "账户类型"
+    example:
+      userName: 'admin'
+      password: '123456'
+      type: 'username'
+  LoginResponse:
+    type: "object"
+    description: "登录返回数据模型"
+    required:
+      - "status"
+      - "type"
+      - "currentAuthority"
+      - "authtoken"
+    properties:
+      status:
+        type: "string"
+        description: "登录状态"
+      type:
+        type: "string"
+        description: "账号类型"
+      currentAuthority:
+        type: "string"
+        description: "当前角色"
+      authtoken:
+        type: "string"
+        description: "秘钥"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      errors:
+        type: "array"
+        items:
+          $ref: '#/definitions/ErrorItem'
+    required:
+      - "message"
+  ErrorItem:
+    type: "object"
+    properties:
+      errcode:
+        type: "integer"
+      errmsg:
+        type: "string"
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+      
+      

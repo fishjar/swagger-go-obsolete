@@ -258,6 +258,18 @@ definitions:
         format: "date-time"
         description: "付清全款时间"
         x-message: "请输入"
+      sku_info:
+        type: "array"
+        format: "array"
+        description: "单品信息快照"
+        x-message: "请输入"
+        items:
+          $ref: '#/definitions/SkuDemo'
+      deliver_info:
+        type: "object"
+        format: "object"
+        description: "快递信息快照"
+        x-message: "请输入"
       remark:
         type: "string"
         format: "text"
