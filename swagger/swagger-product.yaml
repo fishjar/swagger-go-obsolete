@@ -1,0 +1,823 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Hello World App"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  JWT:
+    description: "Authorization: Bearer {token}"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - APIKeyHeader: []
+    JWT: []
+paths:
+  /account/login:
+    post:
+      summary: "登录"
+      description: "登录..."
+      security: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "登录参数"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginBody"
+      responses:
+        "200":
+          description: "登录成功"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+  /account/user:
+    get:
+      summary: "查询当前用户"
+      description: "查询当前用户.."
+      responses:
+        "200":
+          description: "查询成功"
+          headers:
+            authtoken:
+              type: string
+              description: 新token续期
+          schema:
+            $ref: "#/definitions/UserDemo"
+        "401":
+          $ref: "#/responses/Unauthorized"
+        "404":
+          $ref: "#/responses/NotFound"
+definitions:
+  Category:
+    type: "object"
+    x-isModel: true
+    x-plural: "Categories"
+    x-tableName: "category"
+    description: "商品分类"
+    required:
+      - "id"
+      - "name"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "分类名称"
+        x-message: "请输入"
+        x-showTable: true
+      pid:
+        type: "string"
+        format: "uuid"
+        description: "父ID"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      description:
+        type: "string"
+        format: "string(128)"
+        description: "描述"
+        x-message: "请输入"
+    example:
+      id: "123"
+      name: "foo"
+      sort: 0
+  Brand:
+    type: "object"
+    x-isModel: true
+    x-plural: "Brands"
+    x-tableName: "brand"
+    description: "品牌"
+    required:
+      - "id"
+      - "name_cn"
+      - "corp_code"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      name_cn:
+        type: "string"
+        format: "string(64)"
+        description: "品牌中文名称"
+        x-message: "请输入"
+        x-showTable: true
+      name_en:
+        type: "string"
+        format: "string(64)"
+        description: "品牌英文名称"
+        x-message: "请输入"
+        x-showTable: true
+      corp_code:
+        type: "string"
+        format: "string(64)"
+        description: "企业代码"
+        x-message: "请输入"
+        x-showTable: true
+      logo:
+        type: "string"
+        format: "string(255)"
+        description: "LOGO"
+        x-message: "请输入"
+      website:
+        type: "string"
+        format: "string(255)"
+        description: "官方网站"
+        x-message: "请输入"
+      description:
+        type: "string"
+        format: "string(255)"
+        description: "描述"
+        x-message: "请输入"
+    example:
+      id: "123"
+      name_cn: "foo"
+      corp_code: "456"
+  Product:
+    type: "object"
+    x-isModel: true
+    x-plural: "Products"
+    x-tableName: "product"
+    description: "商品(SPU)"
+    required:
+      - "id"
+      - "product_no"
+      - "name"
+      - "category_id"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      product_no:
+        type: "string"
+        format: "string(64)"
+        description: "商品代码"
+        x-message: "请输入"
+        x-showTable: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "商品名称"
+        x-message: "请输入"
+        x-showTable: true
+      brand_id:
+        type: "string"
+        format: "uuid"
+        description: "品牌ID"
+        x-message: "请输入"
+        x-showTable: true
+      # category_id:
+      #   type: "string"
+      #   format: "uuid"
+      #   description: "分类ID"
+      #   x-message: "请输入"
+      #   x-showTable: true
+      one_category_id:
+        type: "string"
+        format: "uuid"
+        description: "一级分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      two_category_id:
+        type: "string"
+        format: "uuid"
+        description: "二级分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      three_category_id:
+        type: "string"
+        format: "uuid"
+        description: "三级分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      supplier_id:
+        type: "string"
+        format: "uuid"
+        description: "供应商ID"
+        x-message: "请输入"
+        x-showTable: true
+      picture:
+        type: "string"
+        format: "string(255)"
+        description: "商品头图"
+        x-message: "请输入"
+      pictures:
+        type: "array"
+        format: "array"
+        description: "商品图片"
+        x-message: "请输入"
+      description:
+        type: "string"
+        format: "string(255)"
+        description: "描述"
+        x-message: "请输入"
+    example:
+      id: "123"
+      name: "foo"
+      category_id: "456"
+  Sku:
+    type: "object"
+    x-isModel: true
+    x-plural: "Skus"
+    x-tableName: "sku"
+    description: "单品"
+    required:
+      - "id"
+      - "sku_no"
+      - "name"
+      - "product_id"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      sku_no:
+        type: "string"
+        format: "string(64)"
+        description: "单品代码"
+        x-message: "请输入"
+        x-showTable: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "单品名称"
+        x-message: "请输入"
+        x-showTable: true
+      product_id:
+        type: "string"
+        format: "uuid"
+        description: "商品ID"
+        x-message: "请输入"
+        x-showTable: true
+      price:
+        type: "integer"
+        format: "int32"
+        description: "价格"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      unit:
+        type: "string"
+        format: "string(16)"
+        description: "单位"
+        x-message: "请输入"
+        x-showTable: true
+      stock:
+        type: "integer"
+        format: "int32"
+        description: "库存"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      if_shelf:
+        type: "boolean"
+        format: "boolean"
+        description: "是否上架"
+        default: true
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+      picture:
+        type: "string"
+        format: "string(255)"
+        description: "单品头图"
+        x-message: "请输入"
+      pictures:
+        type: "array"
+        format: "array"
+        description: "单品图片"
+        x-message: "请输入"
+      description:
+        type: "string"
+        format: "string(255)"
+        description: "描述"
+        x-message: "请输入"
+    example:
+      "id": "123"
+      "sku_no": "456"
+      "name": "foo"
+      "product_id": "234"
+  Property:
+    type: "object"
+    x-isModel: true
+    x-plural: "Propertys"
+    x-tableName: "property"
+    description: "属性名"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "属性名称"
+        x-message: "请输入"
+        x-showTable: true
+      # property_type:
+      #   type: "integer"
+      #   format: "int4"
+      #   enum: [1,2,3]
+      #   default: 1
+      #   x-message: "请选择"
+      #   x-showTable: true
+      #   x-showFilter: true
+      #   x-enumMap: {
+      #     1: "正常",
+      #     2: "异常",
+      #     3: "禁用",
+      #   }
+      #   x-description: "状态"
+      #   description: >
+      #     "状态"
+      #       * 1 - 正常
+      #       * 2 - 异常
+      #       * 3 - 禁用
+      extra_info:
+        type: "object"
+        format: "object"
+        description: "额外信息
+        x-message: "请输入"
+    example:
+      "id": "123"
+      "name": "foo"
+  PropertyGroup:
+    type: "object"
+    x-isModel: true
+    x-plural: "PropertyGroups"
+    x-tableName: "property_group"
+    description: "属性组名"
+    required:
+      - "id"
+      - "category_id"
+      - "name"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      category_id:
+        type: "string"
+        format: "uuid"
+        description: "分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "属性组名称"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "123"
+      "category_id": "456"
+      "name": "foo"
+      "sort": 0
+  CategoryProperty:
+    type: "object"
+    x-isModel: true
+    x-plural: "CategoryPropertys"
+    x-tableName: "category_property"
+    description: "某分类的商品属性"
+    required:
+      - "id"
+      - "category_id"
+      - "property_id"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      category_id:
+        type: "string"
+        format: "uuid"
+        description: "分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      property_id:
+        type: "string"
+        format: "uuid"
+        description: "分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "123"
+      "category_id": "456"
+      "property_id": "789"
+      "sort": 0
+  ProductProperty:
+    type: "object"
+    x-isModel: true
+    x-plural: "ProductPropertys"
+    x-tableName: "product_property"
+    description: "某商品的单品属性"
+    required:
+      - "id"
+      - "product_id"
+      - "property_id"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      product_id:
+        type: "string"
+        format: "uuid"
+        description: "分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      property_id:
+        type: "string"
+        format: "uuid"
+        description: "分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "123"
+      "product_id": "456"
+      "property_id": "789"
+      "sort": 0
+  ProductPropertyValue:
+    type: "object"
+    x-isModel: true
+    x-plural: "ProductPropertyValues"
+    x-tableName: "product_property_value"
+    description: "商品属性值"
+    required:
+      - "id"
+      - "product_id"
+      - "property_id"
+      - "value"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      product_id:
+        type: "string"
+        format: "uuid"
+        description: "商品ID"
+        x-message: "请输入"
+        x-showTable: true
+      property_id:
+        type: "string"
+        format: "uuid"
+        description: "属性ID"
+        x-message: "请输入"
+        x-showTable: true
+      value:
+        type: "string"
+        format: "string(255)"
+        description: "属性值"
+        x-message: "请输入"
+        x-showTable: true
+      propertygroup_id:
+        type: "string"
+        format: "uuid"
+        description: "属性ID"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "123"
+      "category_id": "456"
+      "property_id": "789"
+      "sort": 0
+  SkuPropertyValue:
+    type: "object"
+    x-isModel: true
+    x-plural: "SkuPropertyValues"
+    x-tableName: "product_property_value"
+    description: "商品属性值"
+    required:
+      - "id"
+      - "sku_id"
+      - "property_id"
+      - "value"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      sku_id:
+        type: "string"
+        format: "uuid"
+        description: "商品ID"
+        x-message: "请输入"
+        x-showTable: true
+      property_id:
+        type: "string"
+        format: "uuid"
+        description: "属性ID"
+        x-message: "请输入"
+        x-showTable: true
+      value:
+        type: "string"
+        format: "string(255)"
+        description: "属性值"
+        x-message: "请输入"
+        x-showTable: true
+      propertygroup_id:
+        type: "string"
+        format: "uuid"
+        description: "属性ID"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "123"
+      "sku_id": "456"
+      "property_id": "789"
+      "sort": 0
+  Label:
+    type: "object"
+    x-isModel: true
+    x-plural: "Labels"
+    x-tableName: "label"
+    description: "标签"
+    required:
+      - "id"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "标签名称"
+        x-message: "请输入"
+        x-showTable: true
+    example:
+      "id": "123"
+      "name": "foo"
+  CategoryLabel:
+    type: "object"
+    x-isModel: true
+    x-plural: "CategoryLabels"
+    x-tableName: "category_label"
+    description: "某分类的标签"
+    required:
+      - "id"
+      - "category_id"
+      - "label_id"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      category_id:
+        type: "string"
+        format: "uuid"
+        description: "分类ID"
+        x-message: "请输入"
+        x-showTable: true
+      label_id:
+        type: "string"
+        format: "uuid"
+        description: "标签ID"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "123"
+      "category_id": "456"
+      "label_id": "789"
+      "sort": 0
+  ProductLableValue:
+    type: "object"
+    x-isModel: true
+    x-plural: "ProductLabelValues"
+    x-tableName: "product_label_value"
+    description: "商品标签值"
+    required:
+      - "id"
+      - "product_id"
+      - "lable_id"
+      - "value"
+      - "sort"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      product_id:
+        type: "string"
+        format: "uuid"
+        description: "商品ID"
+        x-message: "请输入"
+        x-showTable: true
+      lable_id:
+        type: "string"
+        format: "uuid"
+        description: "属性ID"
+        x-message: "请输入"
+        x-showTable: true
+      value:
+        type: "string"
+        format: "string(255)"
+        description: "属性值"
+        x-message: "请输入"
+        x-showTable: true
+      sort:
+        type: "integer"
+        format: "int32"
+        description: "排序"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      "id": "123"
+      "product_id": "456"
+      "lable_id": "789"
+      "value": 0
+  UserDemo:
+    type: "object"
+    description: "用户模型"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "用户名"
+      avatar:
+        type: "string"
+        description: "头像"
+      email:
+        type: "string"
+        description: "邮箱"
+    example:
+      name: 'Admin'
+      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      id: '00000001'
+      email: 'test@test.com'
+  LoginBody:
+    type: "object"
+    description: "登录参数模型"
+    required:
+      - "userName"
+      - "password"
+      - "type"
+    properties:
+      userName:
+        type: "string"
+        description: "用户名"
+      password:
+        type: "string"
+        description: "密码"
+      type:
+        type: "string"
+        description: "账户类型"
+    example:
+      userName: 'admin'
+      password: '123456'
+      type: 'username'
+  LoginResponse:
+    type: "object"
+    description: "登录返回数据模型"
+    required:
+      - "status"
+      - "type"
+      - "currentAuthority"
+      - "authtoken"
+    properties:
+      status:
+        type: "string"
+        description: "登录状态"
+      type:
+        type: "string"
+        description: "账号类型"
+      currentAuthority:
+        type: "string"
+        description: "当前角色"
+      authtoken:
+        type: "string"
+        description: "秘钥"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      errors:
+        type: "array"
+        items:
+          $ref: '#/definitions/ErrorItem'
+    required:
+      - "message"
+  ErrorItem:
+    type: "object"
+    properties:
+      errcode:
+        type: "integer"
+      errmsg:
+        type: "string"
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+      
+      
