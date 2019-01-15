@@ -71,6 +71,13 @@ definitions:
         format: "uuid"
         description: "ID"
         uniqueItems: true
+      corp_no:
+        type: "string"
+        format: "string(64)"
+        description: "企业编号"
+        x-message: "请输入"
+        x-showTable: true
+        uniqueItems: true
       pid:
         type: "string"
         format: "uuid"
@@ -85,7 +92,7 @@ definitions:
       corp_code:
         type: "string"
         format: "string(64)"
-        description: "企业代码"
+        description: "企业统一代码"
         x-message: "请输入"
         x-showTable: true
         uniqueItems: true

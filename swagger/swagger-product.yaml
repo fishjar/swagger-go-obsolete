@@ -234,6 +234,8 @@ definitions:
         format: "array"
         description: "商品图片"
         x-message: "请输入"
+        items:
+          type: "object"
       description:
         type: "string"
         format: "string(255)"
@@ -318,6 +320,8 @@ definitions:
         format: "array"
         description: "单品图片"
         x-message: "请输入"
+        items:
+          type: "object"
       description:
         type: "string"
         format: "string(255)"
@@ -349,29 +353,105 @@ definitions:
         description: "属性名称"
         x-message: "请输入"
         x-showTable: true
-      # property_type:
-      #   type: "integer"
-      #   format: "int4"
-      #   enum: [1,2,3]
-      #   default: 1
-      #   x-message: "请选择"
-      #   x-showTable: true
-      #   x-showFilter: true
-      #   x-enumMap: {
-      #     1: "正常",
-      #     2: "异常",
-      #     3: "禁用",
-      #   }
-      #   x-description: "状态"
-      #   description: >
-      #     "状态"
-      #       * 1 - 正常
-      #       * 2 - 异常
-      #       * 3 - 禁用
+      data_type:
+        type: "integer"
+        format: "int4"
+        enum: [1,2,3,4,5,6]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          1: "整数",
+          2: "浮点",
+          3: "字符串",
+          4: "布尔",
+          5: "对象",
+          6: "列表",
+        }
+        x-description: "数据类型"
+        description: >
+          "数据类型"
+            * 1 - 整数
+            * 2 - 浮点
+            * 3 - 字符串
+            * 4 - 布尔
+            * 5 - 对象
+            * 6 - 列表
+      form_type:
+        type: "integer"
+        format: "int4"
+        enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          1: "输入框（文字）",
+          2: "输入框（数字）",
+          3: "输入框（多行）",
+          4: "输入框（富文本）",
+          5: "选择框（下拉）",
+          6: "选择框（日期）",
+          7: "选择框（时间）",
+          8: "选择框（日期+时间）",
+          9: "单选",
+          10: "多选",
+          11: "开关",
+          12: "滑块",
+          13: "文件上传",
+          14: "图片上传",
+          15: "地图选点",
+        }
+        x-description: "表单类型"
+        description: >
+          "表单类型"
+            * 1 - 输入框（文字）
+            * 2 - 输入框（数字）
+            * 3 - 输入框（多行）
+            * 4 - 输入框（富文本）
+            * 5 - 选择框（下拉）
+            * 6 - 选择框（日期）
+            * 7 - 选择框（时间）
+            * 8 - 选择框（日期+时间）
+            * 9 - 单选
+            * 10 - 多选
+            * 11 - 开关
+            * 12 - 滑块
+            * 13 - 文件上传
+            * 14 - 图片上传
+            * 15 - 地图选点
+      view_type:
+        type: "integer"
+        format: "int4"
+        enum: [1,2,3,4,5,6,7]
+        default: 1
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          1: "字符",
+          2: "富文本",
+          3: "图片",
+          4: "视频",
+          5: "时间",
+          6: "金额",
+          7: "色彩",
+        }
+        x-description: "展现类型"
+        description: >
+          "展现类型"
+            * 1 - 字符
+            * 2 - 富文本
+            * 3 - 图片
+            * 4 - 视频
+            * 5 - 时间
+            * 6 - 金额
+            * 7 - 色彩
       extra_info:
         type: "object"
         format: "object"
-        description: "额外信息
+        description: "额外信息"
         x-message: "请输入"
     example:
       "id": "123"
@@ -562,7 +642,7 @@ definitions:
     x-isModel: true
     x-plural: "SkuPropertyValues"
     x-tableName: "product_property_value"
-    description: "商品属性值"
+    description: "单品属性值"
     required:
       - "id"
       - "sku_id"
@@ -587,12 +667,44 @@ definitions:
         description: "属性ID"
         x-message: "请输入"
         x-showTable: true
-      value:
+      # value:
+      #   type: "string"
+      #   format: "string(255)"
+      #   description: "属性值"
+      #   x-message: "请输入"
+      #   x-showTable: true
+      value_string:
         type: "string"
         format: "string(255)"
         description: "属性值"
         x-message: "请输入"
-        x-showTable: true
+      value_int:
+        type: "integer"
+        format: "int32"
+        description: "属性值"
+        x-message: "请输入"
+      value_float:
+        type: "number"
+        format: "float"
+        description: "属性值"
+        x-message: "请输入"
+      value_boolean:
+        type: "boolean"
+        format: "boolean"
+        description: "属性值"
+        x-message: "请输入"
+      value_object:
+        type: "object"
+        format: "object"
+        description: "属性值"
+        x-message: "请输入"
+      value_array:
+        type: "array"
+        format: "array"
+        description: "属性值"
+        x-message: "请输入"
+        items:
+          type: "object"
       propertygroup_id:
         type: "string"
         format: "uuid"
@@ -612,39 +724,16 @@ definitions:
       "sku_id": "456"
       "property_id": "789"
       "sort": 0
-  Label:
+  LabelGroup:
     type: "object"
     x-isModel: true
-    x-plural: "Labels"
-    x-tableName: "label"
-    description: "标签"
-    required:
-      - "id"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-        description: "ID"
-        uniqueItems: true
-      name:
-        type: "string"
-        format: "string(64)"
-        description: "标签名称"
-        x-message: "请输入"
-        x-showTable: true
-    example:
-      "id": "123"
-      "name": "foo"
-  CategoryLabel:
-    type: "object"
-    x-isModel: true
-    x-plural: "CategoryLabels"
-    x-tableName: "category_label"
-    description: "某分类的标签"
+    x-plural: "LabelGroups"
+    x-tableName: "label_group"
+    description: "某分类的标签组"
     required:
       - "id"
       - "category_id"
-      - "label_id"
+      - "group_name"
       - "sort"
     properties:
       id:
@@ -658,10 +747,10 @@ definitions:
         description: "分类ID"
         x-message: "请输入"
         x-showTable: true
-      label_id:
+      group_name:
         type: "string"
-        format: "uuid"
-        description: "标签ID"
+        format: "string(64)"
+        description: "分组名"
         x-message: "请输入"
         x-showTable: true
       sort:
@@ -675,19 +764,19 @@ definitions:
     example:
       "id": "123"
       "category_id": "456"
-      "label_id": "789"
+      "group_name": "ok"
       "sort": 0
-  ProductLableValue:
+  ProductLable:
     type: "object"
     x-isModel: true
-    x-plural: "ProductLabelValues"
-    x-tableName: "product_label_value"
-    description: "商品标签值"
+    x-plural: "ProductLabels"
+    x-tableName: "product_label"
+    description: "商品标签"
     required:
       - "id"
       - "product_id"
-      - "lable_id"
-      - "value"
+      - "lable_group_id"
+      - "lable"
       - "sort"
     properties:
       id:
@@ -701,13 +790,13 @@ definitions:
         description: "商品ID"
         x-message: "请输入"
         x-showTable: true
-      lable_id:
+      lable_group_id:
         type: "string"
         format: "uuid"
         description: "属性ID"
         x-message: "请输入"
         x-showTable: true
-      value:
+      lable:
         type: "string"
         format: "string(255)"
         description: "属性值"
@@ -724,8 +813,8 @@ definitions:
     example:
       "id": "123"
       "product_id": "456"
-      "lable_id": "789"
-      "value": 0
+      "lable_group_id": "789"
+      "lable": "ok"
   UserDemo:
     type: "object"
     description: "用户模型"

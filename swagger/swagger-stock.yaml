@@ -1,0 +1,653 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Hello World App"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  JWT:
+    description: "Authorization: Bearer {token}"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - APIKeyHeader: []
+    JWT: []
+paths:
+  /account/login:
+    post:
+      summary: "登录"
+      description: "登录..."
+      security: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "登录参数"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginBody"
+      responses:
+        "200":
+          description: "登录成功"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+  /account/user:
+    get:
+      summary: "查询当前用户"
+      description: "查询当前用户.."
+      responses:
+        "200":
+          description: "查询成功"
+          headers:
+            authtoken:
+              type: string
+              description: 新token续期
+          schema:
+            $ref: "#/definitions/UserDemo"
+        "401":
+          $ref: "#/responses/Unauthorized"
+        "404":
+          $ref: "#/responses/NotFound"
+definitions:
+  Warehouse:
+    type: "object"
+    x-isModel: true
+    x-plural: "Warehouses"
+    x-tableName: "warehouse"
+    description: "仓库"
+    required:
+      - "id"
+      - "warehouse_no"
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      warehouse_no:
+        type: "string"
+        format: "string(64)"
+        description: "仓库编号"
+        x-message: "请输入"
+        x-showTable: true
+      name:
+        type: "string"
+        format: "string(64)"
+        description: "仓库名称"
+        x-message: "请输入"
+        x-showTable: true
+      address:
+        type: "string"
+        format: "string(255)"
+        description: "仓库地址"
+        x-message: "请输入"
+        x-showTable: true
+      admin:
+        type: "string"
+        format: "uuid"
+        description: "管理员ID"
+        x-message: "请输入"
+        x-showTable: true
+    example:
+      id: "123"
+      warehouse_no: "007"
+      name: "testname"
+  Batch:
+    type: "object"
+    x-isModel: true
+    x-plural: "Batchs"
+    x-tableName: "batch"
+    description: "单品批次"
+    required:
+      - "id"
+      - "batch_no"
+      - "sku_no"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      batch_no:
+        type: "string"
+        format: "string(64)"
+        description: "批次编号"
+        x-message: "请输入"
+        x-showTable: true
+      product_id:
+        type: "string"
+        format: "string(64)"
+        description: "商品ID(冗余)"
+        x-message: "请输入"
+      product_no:
+        type: "string"
+        format: "string(64)"
+        description: "商品编号(冗余)"
+        x-message: "请输入"
+      product_name:
+        type: "string"
+        format: "string(64)"
+        description: "商品名称(冗余)"
+        x-message: "请输入"
+      sku_id:
+        type: "string"
+        format: "string(64)"
+        description: "单品ID"
+        x-message: "请输入"
+      sku_no:
+        type: "string"
+        format: "string(64)"
+        description: "单品编号"
+        x-message: "请输入"
+        x-showTable: true
+      sku_name:
+        type: "string"
+        format: "string(64)"
+        description: "单品名称(冗余)"
+        x-message: "请输入"
+        x-showTable: true
+      sku_unit:
+        type: "string"
+        format: "string(16)"
+        description: "单位(冗余)"
+        x-message: "请输入"
+        x-showTable: true
+      produce_time:
+        type: "string"
+        format: "date-time"
+        description: "生产时间"
+        x-showTable: true
+        x-showSorter: true
+      expire_time:
+        type: "string"
+        format: "date-time"
+        description: "过期时间"
+        x-showTable: true
+        x-showSorter: true
+      expire_in:
+        type: "string"
+        format: "string(64)"
+        description: "有效期"
+    example:
+      id: "123"
+      batch_no: "678"
+      sku_no: "345"
+  Stock:
+    type: "object"
+    x-isModel: true
+    x-plural: "Stocks"
+    x-tableName: "stock"
+    description: "库存"
+    required:
+      - "id"
+      - "stock_no"
+      - "warehouse_id"
+      - "batch_id"
+      - "amount"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      stock_no:
+        type: "string"
+        format: "string(64)"
+        description: "库存编号"
+        x-message: "请输入"
+        x-showTable: true
+      warehouse_id:
+        type: "string"
+        format: "uuid"
+        description: "仓库ID"
+        x-message: "请输入"
+        x-showTable: true
+      batch_id:
+        type: "string"
+        format: "uuid"
+        description: "单品批次ID"
+        x-message: "请输入"
+        x-showTable: true
+      amount:
+        type: "integer"
+        format: "int32"
+        description: "数量"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      id: "123"
+      stock_no: "007"
+      warehouse_id: "456"
+      batch_id: "123"
+      amount: 0
+  Inbound:
+    type: "object"
+    x-isModel: true
+    x-plural: "Inbounds"
+    x-tableName: "inbound"
+    description: "入库单"
+    required:
+      - "id"
+      - "inbound_no"
+      - "warehouse_id"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      inbound_no:
+        type: "string"
+        format: "string(64)"
+        description: "入库单编号"
+        x-message: "请输入"
+        x-showTable: true
+      warehouse_id:
+        type: "string"
+        format: "uuid"
+        description: "仓库ID"
+        x-message: "请输入"
+        x-showTable: true
+      supplier_id:
+        type: "string"
+        format: "string(64)"
+        description: "供应商ID"
+        x-message: "请输入"
+      supplier_no:
+        type: "string"
+        format: "string(64)"
+        description: "供应商编号"
+        x-message: "请输入"
+      supplier:
+        type: "string"
+        format: "string(64)"
+        description: "供应商名称"
+        x-message: "请输入"
+        x-showTable: true
+      deliverer:
+        type: "string"
+        format: "string(64)"
+        description: "送货人"
+        x-message: "请输入"
+        x-showTable: true
+      operator:
+        type: "string"
+        format: "string(64)"
+        description: "经手人"
+        x-message: "请输入"
+        x-showTable: true
+      operator_id:
+        type: "string"
+        format: "uuid"
+        description: "经手人ID"
+        x-message: "请输入"
+      auditor:
+        type: "string"
+        format: "string(64)"
+        description: "审核人"
+        x-message: "请输入"
+        x-showTable: true
+      auditor_id:
+        type: "string"
+        format: "uuid"
+        description: "审核人ID"
+        x-message: "请输入"
+      total_amount:
+        type: "integer"
+        format: "int32"
+        description: "总数"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      total_price:
+        type: "integer"
+        format: "int32"
+        description: "总价"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      approved_time:
+        type: "string"
+        format: "date-time"
+        description: "审核时间"
+        x-showTable: true
+        x-showSorter: true
+      inbound_time:
+        type: "string"
+        format: "date-time"
+        description: "入库时间"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      id: "123"
+      inbound_no: "007"
+      warehouse_id: "456"
+  InboundBatch:
+    type: "object"
+    x-isModel: true
+    x-plural: "InboundBatchs"
+    x-tableName: "inbound_batch"
+    description: "入库单明细"
+    required:
+      - "id"
+      - "inbound_id"
+      - "batch_id"
+      - "amount"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      inbound_id:
+        type: "string"
+        format: "uuid"
+        description: "入库单ID"
+        x-message: "请输入"
+        x-showTable: true
+      batch_id:
+        type: "string"
+        format: "uuid"
+        description: "批次ID"
+        x-message: "请输入"
+        x-showTable: true
+      title:
+        type: "string"
+        format: "string(64)"
+        description: "名称"
+        x-message: "请输入"
+        x-showTable: true
+      unit:
+        type: "string"
+        format: "string(64)"
+        description: "单位"
+        x-message: "请输入"
+        x-showTable: true
+      price:
+        type: "integer"
+        format: "int32"
+        description: "单价"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      amount:
+        type: "integer"
+        format: "int32"
+        description: "数量"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      subtotal_price:
+        type: "integer"
+        format: "int32"
+        description: "小计"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      id: "123"
+      inbound_id: "007"
+      batch_id: "456"
+      amount: 0
+  Outbound:
+    type: "object"
+    x-isModel: true
+    x-plural: "Outbounds"
+    x-tableName: "outbound"
+    description: "出库单"
+    required:
+      - "id"
+      - "outbound_no"
+      - "warehouse_id"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      outbound_no:
+        type: "string"
+        format: "string(64)"
+        description: "出库单编号"
+        x-message: "请输入"
+        x-showTable: true
+      warehouse_id:
+        type: "string"
+        format: "uuid"
+        description: "仓库ID"
+        x-message: "请输入"
+        x-showTable: true
+      deliverer:
+        type: "string"
+        format: "string(64)"
+        description: "送货人"
+        x-message: "请输入"
+        x-showTable: true
+      operator:
+        type: "string"
+        format: "string(64)"
+        description: "经手人"
+        x-message: "请输入"
+        x-showTable: true
+      operator_id:
+        type: "string"
+        format: "uuid"
+        description: "经手人ID"
+        x-message: "请输入"
+      auditor:
+        type: "string"
+        format: "string(64)"
+        description: "审核人"
+        x-message: "请输入"
+        x-showTable: true
+      auditor_id:
+        type: "string"
+        format: "uuid"
+        description: "审核人ID"
+        x-message: "请输入"
+      total_amount:
+        type: "integer"
+        format: "int32"
+        description: "总数"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      total_price:
+        type: "integer"
+        format: "int32"
+        description: "总价"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      approved_time:
+        type: "string"
+        format: "date-time"
+        description: "审核时间"
+        x-showTable: true
+        x-showSorter: true
+      outbound_time:
+        type: "string"
+        format: "date-time"
+        description: "出库时间"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      id: "123"
+      outbound_no: "007"
+      warehouse_id: "456"
+  OutboundBatch:
+    type: "object"
+    x-isModel: true
+    x-plural: "OutboundBatchs"
+    x-tableName: "outbound_batch"
+    description: "出库单明细"
+    required:
+      - "id"
+      - "outbound_id"
+      - "batch_id"
+      - "amount"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      outbound_id:
+        type: "string"
+        format: "uuid"
+        description: "出库单ID"
+        x-message: "请输入"
+        x-showTable: true
+      batch_id:
+        type: "string"
+        format: "uuid"
+        description: "批次ID"
+        x-message: "请输入"
+        x-showTable: true
+      title:
+        type: "string"
+        format: "string(64)"
+        description: "名称"
+        x-message: "请输入"
+        x-showTable: true
+      unit:
+        type: "string"
+        format: "string(64)"
+        description: "单位"
+        x-message: "请输入"
+        x-showTable: true
+      price:
+        type: "integer"
+        format: "int32"
+        description: "单价"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      amount:
+        type: "integer"
+        format: "int32"
+        description: "数量"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+      subtotal_price:
+        type: "integer"
+        format: "int32"
+        description: "小计"
+        x-message: "请输入"
+        x-showTable: true
+        x-showSorter: true
+    example:
+      id: "123"
+      outbound_id: "007"
+      batch_id: "456"
+      amount: 0
+  UserDemo:
+    type: "object"
+    description: "用户模型"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "用户名"
+      avatar:
+        type: "string"
+        description: "头像"
+      email:
+        type: "string"
+        description: "邮箱"
+    example:
+      name: 'Admin'
+      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      id: '00000001'
+      email: 'test@test.com'
+  LoginBody:
+    type: "object"
+    description: "登录参数模型"
+    required:
+      - "userName"
+      - "password"
+      - "type"
+    properties:
+      userName:
+        type: "string"
+        description: "用户名"
+      password:
+        type: "string"
+        description: "密码"
+      type:
+        type: "string"
+        description: "账户类型"
+    example:
+      userName: 'admin'
+      password: '123456'
+      type: 'username'
+  LoginResponse:
+    type: "object"
+    description: "登录返回数据模型"
+    required:
+      - "status"
+      - "type"
+      - "currentAuthority"
+      - "authtoken"
+    properties:
+      status:
+        type: "string"
+        description: "登录状态"
+      type:
+        type: "string"
+        description: "账号类型"
+      currentAuthority:
+        type: "string"
+        description: "当前角色"
+      authtoken:
+        type: "string"
+        description: "秘钥"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      errors:
+        type: "array"
+        items:
+          $ref: '#/definitions/ErrorItem'
+    required:
+      - "message"
+  ErrorItem:
+    type: "object"
+    properties:
+      errcode:
+        type: "integer"
+      errmsg:
+        type: "string"
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+      
+      
