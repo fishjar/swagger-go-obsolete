@@ -81,33 +81,31 @@ definitions:
       sender:
         type: "string"
         format: "string(128)"
-        description: "仓库编号"
+        description: "发送人 <邮箱账号>"
         x-message: "请输入"
         x-showTable: true
       receivers:
         type: "string"
         format: "string(255)"
-        description: "仓库编号"
+        description: "接收人"
         x-message: "请输入"
         x-showTable: true
       subject:
         type: "string"
         format: "string(255)"
-        description: "仓库编号"
+        description: "标题"
         x-message: "请输入"
         x-showTable: true
       text_body:
         type: "string"
         format: "text"
-        description: "仓库编号"
+        description: "TEXT内容"
         x-message: "请输入"
-        x-showTable: true
       html_body:
         type: "string"
         format: "text"
-        description: "仓库编号"
+        description: "HTML内容"
         x-message: "请输入"
-        x-showTable: true
       send_time:
         type: "string"
         format: "date-time"
@@ -140,6 +138,71 @@ definitions:
       "receivers": "receivers@test.com"
       "subject": "hello"
       "text_body": "how are you?"
+  Smtp:
+    type: "object"
+    x-isModel: true
+    x-plural: "Smtps"
+    x-tableName: "smtp"
+    description: "邮件配置"
+    required:
+      - "id"
+      - "sender"
+      - "host"
+      - "port"
+      - "secure"
+      - "user"
+      - "pass"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      sender:
+        type: "string"
+        format: "string(128)"
+        description: "发送人"
+        x-message: "请输入"
+        uniqueItems: true
+        x-showTable: true
+      host:
+        type: "string"
+        format: "string(128)"
+        description: "SMTP服务器"
+        x-message: "请输入"
+        x-showTable: true
+      port:
+        type: "integer"
+        format: "int4"
+        description: "SMTP端口"
+        x-message: "请输入"
+        x-showTable: true
+      secure:
+        type: "boolean"
+        format: "boolean"
+        description: "是否加密"
+        default: true
+        x-message: "请输入"
+        x-showTable: true
+      user:
+        type: "string"
+        format: "string(128)"
+        description: "邮箱账号"
+        x-message: "请输入"
+        x-showTable: true
+      pass:
+        type: "string"
+        format: "string(128)"
+        description: "邮箱密码"
+        x-message: "请输入"
+    example:
+      "id": "123"
+      "sender": "test"
+      "host": "smtp.exmail.qq.com"
+      "port": 465
+      "secure": true
+      "user": "test@test.com"
+      "pass": "******"
   UserDemo:
     type: "object"
     description: "用户模型"
