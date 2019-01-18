@@ -68,7 +68,7 @@ try {
               allowNull: ${item.required.includes(k) ? 'false' : 'true'},
               unique: ${v.uniqueItems?'true':'false'},
               ${v.default===undefined?'':`defaultValue: ${v.default},`}validate: {
-              ${v.enum===undefined?'':`isIn: [[${v.enum}]],`}
+              ${v.enum===undefined?'':`isIn: [${JSON.stringify(v.enum)}],`}
               ${v.minimum===undefined?'':`min: ${v.minimum},`}
               ${v.maximum===undefined?'':`max: ${v.maximum},`}
               ${(v.minLength!==undefined&&v.maxLength!==undefined)?`len: [${v.minLength},${v.maxLength}],`:''}

@@ -61,21 +61,45 @@ paths:
         "404":
           $ref: "#/responses/NotFound"
 definitions:
-  Staff:
+  Promo:
     type: "object"
     x-isModel: true
-    x-plural: "Staffs"
-    x-tableName: "staff"
-    description: "员工"
+    x-plural: "Promos"
+    x-tableName: "promo"
+    description: "推广码"
     required:
       - "id"
-      - "staff_code"
-      - "name"
+      - "promo_type"
+      - "promo_code"
     properties:
       id:
         type: "string"
         format: "uuid"
         description: "ID"
+        uniqueItems: true
+      promo_type:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3]
+        default: 0
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "默认",
+          1: "VIP",
+        }
+        x-description: "推广码类型"
+        description: >
+          "推广码类型"
+            * 0 - 默认
+            * 1 - VIP
+      promo_code:
+        type: "string"
+        format: "string(64)"
+        description: "推广码"
+        x-message: "请输入"
+        x-showTable: true
         uniqueItems: true
       user_id:
         type: "string"
@@ -83,258 +107,189 @@ definitions:
         description: "用户ID"
         x-message: "请输入"
         x-showTable: true
-      staff_code:
-        type: "string"
-        format: "string(64)"
-        description: "员工代码"
-        x-message: "请输入"
-        x-showTable: true
-      name:
-        type: "string"
-        format: "string(64)"
-        description: "企业名称"
-        x-message: "请输入"
-        x-showTable: true
-      corp_code:
-        type: "string"
-        format: "string(64)"
-        description: "企业代码"
-        x-message: "请输入"
-        x-showTable: true
-      phone:
-        type: "string"
-        format: "string(64)"
-        description: "电话"
-        x-message: "请输入"
-        x-showTable: true
-      email:
-        type: "string"
-        format: "email"
-        description: "邮箱"
-        x-message: "请输入"
-        x-showTable: true
-      fox:
-        type: "string"
-        format: "string(64)"
-        description: "传真"
-        x-message: "请输入"
-        x-showTable: true
     example:
       id: "123"
-      staff_code: "1234"
-      name: "foo"
-  Org:
+      promo_type: 0
+      promo_code: "001"
+      user_id: "123"
+  PromoPlan:
     type: "object"
     x-isModel: true
-    x-plural: "Orgs"
-    x-tableName: "org"
-    description: "组织机构"
+    x-plural: "PromoPlans"
+    x-tableName: "promo_plan"
+    description: "推广计划"
     required:
       - "id"
-      - "name"
+      - "plan_type"
+      - "plan_code"
+      - "promo_code"
     properties:
       id:
         type: "string"
         format: "uuid"
         description: "ID"
         uniqueItems: true
-      pid:
-        type: "string"
-        format: "uuid"
-        description: "父ID"
-        x-message: "请输入"
-      corp_code:
-        type: "string"
-        format: "string(64)"
-        description: "企业代码"
-        x-message: "请输入"
-        x-showTable: true
-      name:
-        type: "string"
-        format: "string(64)"
-        description: "姓名"
-        x-message: "请输入"
-        x-showTable: true
-    example:
-      "id": "123"
-      "name": "testname"
-  StaffOrg:
-    type: "object"
-    x-isModel: true
-    x-plural: "StaffOrgs"
-    x-tableName: "stafforg"
-    description: "员工-部门"
-    required:
-      - "id"
-      - "staff_id"
-      - "org_id"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-        description: "ID"
-        uniqueItems: true
-      staff_id:
-        type: "string"
-        format: "uuid"
-        description: "员工ID"
-        x-message: "请输入"
-      org_id:
-        type: "string"
-        format: "uuid"
-        description: "部门ID"
-        x-message: "请输入"
-    example:
-      "id": "123"
-      "staff_id": "456"
-      "org_id": "789"
-  Resource:
-    type: "object"
-    x-isModel: true
-    x-plural: "Resources"
-    x-tableName: "resource"
-    description: "资源"
-    required:
-      - "id"
-      - "resource_code"
-      - "name"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-        description: "ID"
-        uniqueItems: true
-      pid:
-        type: "string"
-        format: "uuid"
-        description: "父ID"
-        x-message: "请输入"
-      resource_code:
-        type: "string"
-        format: "string(64)"
-        description: "资源代码"
-        x-message: "请输入"
-        x-showTable: true
-        uniqueItems: true
-      name:
-        type: "string"
-        format: "string(64)"
-        description: "资源名称"
-        x-message: "请输入"
-        x-showTable: true
-    example:
-      "id": "123"
-      "name": "testname"
-  Role:
-    type: "object"
-    x-isModel: true
-    x-plural: "Roles"
-    x-tableName: "role"
-    description: "角色"
-    required:
-      - "id"
-      - "name"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-        description: "ID"
-        uniqueItems: true
-      name:
-        type: "string"
-        format: "string(64)"
-        description: "角色名称"
-        x-message: "请输入"
-        x-showTable: true
-    example:
-      "id": "123"
-      "name": "testname"
-  RoleResource:
-    type: "object"
-    x-isModel: true
-    x-plural: "RoleResources"
-    x-tableName: "roleresource"
-    description: "角色-资源"
-    required:
-      - "id"
-      - "role_id"
-      - "resource_id"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-        description: "ID"
-        uniqueItems: true
-      role_id:
-        type: "string"
-        format: "uuid"
-        description: "角色ID"
-        x-message: "请输入"
-        x-showTable: true
-      resource_id:
-        type: "string"
-        format: "uuid"
-        description: "资源ID"
-        x-message: "请输入"
-        x-showTable: true
-      action:
+      plan_type:
         type: "integer"
         format: "int4"
-        enum: [0,1,2,3,4]
+        enum: [0,1,2,3]
         default: 0
         x-message: "请选择"
         x-showTable: true
         x-showFilter: true
         x-enumMap: {
-          0: "ALL",
-          1: "增",
-          2: "删",
-          3: "改",
-          4: "查",
+          0: "默认",
+          1: "URL",
+          2: "二维码",
+          3: "图片",
         }
-        x-description: "操作"
+        x-description: "推广计划类型"
         description: >
-          "操作"
-            * 0 - ALL
-            * 1 - 增
-            * 2 - 删
-            * 3 - 改
-            * 4 - 查
+          "推广计划类型"
+            * 0 - 默认
+            * 1 - URL
+            * 2 - 二维码
+            * 3 - 图片
+      plan_code:
+        type: "string"
+        format: "string(255)"
+        description: "推广计划码"
+        x-message: "请输入"
+        x-showTable: true
+      promo_code:
+        type: "string"
+        format: "string(64)"
+        description: "推广码"
+        x-message: "请输入"
+        x-showTable: true
+      extra_info:
+        type: "object"
+        format: "object"
+        description: "额外信息"
+        x-message: "请输入"
     example:
-      "id": "123"
-      "name": "testname"
-  StaffRole:
+      id: "123"
+      plan_type: 3
+      plan_code: "http://test.com/abc.jpg"
+      promo_code: "001"
+  Track:
     type: "object"
     x-isModel: true
-    x-plural: "StaffRoles"
-    x-tableName: "staffrole"
-    description: "员工-角色"
+    x-plural: "Tracks"
+    x-tableName: "track"
+    description: "推广码跟踪"
     required:
       - "id"
-      - "staff_id"
-      - "role_id"
+      - "track_type"
+      - "plan_code"
     properties:
       id:
         type: "string"
         format: "uuid"
         description: "ID"
         uniqueItems: true
-      staff_id:
+      track_type:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3]
+        default: 0
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "默认",
+          1: "访问",
+          2: "注册",
+          3: "业务",
+        }
+        x-description: "跟踪类型"
+        description: >
+          "跟踪类型"
+            * 0 - 默认
+            * 1 - 访问
+            * 2 - 注册
+            * 3 - 业务
+      promo_code:
         type: "string"
-        format: "uuid"
-        description: "员工ID"
+        format: "string(64)"
+        description: "推广码"
         x-message: "请输入"
         x-showTable: true
-      role_id:
+      user_id:
         type: "string"
         format: "uuid"
-        description: "角色ID"
+        description: "用户ID"
         x-message: "请输入"
         x-showTable: true
+      extra_info:
+        type: "object"
+        format: "object"
+        description: "额外信息"
+        x-message: "请输入"
     example:
-      "id": "123"
-      "staff_id": "123"
-      "role_id": "123"
+      id: "123"
+      track_type: 0
+      promo_code: "001"
+      user_id: "123"
+  Share:
+    type: "object"
+    x-isModel: true
+    x-plural: "Shares"
+    x-tableName: "share"
+    description: "推广码分享"
+    required:
+      - "id"
+      - "share_type"
+      - "promo_code"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      share_type:
+        type: "integer"
+        format: "int4"
+        enum: [0,1,2,3]
+        default: 0
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          0: "默认",
+          1: "小程序",
+          2: "公众号",
+          3: "APP",
+        }
+        x-description: "分享类型"
+        description: >
+          "分享类型"
+            * 0 - 默认
+            * 1 - 小程序
+            * 2 - 公众号
+            * 3 - APP
+      promo_code:
+        type: "string"
+        format: "string(64)"
+        description: "推广码"
+        x-message: "请输入"
+        x-showTable: true
+      user_id:
+        type: "string"
+        format: "uuid"
+        description: "用户ID"
+        x-message: "请输入"
+        x-showTable: true
+      extra_info:
+        type: "object"
+        format: "object"
+        description: "额外信息"
+        x-message: "请输入"
+    example:
+      id: "123"
+      share_type: 0
+      promo_code: "001"
+      user_id: "123"
   UserDemo:
     type: "object"
     description: "用户模型"

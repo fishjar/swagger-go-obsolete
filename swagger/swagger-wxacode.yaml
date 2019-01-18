@@ -1,0 +1,267 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Hello World App"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  JWT:
+    description: "Authorization: Bearer {token}"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+security:
+  - APIKeyHeader: []
+    JWT: []
+paths:
+  /account/login:
+    post:
+      summary: "登录"
+      description: "登录..."
+      security: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "登录参数"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginBody"
+      responses:
+        "200":
+          description: "登录成功"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+  /account/user:
+    get:
+      summary: "查询当前用户"
+      description: "查询当前用户.."
+      responses:
+        "200":
+          description: "查询成功"
+          headers:
+            authtoken:
+              type: string
+              description: 新token续期
+          schema:
+            $ref: "#/definitions/UserDemo"
+        "401":
+          $ref: "#/responses/Unauthorized"
+        "404":
+          $ref: "#/responses/NotFound"
+definitions:
+  Wxacode:
+    type: "object"
+    x-isModel: true
+    x-plural: "Wxacodes"
+    x-tableName: "wxacode"
+    description: "小程序码"
+    required:
+      - "id"
+      - "appid"
+      - "code_type"
+      - "path"
+      - "width"
+      - "code_path"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      appid:
+        type: "string"
+        format: "string(32)"
+        description: "APPID"
+        x-message: "请输入"
+        x-showTable: true
+      code_type:
+        type: "string"
+        format: "string(1)"
+        enum: ["a","b","c"]
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+        x-enumMap: {
+          "a": "接口A",
+          "b": "接口B",
+          "c": "接口C",
+        }
+        x-description: "接口类型"
+        description: >
+          "接口类型"
+            * a - 接口A
+            * b - 接口B
+            * c - 接口C
+      page:
+        type: "string"
+        format: "string(128)"
+        description: "小程序页面路径"
+        x-message: "请输入"
+        x-showTable: true
+      scene:
+        type: "string"
+        format: "string(32)"
+        description: "场景参数"
+        x-message: "请输入"
+        x-showTable: true
+      width:
+        type: "integer"
+        format: "int4"
+        description: "二维码的宽度"
+        minimum: 280
+        maximum: 1280
+        default: 430
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      auto_color:
+        type: "boolean"
+        format: "boolean"
+        description: "自动配置线条颜色"
+        default: true
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+      line_color:
+        type: "object"
+        format: "object"
+        description: "rgb 设置颜色"
+        x-message: "请输入"
+        properties:
+          r:
+            type: "integer"
+            description: "R"
+          g:
+            type: "integer"
+            description: "G"
+          b:
+            type: "integer"
+            description: "B"
+      is_hyaline:
+        type: "boolean"
+        format: "boolean"
+        description: "是否需要透明底色"
+        default: false
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+      code_path:
+        type: "string"
+        format: "string(255)"
+        description: "小程序码图片地址"
+        x-message: "请输入"
+    example:
+      "id": "123"
+      "appid": "wx****"
+      "code_type": "A"
+      "path": "pages/index/index"
+      "width": 430
+      "code_path": "/wxcode/abc.jpg"
+  UserDemo:
+    type: "object"
+    description: "用户模型"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "ID"
+      name:
+        type: "string"
+        description: "用户名"
+      avatar:
+        type: "string"
+        description: "头像"
+      email:
+        type: "string"
+        description: "邮箱"
+    example:
+      name: 'Admin'
+      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      id: '00000001'
+      email: 'test@test.com'
+  LoginBody:
+    type: "object"
+    description: "登录参数模型"
+    required:
+      - "userName"
+      - "password"
+      - "type"
+    properties:
+      userName:
+        type: "string"
+        description: "用户名"
+      password:
+        type: "string"
+        description: "密码"
+      type:
+        type: "string"
+        description: "账户类型"
+    example:
+      userName: 'admin'
+      password: '123456'
+      type: 'username'
+  LoginResponse:
+    type: "object"
+    description: "登录返回数据模型"
+    required:
+      - "status"
+      - "type"
+      - "currentAuthority"
+      - "authtoken"
+    properties:
+      status:
+        type: "string"
+        description: "登录状态"
+      type:
+        type: "string"
+        description: "账号类型"
+      currentAuthority:
+        type: "string"
+        description: "当前角色"
+      authtoken:
+        type: "string"
+        description: "秘钥"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      errors:
+        type: "array"
+        items:
+          $ref: '#/definitions/ErrorItem'
+    required:
+      - "message"
+  ErrorItem:
+    type: "object"
+    properties:
+      errcode:
+        type: "integer"
+      errmsg:
+        type: "string"
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+      
+      
