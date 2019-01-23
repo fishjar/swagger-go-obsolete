@@ -16,6 +16,11 @@ export default () => async function jwtRolling(ctx, next) {
       userName,
       type,
     }, JWT_SECRET, { expiresIn: EXPIRES_IN });
+    // 中间件传递信息，挂载到ctx.state
+    ctx.state.user = {
+      userName,
+      type,
+    };
     ctx.set('authtoken', authtoken);
   }
   await next();
