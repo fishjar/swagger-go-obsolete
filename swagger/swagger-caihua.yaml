@@ -224,147 +224,277 @@ paths:
           schema:
             $ref: "#/definitions/Foo"
 definitions:
-  Foo:
+  Caiuser:
     type: "object"
     x-isModel: true
-    x-plural: "Foos"
-    x-tableName: "foo"
-    description: "测试模型"
+    x-plural: "Caiusers"
+    x-tableName: "caiuser"
+    description: "业务用户"
     required:
       - "id"
-      - "name"
-      - "good_time"
-      - "is_good"
-      - "status"
+      - "user_id"
+      - "nickname"
     properties:
       id:
         type: "string"
         format: "uuid"
         description: "ID"
         uniqueItems: true
-      name:
+      user_id:
         type: "string"
-        format: "string(20)"
-        description: "名称"
-        uniqueItems: true
-        minLength: 3
-        maxLength: 20
+        format: "uuid"
+        description: "用户ID"
+        x-message: "请输入"
+        x-showTable: true
+      nickname:
+        type: "string"
+        format: "string(64)"
+        description: "昵称"
         x-message: "请输入"
         x-showTable: true
         x-showFilter: true
-      age:
+      avatar:
+        type: "string"
+        format: "string(255)"
+        description: "头像"
+        x-message: "请输入"
+        x-showTable: true
+      level:
         type: "integer"
         format: "int4"
-        description: "年龄"
+        description: "级别"
+        default: 0
         minimum: 0
         maximum: 100
         x-message: "请输入"
         x-showTable: true
         x-showFilter: true
         x-showSorter: true
-      weight:
-        type: "number"
-        format: "float"
-        description: "体重（单位:kg）"
-        minimum: 0.01
-        maximum: 200.0
+      level_title:
+        type: "string"
+        format: "string(64)"
+        description: "级别称呼"
         x-message: "请输入"
         x-showTable: true
-        x-showFilter: true
-        x-showSorter: true
-      birthday:
-        type: "string"
-        format: "date"
-        description: "生日"
-        x-message: "请选择"
-        x-showTable: true
-        x-showSorter: true
-      good_time:
-        type: "string"
-        format: "date-time"
-        description: "快乐时光"
-        x-message: "请选择"
-        x-showTable: true
-        x-showSorter: true
-      email:
-        type: "string"
-        format: "email"
-        description: "邮箱"
-        uniqueItems: true
-        x-message: "请输入"
-        x-showTable: true
-        x-showFilter: true
-      homepage:
-        type: "string"
-        format: "uri"
-        description: "主页"
-        x-message: "请输入"
-      notice:
-        type: "string"
-        format: "text"
-        description: "备注"
-        x-message: "请输入"
-      intro:
-        type: "string"
-        format: "text"
-        description: "介绍"
-        x-message: "请输入"
-        x-isRichText: true
-      is_good:
-        type: "boolean"
-        format: "boolean"
-        description: "是否安好"
-        default: true
-        x-message: "请选择"
-        x-showTable: true
-        x-showFilter: true
-      my_extra:
-        type: "object"
-        format: "object"
-        description: "扩展字段1"
-        x-message: "请输入"
-        properties:
-          id:
-            type: "integer"
-            description: "ID"
-          username:
-            type: "string"
-            description: "用户名"
-      my_extra_array:
-        type: "array"
-        format: "array"
-        description: "扩展字段2"
-        items:
-          $ref: '#/definitions/UserDemo'
-      status:
+      score:
         type: "integer"
         format: "int4"
-        enum: [1,2,3]
-        default: 1
+        description: "得分"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      question_count:
+        type: "integer"
+        format: "int4"
+        description: "问题数目"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      right_count:
+        type: "integer"
+        format: "int4"
+        description: "正确数目"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+    example:
+      id: "123"
+      user_id: '1231232'
+      nickname: "foo"
+  Exam:
+    type: "object"
+    x-isModel: true
+    x-plural: "Exams"
+    x-tableName: "exam"
+    description: "测验"
+    required:
+      - "id"
+      - "user_id"
+      - "exam_type"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      user_id:
+        type: "string"
+        format: "uuid"
+        description: "用户ID"
+        x-message: "请输入"
+        x-showTable: true
+      exam_type:
+        type: "string"
+        format: "string(8)"
+        description: "测验类型"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+      exam_level:
+        type: "string"
+        format: "string(8)"
+        description: "测验级别"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+      end_time:
+        type: "string"
+        format: "date-time"
+        description: "结束时间"
+        x-message: "请选择"
+        x-showTable: true
+        x-showSorter: true
+      question_count:
+        type: "integer"
+        format: "int4"
+        description: "问题数目"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      right_count:
+        type: "integer"
+        format: "int4"
+        description: "正确数目"
+        default: 0
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+    example:
+      id: "123"
+      user_id: "123321"
+      exam_type: "en_en"
+      exam_level: "CET4"
+  Question:
+    type: "object"
+    x-isModel: true
+    x-plural: "Questions"
+    x-tableName: "question"
+    description: "问题"
+    required:
+      - "id"
+      - "exam_id"
+      - "word"
+      - "question_no"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      exam_id:
+        type: "string"
+        format: "uuid"
+        description: "用户ID"
+        x-message: "请输入"
+        x-showTable: true
+      word:
+        type: "string"
+        format: "string(255)"
+        description: "题目文字"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+      question_no:
+        type: "integer"
+        format: "int4"
+        description: "题目序号"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      end_time:
+        type: "string"
+        format: "date-time"
+        description: "结束时间"
+        x-message: "请选择"
+        x-showTable: true
+        x-showSorter: true
+      if_right:
+        type: "boolean"
+        format: "boolean"
+        description: "是否匹配"
+        default: false
         x-message: "请选择"
         x-showTable: true
         x-showFilter: true
-        x-enumMap: {
-          1: "正常",
-          2: "异常",
-          3: "禁用",
-        }
-        x-description: "状态"
-        description: >
-          "状态"
-            * 1 - 正常
-            * 2 - 异常
-            * 3 - 禁用
     example:
       id: "123"
-      age: 12
-      name: "foo"
-      birthday: "2012-12-12"
-      good_time: "2012-12-12 12:12:12"
-      email: "test@test.com"
-      notice: "备注"
-      is_good: true
-      status: 1
+      exam_id: "123321"
+      word: "hello"
+      question_no: 1
+  Answer:
+    type: "object"
+    x-isModel: true
+    x-plural: "Bizuser"
+    x-tableName: "bizuser"
+    description: "业务用户"
+    required:
+      - "id"
+      - "question_id"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        description: "ID"
+        uniqueItems: true
+      user_id:
+        type: "string"
+        format: "uuid"
+        description: "用户ID"
+        x-message: "请输入"
+        x-showTable: true
+      question_id:
+        type: "string"
+        format: "uuid"
+        description: "问题ID"
+        x-message: "请输入"
+        x-showTable: true
+      answer:
+        type: "string"
+        format: "string(255)"
+        description: "回答语音地址"
+        x-message: "请输入"
+      answer_time:
+        type: "integer"
+        format: "int4"
+        description: "语音时长"
+        x-message: "请输入"
+        x-showTable: true
+        x-showFilter: true
+        x-showSorter: true
+      answer_words:
+        type: "string"
+        format: "string(255)"
+        description: "语音识别文字"
+        x-message: "请输入"
+        x-showTable: true
+      reply_time:
+        type: "string"
+        format: "date-time"
+        description: "回答时间"
+        x-message: "请选择"
+        x-showTable: true
+        x-showSorter: true
+      if_right:
+        type: "boolean"
+        format: "boolean"
+        description: "是否匹配"
+        default: false
+        x-message: "请选择"
+        x-showTable: true
+        x-showFilter: true
+    example:
+      id: "123"
+      question_id: "123321"
   UserDemo:
     type: "object"
     description: "用户模型"
