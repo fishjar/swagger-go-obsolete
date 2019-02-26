@@ -434,9 +434,9 @@ definitions:
   Answer:
     type: "object"
     x-isModel: true
-    x-plural: "Bizuser"
-    x-tableName: "bizuser"
-    description: "业务用户"
+    x-plural: "Answers"
+    x-tableName: "answer"
+    description: "回答"
     required:
       - "id"
       - "question_id"
@@ -472,8 +472,8 @@ definitions:
         x-showFilter: true
         x-showSorter: true
       answer_words:
-        type: "string"
-        format: "string(255)"
+        type: "object"
+        format: "object"
         description: "语音识别文字"
         x-message: "请输入"
         x-showTable: true
