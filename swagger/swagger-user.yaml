@@ -233,13 +233,13 @@ definitions:
       auth_id:
         type: "string"
         format: "string(64)"
-        description: "认证账号"
+        description: "认证账号(appid)"
         x-message: "请输入"
         x-showTable: true
       auth_code:
         type: "string"
-        format: "email"
-        description: "认证凭证"
+        format: "string(128)"
+        description: "认证凭证(openid)"
         x-message: "请输入"
         x-showTable: true
       expire_time:
