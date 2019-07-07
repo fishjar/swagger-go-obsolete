@@ -1,7 +1,7 @@
 export const foo = function() {
-  return 'bar'
+  return "bar";
 };
 
 export default {
-  foo,
-}
+  foo
+};

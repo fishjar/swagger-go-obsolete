@@ -1,22 +1,21 @@
-import fs from 'fs';
-import path from 'path';
-import Sequelize from 'sequelize';
+import fs from "fs";
+import path from "path";
+import Sequelize from "sequelize";
 
-import config from '../config';
-const {
-  DATABASE_URL,
-  DATABASE_OPT,
-} = config;
+import config from "../config";
+const { DATABASE_URL, DATABASE_OPT } = config;
 
 const basename = path.basename(__filename);
 const sequelize = new Sequelize(DATABASE_URL, DATABASE_OPT);
 const db = {};
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
+fs.readdirSync(__dirname)
+  .filter(
+    file =>
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+  )
   .forEach(file => {
-    const model = sequelize['import'](path.join(__dirname, file));
+    const model = sequelize["import"](path.join(__dirname, file));
     db[model.name] = model;
   });
 

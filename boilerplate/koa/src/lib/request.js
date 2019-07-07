@@ -1,14 +1,15 @@
-import rp from 'request-promise';
+import rp from "request-promise";
 
-import logger from './logger';
+import logger from "./logger";
 
 export default async options => {
-  let res
+  let res;
   try {
-    res = await rp({
-      json: true,
-      ...options
-    }) || 'ok';
+    res =
+      (await rp({
+        json: true,
+        ...options
+      })) || "ok";
   } catch ({ name, statusCode, message, options }) {
     logger.error(`${name} ${statusCode} ${message} ${JSON.stringify(options)}`);
     // const err = new Error('服务请求错误');
@@ -16,4 +17,4 @@ export default async options => {
     // throw err;
   }
   return res;
-}
+};
