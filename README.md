@@ -7,8 +7,8 @@
 - 通过`swagger.yaml`生成`REST API`后端代码
   - `nodejs`：
     - `koajs`
-      - 包含ORM（sequelize）
-      - 简易JWT验证
+      - 包含 ORM（sequelize）
+      - 简易 JWT 验证
     - `eggjs`
   - `java`
     - `spring boot`
@@ -78,31 +78,31 @@ docker-compose up
 
 ## swagger 编辑说明
 
-版本基于2.0
+版本基于 2.0
 
 运行`npm run swagger`会自动补全`definitions`中的`model`到`paths`，
 因此`paths`部分仅需编辑额外的接口，
 
 ### 扩展字段
 
-| 字段名           | 字段类型    | 说明              |
-|---------------|---------|-----------------|
-| x-isModel     | boolean | 是否当做model处理     |
-| x-plural      | string  | model的复数形式      |
-| x-message     | string  | andt中的提示信息      |
-| x-showTable   | boolean | antd中是否显示在列表中   |
-| x-showFilter  | boolean | antd中是否搜索字段     |
-| x-showSorter  | boolean | antd列表中是否需要排序   |
-| x-isRichText  | boolean | antd中是否使用富文本编辑器 |
-| x-enumMap     | object  | 枚举类型的说明字典       |
-| x-description | string  | 枚举类型的说明文字       |
+| 字段名        | 字段类型 | 说明                        |
+| ------------- | -------- | --------------------------- |
+| x-isModel     | boolean  | 是否当做 model 处理         |
+| x-plural      | string   | model 的复数形式            |
+| x-message     | string   | andt 中的提示信息           |
+| x-showTable   | boolean  | antd 中是否显示在列表中     |
+| x-showFilter  | boolean  | antd 中是否搜索字段         |
+| x-showSorter  | boolean  | antd 列表中是否需要排序     |
+| x-isRichText  | boolean  | antd 中是否使用富文本编辑器 |
+| x-enumMap     | object   | 枚举类型的说明字典          |
+| x-description | string   | 枚举类型的说明文字          |
 
 数据类型参考下面的`数据类型映射关系`表格
 
 ## 数据类型映射关系
 
 | Common      | `type`    | `format`       | Mysql       | Sequelize     | SQLAlchemy          |
-|-------------|-----------|----------------|-------------|---------------|---------------------|
+| ----------- | --------- | -------------- | ----------- | ------------- | ------------------- |
 | integer     | `integer` | `int4`         | TINYINT     | TINYINT       | -                   |
 | integer     | `integer` | `int8`         | SMALLINT    | SMALLINT      | SMALLINT            |
 | integer     | `integer` | `int16`        | MEDIUMINT   | MEDIUMINT     | -                   |
@@ -120,11 +120,14 @@ docker-compose up
 | dateTime    | `string`  | `time-stamp`   | TIMESTAMP   | -             | TIMESTAMP           |
 | email       | `string`  | `email`        | VARCHAR     | STRING        | VARCHAR             |
 | uri         | `string`  | `uri`          | VARCHAR     | STRING        | VARCHAR             |
-| byte        | `string`  | `byte`         | BLOB        | BLOB          | BLOB                |
-| binary      | `string`  | `binary`       | -           | STRING.BINARY | BINARY              |
+| uri         | `string`  | `hostname`     | VARCHAR     | STRING        | VARCHAR             |
+| uri         | `string`  | `ipv4`         | VARCHAR     | STRING        | VARCHAR             |
+| uri         | `string`  | `ipv6`         | VARCHAR     | STRING        | VARCHAR             |
+| byte        | `string`  | `byte`         | VARCHAR     | VARCHAR       | VARCHAR             |
+| binary      | `string`  | `binary`       | BLOB        | STRING.BINARY | BINARY              |
 | password    | `string`  | `password`     | -           | -             | -                   |
 | uuid        | `string`  | `uuid`         | CHAR(36)    | UUID/UUIDV1   | -                   |
-| enum        | *`enum`   | *`enum`        | ENUM        | ENUM          | Enum                |
+| enum        | \*`enum`  | \*`enum`       | ENUM        | ENUM          | Enum                |
 | boolean     | `boolean` | `boolean`      | TINYINT(1)  | BOOLEAN       | Boolean/BOOLEAN     |
 | object/dict | `object`  | `json`         | JSON        | JSON          | JSON                |
 | array       | `array`   | `array`        | -           | JSON          | JSON                |
