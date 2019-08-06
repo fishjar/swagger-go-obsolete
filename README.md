@@ -96,6 +96,7 @@ docker-compose up
 | x-isRichText  | boolean  | antd 中是否使用富文本编辑器 |
 | x-enumMap     | object   | 枚举类型的说明字典          |
 | x-description | string   | 枚举类型的说明文字          |
+| x-length      | interger | char 或 string 字段长度     |
 
 数据类型参考下面的`数据类型映射关系`表格
 
@@ -123,11 +124,12 @@ docker-compose up
 | uri         | `string`  | `hostname`     | VARCHAR     | STRING        | VARCHAR             |
 | uri         | `string`  | `ipv4`         | VARCHAR     | STRING        | VARCHAR             |
 | uri         | `string`  | `ipv6`         | VARCHAR     | STRING        | VARCHAR             |
-| byte        | `string`  | `byte`         | VARCHAR     | VARCHAR       | VARCHAR             |
+| byte        | `string`  | `byte`         | VARCHAR     | STRING        | VARCHAR             |
 | binary      | `string`  | `binary`       | BLOB        | STRING.BINARY | BINARY              |
-| password    | `string`  | `password`     | -           | -             | -                   |
+| password    | `string`  | `password`     | VARCHAR     | STRING        | -                   |
 | uuid        | `string`  | `uuid`         | CHAR(36)    | UUID/UUIDV1   | -                   |
-| enum        | \*`enum`  | \*`enum`       | ENUM        | ENUM          | Enum                |
+| object/dict | `string`  | `json`         | JSON        | JSON          | JSON                |
+| object/dict | `object`  | `object`       | JSON        | JSON          | JSON                |
+| array       | `array`   | `array`        | JSON        | JSON          | JSON                |
 | boolean     | `boolean` | `boolean`      | TINYINT(1)  | BOOLEAN       | Boolean/BOOLEAN     |
-| object/dict | `object`  | `json`         | JSON        | JSON          | JSON                |
-| array       | `array`   | `array`        | -           | JSON          | JSON                |
+| enum        | \*        | `enum`         | ENUM        | ENUM          | Enum                |
