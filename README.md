@@ -102,34 +102,34 @@ docker-compose up
 
 ## 数据类型映射关系
 
-| Common      | `type`    | `format`       | Mysql       | Sequelize     | SQLAlchemy          |
-| ----------- | --------- | -------------- | ----------- | ------------- | ------------------- |
-| integer     | `integer` | `int4`         | TINYINT     | TINYINT       | -                   |
-| integer     | `integer` | `int8`         | SMALLINT    | SMALLINT      | SMALLINT            |
-| integer     | `integer` | `int16`        | MEDIUMINT   | MEDIUMINT     | -                   |
-| integer     | `integer` | `int32`        | INTEGER     | INTEGER       | Integer/INT/INTEGER |
-| long        | `integer` | `int64`        | BIGINT      | BIGINT        | BigInteger/BIGINT   |
-| float       | `number`  | `float`        | FLOAT       | FLOAT         | Float/FLOAT         |
-| double      | `number`  | `double`       | DOUBLE      | DOUBLE        | -                   |
-| double      | `number`  | `decimal`      | DECIMAL     | DECIMAL       | DECIMAL/Numeric     |
-| string      | `string`  | `char`         | CHAR        | CHAR          | CHAR                |
-| string      | `string`  | `string`       | VARCHAR     | STRING        | VARCHAR             |
-| string      | `string`  | `text`         | TEXT        | TEXT          | TEXT                |
-| date        | `string`  | `date`         | DATE        | DATEONLY      | Date                |
-| dateTime    | `string`  | `date-time`    | DATETIME    | DATE          | DateTime/DATETIME   |
-| dateTime    | `string`  | `date-time(6)` | DATETIME(6) | DATE(6)       | DateTime/DATETIME   |
-| dateTime    | `string`  | `time-stamp`   | TIMESTAMP   | -             | TIMESTAMP           |
-| email       | `string`  | `email`        | VARCHAR     | STRING        | VARCHAR             |
-| uri         | `string`  | `uri`          | VARCHAR     | STRING        | VARCHAR             |
-| uri         | `string`  | `hostname`     | VARCHAR     | STRING        | VARCHAR             |
-| uri         | `string`  | `ipv4`         | VARCHAR     | STRING        | VARCHAR             |
-| uri         | `string`  | `ipv6`         | VARCHAR     | STRING        | VARCHAR             |
-| byte        | `string`  | `byte`         | VARCHAR     | STRING        | VARCHAR             |
-| binary      | `string`  | `binary`       | BLOB        | STRING.BINARY | BINARY              |
-| password    | `string`  | `password`     | VARCHAR     | STRING        | -                   |
-| uuid        | `string`  | `uuid`         | CHAR(36)    | UUID/UUIDV1   | -                   |
-| object/dict | `string`  | `json`         | JSON        | JSON          | JSON                |
-| object/dict | `object`  | `object`       | JSON        | JSON          | JSON                |
-| array       | `array`   | `array`        | JSON        | JSON          | JSON                |
-| boolean     | `boolean` | `boolean`      | TINYINT(1)  | BOOLEAN       | Boolean/BOOLEAN     |
-| enum        | \*        | `enum`         | ENUM        | ENUM          | Enum                |
+| Common      | `type`    | `format`       | Mysql       | Sequelize     | SQLAlchemy              | gorm      |
+| ----------- | --------- | -------------- | ----------- | ------------- | ----------------------- | --------- |
+| integer     | `integer` | `int4`         | TINYINT     | TINYINT       | -                       | int       |
+| integer     | `integer` | `int8`         | SMALLINT    | SMALLINT      | SMALLINT/SmallInteger   | int       |
+| integer     | `integer` | `int16`        | MEDIUMINT   | MEDIUMINT     | -                       | int       |
+| integer     | `integer` | `int32`        | INTEGER     | INTEGER       | Integer/INT/INTEGER     | int       |
+| long        | `integer` | `int64`        | BIGINT      | BIGINT        | BigInteger/BIGINT       | int       |
+| float       | `number`  | `float`        | FLOAT       | FLOAT         | Float/FLOAT             | float32   |
+| double      | `number`  | `double`       | DOUBLE      | DOUBLE        | -                       | float32   |
+| double      | `number`  | `decimal`      | DECIMAL     | DECIMAL       | DECIMAL/Numeric         | float32   |
+| string      | `string`  | `char`         | CHAR        | CHAR          | String/CHAR             | string    |
+| string      | `string`  | `string`       | VARCHAR     | STRING        | String/VARCHAR          | string    |
+| string      | `string`  | `text`         | TEXT        | TEXT          | Text/TEXT/CLOB          | string    |
+| date        | `string`  | `date`         | DATE        | DATEONLY      | Date/DATE               | time.Time |
+| dateTime    | `string`  | `date-time`    | DATETIME    | DATE          | DateTime/DATETIME       | time.Time |
+| dateTime    | `string`  | `date-time(6)` | DATETIME(6) | DATE(6)       | DateTime/DATETIME       | time.Time |
+| dateTime    | `string`  | `time-stamp`   | TIMESTAMP   | -             | TIMESTAMP               | -         |
+| email       | `string`  | `email`        | VARCHAR     | STRING        | VARCHAR                 | string    |
+| uri         | `string`  | `uri`          | VARCHAR     | STRING        | VARCHAR                 | string    |
+| uri         | `string`  | `hostname`     | VARCHAR     | STRING        | VARCHAR                 | string    |
+| uri         | `string`  | `ipv4`         | VARCHAR     | STRING        | VARCHAR                 | string    |
+| uri         | `string`  | `ipv6`         | VARCHAR     | STRING        | VARCHAR                 | string    |
+| byte        | `string`  | `byte`         | VARCHAR     | STRING        | VARCHAR                 | string    |
+| binary      | `string`  | `binary`       | BLOB/BINARY | STRING.BINARY | LargeBinary/BINARY/BLOB | -         |
+| password    | `string`  | `password`     | VARCHAR     | STRING        | -                       | string    |
+| uuid        | `string`  | `uuid`         | CHAR(36)    | UUID/UUIDV1   | -                       | string    |
+| object/dict | `string`  | `json`         | JSON        | JSON          | JSON                    | string    |
+| object/dict | `object`  | `object`       | JSON        | JSON          | JSON                    | string    |
+| array       | `array`   | `array`        | JSON        | JSON          | ARRAY                   | string    |
+| boolean     | `boolean` | `boolean`      | TINYINT(1)  | BOOLEAN       | Boolean/BOOLEAN         | bool      |
+| enum        | \*        | `enum`         | ENUM        | ENUM          | Enum                    | -         |
