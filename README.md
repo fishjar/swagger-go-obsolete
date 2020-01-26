@@ -1,4 +1,6 @@
-# swagger-go
+# swagger-go-obsolet
+
+- 注：本项目为早期实现的版本，后续计划请移步另一个项目： https://github.com/fishjar/swagger-go
 
 基于`swagger.yaml`文档的快速开始项目
 
